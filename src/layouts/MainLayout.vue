@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar app color="primary" dark> </v-app-bar>
+    <TheHeader />
     <v-main>
       <router-view></router-view>
     </v-main>
@@ -8,7 +8,10 @@
 </template>
 
 <script>
-export default {};
+import TheHeader from "../components/TheHeader.vue";
+export default {
+  components: { TheHeader },
+};
 </script>
 
 <style></style>

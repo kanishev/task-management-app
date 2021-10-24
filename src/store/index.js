@@ -6,6 +6,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     activeBoard: null,
+    activePage: "default",
     modal: {
       status: false,
       board: null,
@@ -41,6 +42,9 @@ export default new Vuex.Store({
     setActiveBoard(state, payload) {
       state.activeBoard = payload;
     },
+    setActivePage(state, payload) {
+      state.activePage = payload;
+    },
     closeModal(state) {
       state.modal = {
         status: false,
@@ -63,6 +67,9 @@ export default new Vuex.Store({
     },
     getActiveBoards(state) {
       return state.boards.activeBoard;
+    },
+    getActivePage(state) {
+      return state.activePage;
     },
   },
 });

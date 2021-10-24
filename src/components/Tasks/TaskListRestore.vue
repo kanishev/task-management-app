@@ -32,6 +32,9 @@
 import DetailsPopup from "../Details/DetailsPopup.vue";
 
 export default {
+  created() {
+    this.$store.commit("setActivePage", "taskPage");
+  },
   data() {
     return {
       selectedItem: "",

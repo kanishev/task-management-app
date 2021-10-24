@@ -22,6 +22,7 @@ import DashboardItem from "../components/Dashboard/DashboardItem.vue";
 export default {
   created() {
     this.$store.commit("setActiveBoard", null);
+    this.$store.commit("setActivePage", "default");
   },
   computed: {
     activeBoards() {

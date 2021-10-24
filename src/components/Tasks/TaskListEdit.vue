@@ -1,12 +1,10 @@
 <template>
   <details-popup
-    title="New Board"
-    page="dashboard"
-    v-show="!this.isBoardActive"
+    v-show="this.isBoardActive"
+    title="Новый список"
     ref="popup"
     @createBoard="saveBoard"
     @cancleBoard="cancleBoard"
-    @updateBoard="updateBoard"
   >
     <template v-slot:content>
       <v-form ref="form" v-model="valid">
@@ -14,16 +12,8 @@
           <v-text-field
             class="px-3"
             v-model="board.title"
-            label="Введите имя доски"
+            label="Введите название списка"
             :rules="emptyRules"
-            required
-          ></v-text-field>
-
-          <v-text-field
-            class="px-3"
-            v-model="board.description"
-            :rules="emptyRules"
-            label="Введите краткое описание доски"
             required
           ></v-text-field>
         </v-container>
@@ -43,13 +33,11 @@ export default {
       board: {
         id: "",
         title: "",
-        description: "",
       },
     };
   },
   computed: {
     isBoardActive() {
-      console.log(this.$store);
       return this.$store.state.activeBoard;
     },
   },
@@ -63,12 +51,6 @@ export default {
       this.board.id = "";
       this.board.title = "";
       this.board.description = "";
-    },
-    updateBoard(updated) {
-      if (updated) {
-        this.board.title = updated.title;
-        this.board.description = updated.description;
-      }
     },
   },
   components: {

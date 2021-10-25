@@ -1,6 +1,6 @@
 <template>
   <v-app-bar app height="50px" flat color="#4682b4">
-    <v-row>
+    <v-row class="justify-space-around">
       <v-col cols="2" v-show="activePage == 'default'">
         <v-text-field
           solo
@@ -21,7 +21,7 @@
         <v-toolbar-title color>Vue Trello</v-toolbar-title>
       </v-col>
 
-      <v-col :cols="activePage == 'default' ? '5' : '6'" class="ma-auto">
+      <v-col :cols="activePage == 'default' ? '5' : '6'" class="my-auto">
         <v-row class="justify-end">
           <DashboardEdit />
           <TaskListRestore />

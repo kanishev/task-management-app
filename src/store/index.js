@@ -5,6 +5,51 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    lists: [
+      {
+        title: "hi",
+        items: [
+          {
+            title: "h1",
+            item: 1,
+            text: "",
+          },
+          {
+            title: "h2",
+            item: 1,
+            text: "",
+          },
+          {
+            title: "h3",
+            item: 1,
+            text: "",
+          },
+          {
+            title: "h4",
+            item: 1,
+            text: "",
+          },
+        ],
+      },
+      {
+        title: "hi 2",
+        items: [
+          {
+            title: "h1",
+            item: [1, 2, 3],
+          },
+        ],
+      },
+      {
+        title: "hi 3",
+        items: [
+          {
+            title: "h1",
+            item: [1, 2, 3],
+          },
+        ],
+      },
+    ],
     activeBoard: null,
     activePage: "default",
     modal: {
@@ -39,6 +84,14 @@ export default new Vuex.Store({
     },
   },
   mutations: {
+    reorderList(state, payload) {
+      state.lists.items = payload;
+      console.log(state.lists.items);
+    },
+    reorderList2(state, payload) {
+      state.lists = payload;
+      console.log(state.lists);
+    },
     setActiveBoard(state, payload) {
       state.activeBoard = payload;
     },

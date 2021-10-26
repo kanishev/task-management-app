@@ -6,7 +6,12 @@
       v-bind="getDragOptions"
       class="d-flex justify-space-around"
     >
-      <TaskList v-for="(list, idx) in lists" :key="idx" :list="list" />
+      <TaskList
+        v-for="(list, idx) in lists"
+        :key="idx"
+        :list="list"
+        :board="getBoard"
+      />
     </draggable>
   </v-container>
 </template>
@@ -21,12 +26,19 @@ export default {
     this.$store.commit("setActivePage", "taskPage");
   },
   computed: {
+    getBoard() {
+      const boards = this.$store.getters.getBoards;
+      return boards.find((b) => b.id == this.$route.params.id);
+    },
     lists: {
       get() {
-        return this.$store.state.lists;
+        return this.getBoard.lists.filter((l) => !l.archived);
       },
       set(p) {
-        this.$store.commit("reorderList2", p);
+        this.$store.commit("reorderList", {
+          boardId: this.$route.params.id,
+          payload: p,
+        });
       },
     },
     getDragOptions() {

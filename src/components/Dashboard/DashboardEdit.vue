@@ -26,6 +26,10 @@
             label="Введите краткое описание доски"
             required
           ></v-text-field>
+
+          <v-btn color="primary darken-1" text @click="saveBoard">
+            Создать
+          </v-btn>
         </v-container>
       </v-form>
     </template>
@@ -49,14 +53,12 @@ export default {
   },
   computed: {
     isBoardActive() {
-      console.log(this.$store);
       return this.$store.state.activeBoard;
     },
   },
   methods: {
     saveBoard() {
       this.$refs.form.validate();
-      console.log(this.board);
     },
     cancleBoard() {
       this.valid = true;

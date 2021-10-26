@@ -7,20 +7,7 @@
     <v-dialog v-model="dialog" max-width="490">
       <v-card>
         <v-card-title class="h2">{{ title }}</v-card-title>
-
         <slot name="content"></slot>
-
-        <v-card-actions>
-          <v-spacer></v-spacer>
-
-          <v-btn color="primary darken-1" text @click="cancleBoard()">
-            Отменить
-          </v-btn>
-
-          <v-btn color="primary darken-1" text @click="createBoard()">
-            Создать
-          </v-btn>
-        </v-card-actions>
       </v-card>
     </v-dialog>
   </div>
@@ -44,9 +31,6 @@ export default {
   methods: {
     cancleBoard() {
       this.$emit("cancleBoard");
-    },
-    createBoard() {
-      this.$emit("createBoard");
     },
     openModal() {
       this.$store.commit("openModal", {

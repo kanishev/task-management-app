@@ -5,47 +5,95 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    lists: [
+    boards: [
       {
-        title: "hi",
-        items: [
+        id: 1,
+        name: "first",
+        description: "Description",
+        lists: [
           {
-            title: "h1",
-            item: 1,
-            text: "",
+            id: 1,
+            name: "first",
+            archived: false,
+            items: [
+              {
+                id: "1",
+                text: "Build the feature #1",
+              },
+              {
+                id: "2",
+                text: "Build the feature #2",
+              },
+              {
+                id: "3",
+                text: "Build the feature #3",
+              },
+            ],
           },
           {
-            title: "h2",
-            item: 1,
-            text: "",
-          },
-          {
-            title: "h3",
-            item: 1,
-            text: "",
-          },
-          {
-            title: "h4",
-            item: 1,
-            text: "",
+            id: 2,
+            name: "second",
+            archived: false,
+            items: [
+              {
+                id: "4",
+                text: "Build the feature #1",
+              },
+              {
+                id: "5",
+                text: "Build the feature #2",
+              },
+              {
+                id: "6",
+                text: "Build the feature #3",
+              },
+            ],
           },
         ],
       },
       {
-        title: "hi 2",
-        items: [
+        id: 2,
+        name: "hello",
+        archived: false,
+        description: "Description",
+        lists: [
           {
-            title: "h1",
-            item: [1, 2, 3],
+            id: 0,
+            name: "first",
+            archived: false,
+            items: [
+              {
+                id: "1",
+                text: "Build the feature #1",
+              },
+              {
+                id: "2",
+                text: "Build the feature #2",
+              },
+              {
+                id: "3",
+                text: "Build the feature #3",
+              },
+            ],
           },
-        ],
-      },
-      {
-        title: "hi 3",
-        items: [
           {
-            title: "h1",
-            item: [1, 2, 3],
+            id: 1,
+            name: "second",
+            archived: false,
+            items: [
+              {
+                id: "4",
+                text: "Build the feature #1",
+              },
+              {
+                id: "5",
+                text: "Build the feature #2",
+              },
+              {
+                id: "6",
+                text: "Build the feature #3",
+              },
+            ],
           },
         ],
       },
@@ -57,40 +105,16 @@ export default new Vuex.Store({
       board: null,
       page: null,
     },
-    boards: {
-      activeBoard: [
-        {
-          title: "hello",
-          description: "Description",
-        },
-        {
-          title: "hello",
-          description: "Description",
-        },
-        {
-          title: "hello",
-          description: "Description",
-        },
-        {
-          title: "hello",
-          description: "Description",
-        },
-        {
-          title: "hello",
-          description: "Description",
-        },
-      ],
-      archivedBoards: [],
-    },
   },
   mutations: {
-    reorderList(state, payload) {
-      state.lists.items = payload;
-      console.log(state.lists.items);
+    reorderListItems(state, payload) {
+      const board = state.boards[payload.boardId - 1];
+      const list = board.lists[payload.listId - 1];
+
+      list.items = payload.payload;
     },
-    reorderList2(state, payload) {
-      state.lists = payload;
-      console.log(state.lists);
+    reorderList(state, payload) {
+      state.boards[payload.boardId - 1].lists = payload.payload;
     },
     setActiveBoard(state, payload) {
       state.activeBoard = payload;
@@ -118,8 +142,8 @@ export default new Vuex.Store({
     isModalActive(state) {
       return state.modal;
     },
-    getActiveBoards(state) {
-      return state.boards.activeBoard;
+    getBoards(state) {
+      return state.boards;
     },
     getActivePage(state) {
       return state.activePage;

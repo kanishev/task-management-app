@@ -8,7 +8,7 @@
 
     <v-row class="justify-space-between align-center">
       <v-card-title class="text-body-1">
-        {{ this.board.title }}
+        {{ this.board.name }}
       </v-card-title>
 
       <v-btn plain @click="editBoard()">
@@ -23,7 +23,7 @@
     </v-card-subtitle>
 
     <v-card-actions>
-      <router-link to="/boards/11" class="link">
+      <router-link :to="'boards/' + board.id" class="link">
         <v-btn color="primary lighten-2" text>Перейти </v-btn></router-link
       >
 

@@ -1,9 +1,24 @@
 <template>
   <v-container>
-    <h1>Dashboard</h1>
-    <v-row mx="2">
+    <v-row mx="2" v-if="unarchivedBoards.length !== 0">
+      <h1>Активные доски</h1>
       <v-col
-        v-for="board in activeBoards"
+        v-for="board in unarchivedBoards"
+        :key="board.id"
+        xs="12"
+        sm="6"
+        md="3"
+        xl="3"
+      >
+        <dashboard-item :board="board"></dashboard-item>
+        <v-divider></v-divider>
+      </v-col>
+    </v-row>
+
+    <v-row mx="2" v-if="archivedBoards.length !== 0">
+      <h2>Доски в архиве</h2>
+      <v-col
+        v-for="board in archivedBoards"
         :key="board.id"
         xs="12"
         sm="6"
@@ -25,8 +40,13 @@ export default {
     this.$store.commit("setActivePage", "default");
   },
   computed: {
-    activeBoards() {
-      return this.$store.getters.getActiveBoards;
+    unarchivedBoards() {
+      console.log(this.$store.getters.unarchivedBoards);
+      return this.$store.getters.unarchivedBoards;
+    },
+    archivedBoards() {
+      console.log(this.$store.getters.archivedBoards);
+      return this.$store.getters.archivedBoards;
     },
   },
   components: { DashboardItem },

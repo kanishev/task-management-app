@@ -45,7 +45,7 @@ export default {
       return {
         animation: "200",
         ghostClass: "ghost",
-        group: "kanban-board-lists",
+        group: "board-lists",
       };
     },
   },

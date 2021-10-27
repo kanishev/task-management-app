@@ -8,12 +8,12 @@
     @cancleBoard="cancleBoard"
     @updateBoard="updateBoard"
   >
-    <template v-slot:content>
+    <template v-slot>
       <v-form ref="form" v-model="valid">
         <v-container>
           <v-text-field
             class="px-3"
-            v-model="board.title"
+            v-model="board.name"
             label="Введите имя доски"
             :rules="emptyRules"
             required
@@ -27,7 +27,7 @@
             required
           ></v-text-field>
 
-          <v-btn color="primary darken-1" text @click="saveBoard">
+          <v-btn color="primary darken-1" text @click.prevent="saveBoard">
             Создать
           </v-btn>
         </v-container>
@@ -46,7 +46,7 @@ export default {
       emptyRules: [(v) => !!v || "Поле не может быть пустым"],
       board: {
         id: "",
-        title: "",
+        name: "",
         description: "",
       },
     };
@@ -58,19 +58,29 @@ export default {
   },
   methods: {
     saveBoard() {
-      this.$refs.form.validate();
+      let isValid = this.$refs.form.validate();
+      if (isValid) {
+        this.$store.commit("saveBoard", {
+          id: this.board.id,
+          name: this.board.name,
+          description: this.board.description,
+        });
+
+        this.$store.commit("closeModal");
+      }
+    },
+    updateBoard(updated) {
+      if (updated.board) {
+        this.board.id = updated.board.id;
+        this.board.name = updated.board.name;
+        this.board.description = updated.board.description;
+      }
     },
     cancleBoard() {
       this.valid = true;
       this.board.id = "";
-      this.board.title = "";
+      this.board.name = "";
       this.board.description = "";
-    },
-    updateBoard(updated) {
-      if (updated) {
-        this.board.title = updated.title;
-        this.board.description = updated.description;
-      }
     },
   },
   components: {

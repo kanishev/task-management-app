@@ -5,8 +5,9 @@
     ref="popup"
     @createBoard="saveBoard"
     @cancleBoard="cancleBoard"
+    @updateBoard="updateBoard"
   >
-    <template v-slot:content>
+    <template>
       <v-form ref="form" v-model="valid">
         <v-container>
           <v-text-field
@@ -44,13 +45,17 @@ export default {
   methods: {
     saveBoard() {
       this.$refs.form.validate();
-      console.log(this.board);
     },
     cancleBoard() {
       this.valid = true;
       this.board.id = "";
       this.board.title = "";
       this.board.description = "";
+    },
+    updateBoard(updated) {
+      if (updated.list) {
+        this.board.title = updated.list.name;
+      }
     },
   },
   components: {

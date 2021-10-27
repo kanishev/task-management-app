@@ -22,15 +22,21 @@
       {{ this.board.description }}
     </v-card-subtitle>
 
-    <v-card-actions>
+    <v-card-actions v-if="!board.archived">
       <router-link :to="'boards/' + board.id" class="link">
         <v-btn color="primary lighten-2" text>Перейти </v-btn></router-link
       >
 
       <v-spacer></v-spacer>
 
-      <v-btn color="primary lighten-2" text>
+      <v-btn color="primary lighten-2" text @click="archiveBoard">
         В архив
+      </v-btn>
+    </v-card-actions>
+
+    <v-card-actions v-else>
+      <v-btn color="primary lighten-2" text @click="archiveBoard">
+        Восстановить
       </v-btn>
     </v-card-actions>
   </v-card>
@@ -45,6 +51,9 @@ export default {
         page: "dashboard",
         board: this.board,
       });
+    },
+    archiveBoard() {
+      this.$store.commit("archiveBoard", { id: this.board.id });
     },
   },
 };

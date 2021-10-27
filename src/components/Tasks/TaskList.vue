@@ -2,12 +2,8 @@
   <v-card max-width="320" height="max-content">
     <v-toolbar color="teal" dark>
       <v-toolbar-title>{{ list.name }}</v-toolbar-title>
-
       <v-spacer></v-spacer>
-
-      <v-btn icon>
-        <v-icon>mdi-dots-vertical</v-icon>
-      </v-btn>
+      <TaskListActions :list="list" :board="board" />
     </v-toolbar>
 
     <v-list>
@@ -27,12 +23,28 @@
           </v-list-item>
         </v-list-group>
       </draggable>
+
+      <v-list-group>
+        <template v-slot:activator>
+          <v-list-item-content>
+            <v-list-item-title v-text="'add new task'"></v-list-item-title>
+          </v-list-item-content>
+        </template>
+
+        <v-list-item class="mx-2 px-2">
+          <v-list-item-content>
+            <TaskListItem />
+            <v-divider></v-divider>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list-group>
     </v-list>
   </v-card>
 </template>
 
 <script>
 import TaskListItem from "./TaskListItem.vue";
+import TaskListActions from "./TaskListActions.vue";
 import Draggable from "vuedraggable";
 
 export default {
@@ -54,12 +66,12 @@ export default {
       return {
         animation: "200",
         ghostClass: "ghost",
-        group: "kanban-board-list-items",
+        group: "board-list-items",
         // disabled: this.isEditing || !this.shouldAllowTaskItemsReorder,
       };
     },
   },
-  components: { TaskListItem, Draggable },
+  components: { TaskListItem, Draggable, TaskListActions },
 };
 </script>
 

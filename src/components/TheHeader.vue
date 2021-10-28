@@ -18,7 +18,9 @@
           'text-start': activePage !== 'default',
         }"
       >
-        <v-toolbar-title color>Vue Trello</v-toolbar-title>
+        <v-toolbar-title color>
+          Vue Trello
+        </v-toolbar-title>
       </v-col>
 
       <v-col :cols="activePage == 'default' ? '5' : '6'" class="my-auto">
@@ -41,6 +43,11 @@ export default {
   computed: {
     activePage() {
       return this.$store.getters.getActivePage;
+    },
+  },
+  methods: {
+    goHome() {
+      this.$router.push("/dashboard");
     },
   },
   components: { DashboardEdit, TaskListEdit, TaskListRestore },

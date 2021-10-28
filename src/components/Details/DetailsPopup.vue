@@ -32,6 +32,7 @@ export default {
       this.$emit("cancleBoard");
     },
     openModal() {
+      console.log(this.page);
       this.$store.commit("openModal", {
         page: this.page,
       });

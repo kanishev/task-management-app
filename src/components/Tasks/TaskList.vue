@@ -11,13 +11,18 @@
         <v-list-group v-for="item in items" :key="item.id">
           <template v-slot:activator>
             <v-list-item-content>
-              <v-list-item-title v-text="item.text"></v-list-item-title>
+              <v-list-item-title v-text="item.name"></v-list-item-title>
             </v-list-item-content>
           </template>
 
           <v-list-item class="mx-2 px-2">
             <v-list-item-content>
-              <TaskListItem />
+              <TaskListItem
+                :item="item"
+                :list="list"
+                :board="board"
+                role="edit"
+              />
               <v-divider></v-divider>
             </v-list-item-content>
           </v-list-item>
@@ -33,7 +38,7 @@
 
         <v-list-item class="mx-2 px-2">
           <v-list-item-content>
-            <TaskListItem />
+            <TaskListItem :board="board" :list="list" role="create" />
             <v-divider></v-divider>
           </v-list-item-content>
         </v-list-item>
@@ -52,6 +57,7 @@ export default {
   computed: {
     items: {
       get() {
+        console.log(this.list.items);
         return this.list.items;
       },
       set(p) {

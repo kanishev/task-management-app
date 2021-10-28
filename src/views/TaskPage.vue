@@ -1,6 +1,5 @@
 <template>
   <v-container>
-    <h1>TaskPage</h1>
     <draggable
       v-model="lists"
       v-bind="getDragOptions"
@@ -22,7 +21,7 @@ import Draggable from "vuedraggable";
 
 export default {
   created() {
-    this.$store.commit("setActiveBoard", "some");
+    this.$store.commit("setActiveBoard", this.getBoard);
     this.$store.commit("setActivePage", "taskPage");
   },
   computed: {

@@ -1,6 +1,7 @@
 <template>
   <details-popup
-    v-show="this.isBoardActive"
+    v-show="this.activeBoard"
+    page="taskPage"
     title="Новый список"
     ref="popup"
     @createBoard="saveBoard"
@@ -12,11 +13,15 @@
         <v-container>
           <v-text-field
             class="px-3"
-            v-model="board.title"
+            v-model="listForm.name"
             label="Введите название списка"
             :rules="emptyRules"
             required
           ></v-text-field>
+
+          <v-btn color="primary darken-1" text @click.prevent="saveTaskList">
+            Создать
+          </v-btn>
         </v-container>
       </v-form>
     </template>
@@ -27,18 +32,21 @@
 import DetailsPopup from "../Details/DetailsPopup.vue";
 
 export default {
+  created() {
+    this.$store.commit("setActivePage", "taskListPage");
+  },
   data() {
     return {
       valid: false,
       emptyRules: [(v) => !!v || "Поле не может быть пустым"],
-      board: {
+      listForm: {
         id: "",
-        title: "",
+        name: "",
       },
     };
   },
   computed: {
-    isBoardActive() {
+    activeBoard() {
       return this.$store.state.activeBoard;
     },
   },
@@ -46,15 +54,26 @@ export default {
     saveBoard() {
       this.$refs.form.validate();
     },
+    saveTaskList() {
+      const isValid = this.$refs.form.validate();
+      if (isValid) {
+        this.$store.commit("createTaskList", {
+          boardId: this.activeBoard.id,
+          listId: this.listForm.id,
+          name: this.listForm.name,
+        });
+
+        this.$store.commit("closeModal");
+      }
+    },
     cancleBoard() {
       this.valid = true;
       this.board.id = "";
-      this.board.title = "";
-      this.board.description = "";
+      this.board.name = "";
     },
     updateBoard(updated) {
       if (updated.list) {
-        this.board.title = updated.list.name;
+        this.board.name = updated.list.name;
       }
     },
   },

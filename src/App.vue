@@ -21,3 +21,10 @@ export default {
   components: { EmptyLayout, MainLayout },
 };
 </script>
+
+<style>
+.link {
+  text-decoration: none;
+  color: aliceblue;
+}
+</style>

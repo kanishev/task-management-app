@@ -45,6 +45,35 @@ export default new Vuex.Store({
 
       console.log(state.boards);
     },
+    createTaskList(state, payload) {
+      const board = state.boards.find((b) => b.id == payload.boardId);
+      const list = board.lists.find((l) => l.id === payload.listId);
+      const listIdx = board.lists.findIndex((l) => l.id == payload.listId);
+
+      if (listIdx !== -1) {
+        list.name = payload.name;
+        state.boards[listIdx].list = list;
+      } else {
+        const list = {
+          id: generateId(),
+          name: payload.name,
+          archived: false,
+          items: [],
+        };
+        board.lists.push(list);
+      }
+    },
+    createListItem(state, payload) {
+      console.log(payload);
+      const board = state.boards.find((b) => b.id == payload.boardId);
+      const list = board.lists.find((l) => l.id === payload.listId);
+      const item = {
+        id: generateId(),
+        name: payload.name,
+      };
+
+      list.items.push(item);
+    },
     reorderListItems(state, payload) {
       const board = state.boards[payload.boardId - 1];
       const list = board.lists[payload.listId - 1];
@@ -52,7 +81,8 @@ export default new Vuex.Store({
       list.items = payload.payload;
     },
     reorderList(state, payload) {
-      state.boards[payload.boardId - 1].lists = payload.payload;
+      const boardId = state.boards.findIndex((b) => b.id == payload.boardId);
+      state.boards[boardId].lists = payload.payload;
     },
     setActiveBoard(state, payload) {
       state.activeBoard = payload;

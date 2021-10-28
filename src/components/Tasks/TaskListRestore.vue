@@ -1,12 +1,13 @@
 <template>
   <details-popup
     v-show="this.isBoardActive"
+    page="restorePage"
     title="Списки в архиве"
     ref="popup"
     @createBoard="saveBoard"
     @cancleBoard="cancleBoard"
   >
-    <template v-slot:content>
+    <template v-slot>
       <v-list dense>
         <v-list-item-group v-model="selectedItem" color="primary">
           <v-list-item v-for="(item, i) in items" :key="i">

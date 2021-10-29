@@ -1,5 +1,5 @@
 <template>
-  <v-card max-width="320" height="max-content">
+  <v-card style="min-width: 270px; height: max-content">
     <v-toolbar color="teal" dark>
       <v-toolbar-title>{{ list.name }}</v-toolbar-title>
       <v-spacer></v-spacer>
@@ -32,7 +32,7 @@
       <v-list-group>
         <template v-slot:activator>
           <v-list-item-content>
-            <v-list-item-title v-text="'add new task'"></v-list-item-title>
+            <v-list-item-title v-text="'Добавить задачу'"></v-list-item-title>
           </v-list-item-content>
         </template>
 
@@ -57,7 +57,6 @@ export default {
   computed: {
     items: {
       get() {
-        console.log(this.list.items);
         return this.list.items;
       },
       set(p) {

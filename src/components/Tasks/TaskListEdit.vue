@@ -16,6 +16,7 @@
             v-model="listForm.name"
             label="Введите название списка"
             :rules="emptyRules"
+            @keydown.enter.prevent="saveTaskList"
             required
           ></v-text-field>
 

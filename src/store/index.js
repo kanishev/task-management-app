@@ -34,7 +34,6 @@ export default new Vuex.Store({
           archived: false,
         };
         state.boards.push(board);
-        console.log(state);
       }
     },
     archiveBoard(state, payload) {
@@ -64,7 +63,6 @@ export default new Vuex.Store({
       }
     },
     createListItem(state, payload) {
-      console.log(payload);
       const board = state.boards.find((b) => b.id == payload.boardId);
       const list = board.lists.find((l) => l.id === payload.listId);
       const item = {
@@ -74,9 +72,25 @@ export default new Vuex.Store({
 
       list.items.push(item);
     },
+    removeListItem(state, payload) {
+      const board = state.boards.find((b) => b.id == payload.boardId);
+      const items = board.lists.find((l) => l.id === payload.listId).items;
+      const itemsId = board.lists.findIndex((l) => l.id == payload.listId);
+      let updatedItems = items.filter((i) => i.id !== payload.itemId);
+      board.lists[itemsId].items = updatedItems;
+
+      console.log(payload);
+    },
+    updateListItem(state, payload) {
+      const board = state.boards.find((b) => b.id == payload.boardId);
+      const items = board.lists.find((l) => l.id === payload.listId).items;
+      let item = items.find((i) => i.id == payload.itemId);
+
+      item.name = payload.name;
+    },
     reorderListItems(state, payload) {
-      const board = state.boards[payload.boardId - 1];
-      const list = board.lists[payload.listId - 1];
+      const board = state.boards.find((b) => b.id == payload.boardId);
+      const list = board.lists.find((l) => l.id == payload.listId);
 
       list.items = payload.payload;
     },

@@ -1,10 +1,6 @@
 <template>
   <v-container>
-    <draggable
-      v-model="lists"
-      v-bind="getDragOptions"
-      class="d-flex justify-space-around"
-    >
+    <draggable v-model="lists" v-bind="getDragOptions" class="d-flex ">
       <TaskList
         v-for="(list, idx) in lists"
         :key="idx"

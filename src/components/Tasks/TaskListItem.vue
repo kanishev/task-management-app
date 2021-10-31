@@ -8,9 +8,9 @@
         v-model="name"
       ></v-textarea>
       <v-btn class="mr-4" @click.prevent="addListItem">
-        {{ role == "edit" ? "Обновить" : "Добавить" }}
+        {{ type == "edit" ? "Обновить" : "Добавить" }}
       </v-btn>
-      <v-btn @click.prevent="removeListItem" v-if="role !== 'create'">
+      <v-btn @click.prevent="removeListItem" v-if="type !== 'create'">
         Удалить
       </v-btn>
     </form>
@@ -19,7 +19,7 @@
 
 <script>
 export default {
-  props: ["role", "item", "board", "list"],
+  props: ["type", "item", "board", "list"],
   data() {
     return {
       name: this.item ? this.item.name : "",
@@ -27,7 +27,7 @@ export default {
   },
   methods: {
     addListItem() {
-      if (this.role == "create") {
+      if (this.type == "create") {
         this.$store.commit("createListItem", {
           name: this.name,
           boardId: this.board.id,

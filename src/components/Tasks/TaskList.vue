@@ -1,5 +1,5 @@
 <template>
-  <v-card style="min-width: 270px; height: max-content">
+  <v-card style="min-width: 290px; height: max-content" class="mr-4">
     <v-toolbar color="teal" dark>
       <v-toolbar-title>{{ list.name }}</v-toolbar-title>
       <v-spacer></v-spacer>
@@ -21,7 +21,7 @@
                 :item="item"
                 :list="list"
                 :board="board"
-                role="edit"
+                type="edit"
               />
               <v-divider></v-divider>
             </v-list-item-content>
@@ -38,7 +38,7 @@
 
         <v-list-item class="mx-2 px-2">
           <v-list-item-content>
-            <TaskListItem :board="board" :list="list" role="create" />
+            <TaskListItem :board="board" :list="list" type="create" />
             <v-divider></v-divider>
           </v-list-item-content>
         </v-list-item>

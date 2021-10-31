@@ -10,21 +10,30 @@
     <template v-slot>
       <v-list dense>
         <v-list-item-group v-model="selectedItem" color="primary">
-          <v-list-item v-for="(item, i) in items" :key="i">
+          <v-list-item v-for="(item, i) in activedLists" :key="i">
             <v-list-item-content>
-              <v-list-item-title v-text="item.text">HELLO</v-list-item-title>
+              <v-list-item-title v-text="item.name"></v-list-item-title>
             </v-list-item-content>
+
+            <v-list-item-action>
+              <v-btn x-small @click="rearchiveList(item)">
+                Вернуть в список активных
+              </v-btn>
+            </v-list-item-action>
           </v-list-item>
         </v-list-item-group>
 
         <v-divider></v-divider>
-
-        <v-list-item v-if="items.length > 0">
+        <v-list-item v-if="activedLists.length == 0">
           <v-list-item-content>
-            <v-list-item-title> Nothing to restore</v-list-item-title>
+            <v-list-item-title> Списков в архиве нет</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
+
+      <v-btn x-small class="ma-3" @click="closeModal">
+        ок
+      </v-btn>
     </template>
   </details-popup>
 </template>
@@ -33,18 +42,9 @@
 import DetailsPopup from "../Details/DetailsPopup.vue";
 
 export default {
-  created() {
-    this.$store.commit("setActivePage", "taskPage");
-  },
   data() {
     return {
       selectedItem: "",
-      items: [
-        { text: "Hello" },
-        { text: "Hello" },
-        { text: "Hello" },
-        { text: "Hello" },
-      ],
       valid: false,
       emptyRules: [(v) => !!v || "Поле не может быть пустым"],
       board: {
@@ -55,7 +55,11 @@ export default {
   },
   computed: {
     isBoardActive() {
+      console.log(this.$store.state.activeBoard);
       return this.$store.state.activeBoard;
+    },
+    activedLists() {
+      return this.$store.getters.getArchivedLists;
     },
   },
   methods: {
@@ -67,6 +71,15 @@ export default {
       this.board.id = "";
       this.board.title = "";
       this.board.description = "";
+    },
+    rearchiveList(item) {
+      this.$store.commit("archiveList", {
+        boardId: this.isBoardActive.id,
+        listId: item.id,
+      });
+    },
+    closeModal() {
+      this.$store.commit("closeModal");
     },
   },
   components: {

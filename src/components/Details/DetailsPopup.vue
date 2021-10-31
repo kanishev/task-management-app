@@ -34,6 +34,7 @@ export default {
     openModal() {
       this.$store.commit("openModal", {
         page: this.page,
+        type: "create",
       });
     },
   },

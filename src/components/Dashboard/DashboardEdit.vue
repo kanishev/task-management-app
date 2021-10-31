@@ -2,7 +2,7 @@
   <details-popup
     title="+ Новая доска"
     page="dashboard"
-    v-show="!this.isBoardActive"
+    v-show="!this.activeBoard"
     ref="popup"
     @createBoard="saveBoard"
     @cancleBoard="cancleBoard"
@@ -42,6 +42,9 @@
 import DetailsPopup from "../Details/DetailsPopup.vue";
 
 export default {
+  created() {
+    this.$store.commit("setActivePage", "default");
+  },
   data() {
     return {
       valid: false,
@@ -54,8 +57,13 @@ export default {
     };
   },
   computed: {
-    isBoardActive() {
-      return this.$store.state.activeBoard;
+    activeBoard() {
+      const isActive = this.$store.state.activeBoard;
+
+      if (!isActive) {
+        this.$store.commit("setActivePage", "default");
+      }
+      return isActive;
     },
   },
   methods: {
@@ -72,7 +80,9 @@ export default {
       }
     },
     updateBoard(updated) {
-      if (updated.board) {
+      if (updated.type == "create") {
+        this.cancleBoard();
+      } else if (updated.board) {
         this.board.id = updated.board.id;
         this.board.name = updated.board.name;
         this.board.description = updated.board.description;

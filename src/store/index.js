@@ -14,6 +14,7 @@ export default new Vuex.Store({
       board: null,
       page: null,
       list: null,
+      type: null,
     },
   },
   mutations: {
@@ -46,12 +47,14 @@ export default new Vuex.Store({
     },
     createTaskList(state, payload) {
       const board = state.boards.find((b) => b.id == payload.boardId);
+      const boardId = state.boards.findIndex((b) => b.id == payload.boardId);
+
       const list = board.lists.find((l) => l.id === payload.listId);
       const listIdx = board.lists.findIndex((l) => l.id == payload.listId);
 
       if (listIdx !== -1) {
         list.name = payload.name;
-        state.boards[listIdx].list = list;
+        state.boards[boardId].lists[listIdx] = list;
       } else {
         const list = {
           id: generateId(),
@@ -98,6 +101,11 @@ export default new Vuex.Store({
       const boardId = state.boards.findIndex((b) => b.id == payload.boardId);
       state.boards[boardId].lists = payload.payload;
     },
+    archiveList(state, payload) {
+      const board = state.boards.find((b) => b.id == payload.boardId);
+      const list = board.lists.find((l) => l.id == payload.listId);
+      list.archived = !list.archived;
+    },
     setActiveBoard(state, payload) {
       state.activeBoard = payload;
     },
@@ -110,6 +118,7 @@ export default new Vuex.Store({
         board: null,
         page: null,
         list: null,
+        type: null,
       };
     },
     openModal(state, p) {
@@ -118,10 +127,8 @@ export default new Vuex.Store({
         board: p.board,
         page: p.page,
         list: p.list,
+        type: p.type,
       };
-    },
-    archiveList(state, p) {
-      console.log(p);
     },
   },
   actions: {},
@@ -141,6 +148,10 @@ export default new Vuex.Store({
     getActivePage(state) {
       return state.activePage;
     },
+    getArchivedLists: (state) =>
+      state.activeBoard
+        ? state.activeBoard.lists.filter((l) => l.archived)
+        : [],
   },
 });
 

@@ -21,7 +21,7 @@
           ></v-text-field>
 
           <v-btn color="primary darken-1" text @click.prevent="saveTaskList">
-            Создать
+            {{ type == "create" ? "Создать" : "Обновить" }}
           </v-btn>
         </v-container>
       </v-form>
@@ -34,7 +34,7 @@ import DetailsPopup from "../Details/DetailsPopup.vue";
 
 export default {
   created() {
-    this.$store.commit("setActivePage", "taskListPage");
+    this.$store.commit("setActiveBoard", this.activeBoard);
   },
   data() {
     return {
@@ -44,6 +44,7 @@ export default {
         id: "",
         name: "",
       },
+      type: "create",
     };
   },
   computed: {
@@ -63,18 +64,22 @@ export default {
           listId: this.listForm.id,
           name: this.listForm.name,
         });
-
         this.$store.commit("closeModal");
       }
     },
     cancleBoard() {
       this.valid = true;
-      this.board.id = "";
-      this.board.name = "";
+      this.listForm.id = "";
+      this.listForm.name = "";
     },
     updateBoard(updated) {
-      if (updated.list) {
-        this.board.name = updated.list.name;
+      this.type = updated.type;
+
+      if (this.type == "create") {
+        this.cancleBoard();
+      } else if (updated.list && this.type !== "create") {
+        this.listForm.name = updated.list.name;
+        this.listForm.id = updated.list.id;
       }
     },
   },

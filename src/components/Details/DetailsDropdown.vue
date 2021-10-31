@@ -39,18 +39,19 @@ details.detail-dropdown summary::-webkit-details-marker {
 }
 
 details.detail-dropdown div.dropdown-content {
-  color: #607d8b;
+  display: flex;
+  flex-direction: column;
+  color: #303d44;
   position: absolute;
-  top: 25px;
-  left: -40px;
-  width: 100px;
-  z-index: 99;
-  background-color: rgb(236, 245, 248);
+  top: -9px;
+  left: -75px;
+  width: 85px;
+  background-color: rgb(255, 255, 255);
   cursor: pointer;
   padding: 5px;
   border-radius: 5px;
   box-shadow: 1px 1px 1px #90909066;
-  border-radius: 5px;
+  z-index: 99;
 }
 
 details.detail-dropdown div.dropdown-content label.content-item {

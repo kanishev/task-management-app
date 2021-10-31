@@ -2,8 +2,10 @@
   <details-dropdown ref="dropdown">
     <template v-slot:handle>...</template>
     <template v-slot:content>
-      <label class="content-item" @click="showListEditPopup">Edit</label>
-      <label class="content-item" @click="archiveList">Archive</label>
+      <label class="content-item" @click.prevent="showListEditPopup"
+        >Изменить</label
+      >
+      <label class="content-item" @click.prevent="archiveList">В архив</label>
     </template>
   </details-dropdown>
 </template>
@@ -19,16 +21,16 @@ export default {
       this.$store.commit("openModal", {
         list: this.list,
         board: this.board,
+        page: "taskPage",
+        type: "update",
       });
-      this.$emit("updateList", this.list);
       this.$refs.dropdown.close();
     },
     archiveList() {
-      // Bus.$emit("tasklist-archiving", {
-      //   board: this.board,
-      //   list: this.list
-      // })
-      this.$store.commit("archiveList", this.list);
+      this.$store.commit("archiveList", {
+        boardId: this.board.id,
+        listId: this.list.id,
+      });
       this.$refs.dropdown.close();
     },
   },

@@ -40,7 +40,13 @@
       </v-row>
     </v-app-bar>
 
-    <v-navigation-drawer v-model="drawer" absolute bottom temporary>
+    <v-navigation-drawer
+      v-model="drawer"
+      absolute
+      bottom
+      temporary
+      v-show="activePage !== 'default'"
+    >
       <v-list>
         <v-list-item-group
           v-model="group"
@@ -80,9 +86,10 @@ export default {
   computed: {
     activePage() {
       console.log(this.$store.getters.getActivePage);
-      return this.$store.getters.getActivePage || "default";
+      return this.$store.getters.getActivePage;
     },
     boards() {
+      this.$store.getters.someGetter;
       return this.$store.state.boards;
     },
     boardsItems() {

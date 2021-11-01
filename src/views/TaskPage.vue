@@ -16,9 +16,12 @@ import TaskList from "../components/Tasks/TaskList.vue";
 import Draggable from "vuedraggable";
 
 export default {
-  created() {
+  mounted() {
     this.$store.commit("setActiveBoard", this.getBoard);
     this.$store.commit("setActivePage", "taskPage");
+  },
+  beforeDestroy() {
+    this.$store.commit("setActivePage", "default");
   },
   computed: {
     getBoard() {

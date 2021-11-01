@@ -9,13 +9,6 @@ export default new Vuex.Store({
     boards: [],
     activeBoard: null,
     activePage: "default",
-    modal: {
-      status: false,
-      board: null,
-      page: null,
-      list: null,
-      type: null,
-    },
   },
   mutations: {
     saveBoard(state, payload) {
@@ -112,30 +105,9 @@ export default new Vuex.Store({
     setActivePage(state, payload) {
       state.activePage = payload;
     },
-    closeModal(state) {
-      state.modal = {
-        status: false,
-        board: null,
-        page: null,
-        list: null,
-        type: null,
-      };
-    },
-    openModal(state, p) {
-      state.modal = {
-        status: true,
-        board: p.board,
-        page: p.page,
-        list: p.list,
-        type: p.type,
-      };
-    },
   },
   actions: {},
   getters: {
-    isModalActive(state) {
-      return state.modal;
-    },
     getBoards(state) {
       return state.boards;
     },
@@ -154,97 +126,3 @@ export default new Vuex.Store({
         : [],
   },
 });
-
-// boards: [
-//   {
-//     id: 1,
-//     name: "first",
-//     description: "Description",
-//     lists: [
-//       {
-//         id: 1,
-//         name: "first",
-//         archived: false,
-//         items: [
-//           {
-//             id: "1",
-//             text: "Build the feature #1",
-//           },
-//           {
-//             id: "2",
-//             text: "Build the feature #2",
-//           },
-//           {
-//             id: "3",
-//             text: "Build the feature #3",
-//           },
-//         ],
-//       },
-//       {
-//         id: 2,
-//         name: "second",
-//         archived: false,
-//         items: [
-//           {
-//             id: "4",
-//             text: "Build the feature #1",
-//           },
-//           {
-//             id: "5",
-//             text: "Build the feature #2",
-//           },
-//           {
-//             id: "6",
-//             text: "Build the feature #3",
-//           },
-//         ],
-//       },
-//     ],
-//   },
-//   {
-//     id: 2,
-//     name: "hello",
-//     archived: false,
-//     description: "Description",
-//     lists: [
-//       {
-//         id: 0,
-//         name: "first",
-//         archived: false,
-//         items: [
-//           {
-//             id: "1",
-//             text: "Build the feature #1",
-//           },
-//           {
-//             id: "2",
-//             text: "Build the feature #2",
-//           },
-//           {
-//             id: "3",
-//             text: "Build the feature #3",
-//           },
-//         ],
-//       },
-//       {
-//         id: 1,
-//         name: "second",
-//         archived: false,
-//         items: [
-//           {
-//             id: "4",
-//             text: "Build the feature #1",
-//           },
-//           {
-//             id: "5",
-//             text: "Build the feature #2",
-//           },
-//           {
-//             id: "6",
-//             text: "Build the feature #3",
-//           },
-//         ],
-//       },
-//     ],
-//   },
-// ],

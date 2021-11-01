@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-btn color="primary" class="ml-5" dark @click.stop="openModal">
+    <v-btn color="primary" class="ml-5" dark @click.stop="dialog = true">
       {{ title }}
     </v-btn>
     <v-dialog v-model="dialog" max-width="490">
@@ -15,27 +15,14 @@
 <script>
 export default {
   props: ["title", "page"],
-  computed: {
-    dialog: {
-      get() {
-        const modal = this.$store.getters.isModalActive;
-        this.$emit("updateBoard", modal);
-        return modal.status && modal.page === this.page;
-      },
-      set() {
-        this.$store.commit("closeModal");
-      },
-    },
+  data() {
+    return {
+      dialog: false,
+    };
   },
   methods: {
-    cancleBoard() {
-      this.$emit("cancleBoard");
-    },
-    openModal() {
-      this.$store.commit("openModal", {
-        page: this.page,
-        type: "create",
-      });
+    close() {
+      this.dialog = false;
     },
   },
 };

@@ -64,7 +64,7 @@ export default {
           listId: this.listForm.id,
           name: this.listForm.name,
         });
-        this.$store.commit("closeModal");
+        this.$refs.popup.close();
       }
     },
     cancleBoard() {

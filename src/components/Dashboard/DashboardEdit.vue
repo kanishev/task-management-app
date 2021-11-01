@@ -42,9 +42,6 @@
 import DetailsPopup from "../Details/DetailsPopup.vue";
 
 export default {
-  created() {
-    this.$store.commit("setActivePage", "default");
-  },
   data() {
     return {
       valid: false,
@@ -59,10 +56,6 @@ export default {
   computed: {
     activeBoard() {
       const isActive = this.$store.state.activeBoard;
-
-      if (!isActive) {
-        this.$store.commit("setActivePage", "default");
-      }
       return isActive;
     },
   },
@@ -76,7 +69,7 @@ export default {
           description: this.board.description,
         });
 
-        this.$store.commit("closeModal");
+        this.$refs.popup.close();
       }
     },
     updateBoard(updated) {

@@ -2,6 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Dashboard from "../views/DashboardPage.vue";
 import TaskPage from "../views/TaskPage.vue";
+import AuthPage from "../views/AuthPage";
 
 Vue.use(VueRouter);
 
@@ -22,6 +23,15 @@ const routes = [
     meta: {
       title: "Task Page",
       layout: "main",
+    },
+  },
+  {
+    path: "/auth",
+    name: "auth",
+    component: AuthPage,
+    meta: {
+      title: "Auth Page",
+      layout: "empty",
     },
   },
 ];

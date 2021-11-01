@@ -30,9 +30,6 @@
 import DetailsPopup from "../components/Details/DetailsPopup.vue";
 
 export default {
-  created() {
-    this.$store.commit("setActivePage", "default");
-  },
   data() {
     return {
       valid: false,
@@ -48,10 +45,6 @@ export default {
   computed: {
     activeBoard() {
       const isActive = this.$store.state.activeUpload;
-
-      if (!isActive) {
-        this.$store.commit("setActivePage", "default");
-      }
       return isActive;
     },
   },

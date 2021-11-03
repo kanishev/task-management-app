@@ -29,6 +29,7 @@
               required
             ></v-text-field>
           </v-col>
+
           <v-col cols="12">
             <v-text-field
               v-model="password"
@@ -62,7 +63,7 @@
               block
               :disabled="!valid"
               color="success"
-              @click.prevent="validate"
+              @click.prevent="register"
               >Register</v-btn
             >
           </v-col>
@@ -73,6 +74,10 @@
 </template>
 
 <script>
+import firebase from "firebase/compat/app";
+import "firebase/compat/auth";
+import db from "../../firebase/firebaseInit";
+
 export default {
   data() {
     return {
@@ -100,11 +105,28 @@ export default {
     },
   },
   methods: {
-    validate() {
+    async register() {
       const isValid = this.$refs.registerForm.validate();
 
       if (isValid) {
-        return;
+        try {
+          const firebaseAuth = await firebase.auth();
+          const createUser = await firebaseAuth.createUserWithEmailAndPassword(
+            this.email,
+            this.password
+          );
+          const result = await createUser;
+          const dataBase = db.collection("users").doc(result.user.uid);
+          await dataBase.set({
+            firstName: this.firstName,
+            lastName: this.lastName,
+            email: this.email,
+          });
+          this.$router.push("/");
+          return;
+        } catch (e) {
+          console.log(e);
+        }
       }
     },
     // reset() {

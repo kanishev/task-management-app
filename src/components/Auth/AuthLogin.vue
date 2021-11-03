@@ -5,15 +5,15 @@
         <v-row>
           <v-col cols="12">
             <v-text-field
-              v-model="loginEmail"
-              :rules="loginEmailRules"
+              v-model="email"
+              :rules="emailRules"
               label="E-mail"
               required
             ></v-text-field>
           </v-col>
           <v-col cols="12">
             <v-text-field
-              v-model="loginPassword"
+              v-model="password"
               :append-icon="show1 ? 'eye' : 'eye-off'"
               :rules="[rules.required, rules.min]"
               :type="show1 ? 'text' : 'password'"
@@ -32,7 +32,7 @@
               block
               :disabled="!valid"
               color="success"
-              @click="validate"
+              @click.prevent="login"
             >
               Login
             </v-btn>
@@ -44,14 +44,17 @@
 </template>
 
 <script>
+import firebase from "firebase/compat/app";
+import "firebase/compat/auth";
+
 export default {
   data() {
     return {
       valid: false,
       show1: false,
-      loginPassword: "",
-      loginEmail: "",
-      loginEmailRules: [
+      password: "",
+      email: "",
+      emailRules: [
         (v) => !!v || "Required",
         (v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
       ],
@@ -62,11 +65,21 @@ export default {
     };
   },
   methods: {
-    validate() {
+    async login() {
       const isValid = this.$refs.loginForm.validate();
 
       if (isValid) {
-        return;
+        try {
+          this.formValidMessage = "";
+          const firebaseAuth = await firebase.auth();
+          await firebaseAuth.signInWithEmailAndPassword(
+            this.email,
+            this.password
+          );
+          this.$router.push("/");
+        } catch (err) {
+          console.log(err);
+        }
       }
     },
     reset() {

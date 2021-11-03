@@ -7,9 +7,22 @@
 <script>
 import EmptyLayout from "./layouts/EmptyLayout.vue";
 import MainLayout from "./layouts/MainLayout.vue";
+
+import firebase from "firebase/compat/app";
+import "firebase/compat/auth";
+
 export default {
   name: "App",
+  created() {
+    firebase.auth().onAuthStateChanged((user) => {
+      this.$store.commit("updateUser", user);
 
+      if (user) {
+        this.$store.dispatch("getUser");
+        console.log(this.$store.state.profileEmail);
+      }
+    });
+  },
   data: () => ({
     //
   }),

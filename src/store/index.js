@@ -1,16 +1,29 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import firebase from "firebase/compat/app";
+import "firebase/compat/auth";
+import db from "../firebase/firebaseInit";
 
 Vue.use(Vuex);
 import { generateId } from "../utlis/generateId";
 
 export default new Vuex.Store({
   state: {
+    user: null,
     boards: [],
     activeBoard: null,
     activePage: "default",
+
+    // Profile
+    profileEmail: null,
+    profileFirstName: null,
+    profileLastName: null,
+    profileId: null,
+    profileInitials: null,
   },
   mutations: {
+    // BOARDS
+
     saveBoard(state, payload) {
       const board = state.boards.find((b) => b.id == payload.id);
       const idx = state.boards.findIndex((b) => b.id === payload.id);
@@ -38,6 +51,9 @@ export default new Vuex.Store({
 
       console.log(state.boards);
     },
+
+    // LISTS
+
     createTaskList(state, payload) {
       const board = state.boards.find((b) => b.id == payload.boardId);
       const boardId = state.boards.findIndex((b) => b.id == payload.boardId);
@@ -105,8 +121,48 @@ export default new Vuex.Store({
     setActivePage(state, payload) {
       state.activePage = payload;
     },
+
+    // USER
+    updateUser(state, p) {
+      state.user = p;
+    },
+    setProfile(state, p) {
+      state.profileId = p.id;
+      state.profileEmail = p.data().email;
+      state.profileFirstName = p.data().firstName;
+      state.profileLastName = p.data().lastName;
+    },
+    setProfileInitials(state) {
+      state.profileInitials =
+        state.profileFirstName
+          .match(/(\b\S)?/g)
+          .join("")
+          .toUpperCase() +
+        state.profileLastName
+          .match(/(\b\S)?/g)
+          .join("")
+          .toUpperCase();
+    },
   },
-  actions: {},
+  actions: {
+    async getUser({ commit }) {
+      const dataBase = await db
+        .collection("users")
+        .doc(firebase.auth().currentUser.uid);
+      const dbResults = await dataBase.get();
+      commit("setProfile", dbResults);
+      commit("setProfileInitials");
+      console.log(dbResults);
+    },
+    async updateUserProfile(ctx) {
+      const dataBase = await db.collection("users").doc(ctx.state.profileId);
+      await dataBase.update({
+        firstName: ctx.state.profileFirstName,
+        lastName: ctx.state.profileLastName,
+      });
+      ctx.commit("setProfileInitials");
+    },
+  },
   getters: {
     getBoards(state) {
       return state.boards;

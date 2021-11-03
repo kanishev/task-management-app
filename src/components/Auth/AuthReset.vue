@@ -6,8 +6,8 @@
           <h2 class="pa-3">Введите email для восстановления пароля</h2>
           <v-col cols="12">
             <v-text-field
-              v-model="resetEmail"
-              :rules="resetEmailRules"
+              v-model="email"
+              :rules="emailRules"
               label="E-mail"
               required
             ></v-text-field>
@@ -18,7 +18,7 @@
               block
               :disabled="!valid"
               color="success"
-              @click="validate"
+              @click="resetPassword"
             >
               Сбросить
             </v-btn>
@@ -30,24 +30,37 @@
 </template>
 
 <script>
+import firebase from "firebase/compat/app";
+import "firebase/compat/auth";
+
 export default {
   data() {
     return {
       valid: false,
       show1: false,
-      resetEmail: "",
-      resetEmailRules: [
+      email: "",
+      emailRules: [
         (v) => !!v || "Required",
         (v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
       ],
     };
   },
   methods: {
-    validate() {
+    resetPassword() {
       const isValid = this.$refs.resetForm.validate();
 
       if (isValid) {
-        return;
+        firebase
+          .auth()
+          .sendPasswordResetEmail(this.email)
+          .then(() => {
+            // this.$emit("toggleLoader", false);
+            // this.$emit("toggleModal", "Проверьте свою почту");
+            console.log("Check your mail");
+          })
+          .catch((e) => {
+            console.log(e);
+          });
       }
     },
     reset() {

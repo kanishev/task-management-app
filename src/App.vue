@@ -22,6 +22,8 @@ export default {
         console.log(this.$store.state.profileEmail);
       }
     });
+
+    this.$store.dispatch("getBoards");
   },
   data: () => ({
     //

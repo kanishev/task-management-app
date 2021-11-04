@@ -30,7 +30,10 @@ export default {
     },
     lists: {
       get() {
-        return this.getBoard.lists.filter((l) => !l.archived);
+        if (!this.getBoard) {
+          return [];
+        }
+        return this.getBoard.lists.filter((l) => !l.archived) || [];
       },
       set(p) {
         this.$store.commit("reorderList", {

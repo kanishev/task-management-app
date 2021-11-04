@@ -162,6 +162,25 @@ export default new Vuex.Store({
       });
       ctx.commit("setProfileInitials");
     },
+    async getBoards({ state }) {
+      const dataBase = await db.collection("boards");
+      const dbResults = await dataBase.get();
+
+      dbResults.forEach((doc) => {
+        if (!state.boards.some((b) => b.id == doc.id)) {
+          console.log(doc.data());
+          const board = {
+            id: doc.data().boardId,
+            name: doc.data().boardName,
+            description: doc.data().description,
+            lists: doc.data().lists,
+            archived: doc.data().archived,
+          };
+
+          state.boards.push(board);
+        }
+      });
+    },
   },
   getters: {
     getBoards(state) {

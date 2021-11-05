@@ -85,7 +85,6 @@ export default {
   },
   computed: {
     activePage() {
-      console.log(this.$store.getters.getActivePage);
       return this.$store.getters.getActivePage;
     },
     boards() {

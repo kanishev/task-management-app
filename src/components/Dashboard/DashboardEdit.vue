@@ -40,9 +40,6 @@
 
 <script>
 import DetailsPopup from "../Details/DetailsPopup.vue";
-// import firebase from "firebase/compat/app";
-import "firebase/compat/storage";
-import db from "../../firebase/firebaseInit";
 
 export default {
   data() {
@@ -70,30 +67,12 @@ export default {
     async saveBoard() {
       let isValid = this.$refs.form.validate();
       if (isValid) {
-        //  const storageRef = firebase.storage().ref();
-        // const docRef = storageRef.child(
-        //   `documents/boardImages/${this.board.image}`
-        // );
-
-        const timestamp = await Date.now();
-        const dataBase = await db.collection("boards").doc();
-
-        await dataBase.set({
-          boardId: dataBase.id,
-          boardName: this.board.name,
-          boardDescription: this.board.description,
-          boardImage: this.board.image,
-          lists: [],
-          archived: false,
-        });
-
-        this.$store.commit("saveBoard", {
+        this.$store.dispatch("saveBoard", {
           id: this.board.id,
           name: this.board.name,
           description: this.board.description,
-          image: this.image,
+          image: this.board.image,
           profileId: this.profileId,
-          date: timestamp,
         });
 
         this.$refs.popup.close();

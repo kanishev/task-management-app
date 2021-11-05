@@ -28,7 +28,7 @@ export default {
   methods: {
     addListItem() {
       if (this.type == "create") {
-        this.$store.commit("createListItem", {
+        this.$store.dispatch("createListItem", {
           name: this.name,
           boardId: this.board.id,
           listId: this.list.id,

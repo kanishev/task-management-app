@@ -60,7 +60,7 @@ export default {
         return this.list.items;
       },
       set(p) {
-        this.$store.commit("reorderListItems", {
+        this.$store.dispatch("reorderListItems", {
           boardId: this.board.id,
           listId: this.list.id,
           payload: p,

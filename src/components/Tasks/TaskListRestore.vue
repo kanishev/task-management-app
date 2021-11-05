@@ -55,7 +55,6 @@ export default {
   },
   computed: {
     isBoardActive() {
-      console.log(this.$store.state.activeBoard);
       return this.$store.state.activeBoard;
     },
     activedLists() {

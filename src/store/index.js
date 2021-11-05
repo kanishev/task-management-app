@@ -34,7 +34,7 @@ export default new Vuex.Store({
         state.boards[idx] = board;
       } else {
         const board = {
-          id: generateId(),
+          id: payload.boardId,
           name: payload.name,
           description: payload.description,
           lists: [],
@@ -107,6 +107,7 @@ export default new Vuex.Store({
       list.items = payload.payload;
     },
     reorderList(state, payload) {
+      console.log(payload);
       const boardId = state.boards.findIndex((b) => b.id == payload.boardId);
       state.boards[boardId].lists = payload.payload;
     },
@@ -145,6 +146,29 @@ export default new Vuex.Store({
     },
   },
   actions: {
+    async saveBoard({ commit }, payload) {
+      console.log(payload);
+      const dataBase = await db.collection("boards").doc();
+
+      await dataBase.set({
+        boardId: dataBase.id,
+        boardName: payload.name,
+        boardDescription: payload.description,
+        boardImage: payload.image,
+        lists: [],
+        archived: false,
+      });
+
+      commit("saveBoard", { boardId: dataBase.id, ...payload });
+    },
+    async reorderList({ commit }, { boardId, payload }) {
+      commit("reorderList", { boardId, payload });
+
+      const dataBase = await db.collection("boards").doc(boardId);
+      await dataBase.update({
+        lists: payload,
+      });
+    },
     async getUser({ commit }) {
       const dataBase = await db
         .collection("users")
@@ -152,7 +176,6 @@ export default new Vuex.Store({
       const dbResults = await dataBase.get();
       commit("setProfile", dbResults);
       commit("setProfileInitials");
-      console.log(dbResults);
     },
     async updateUserProfile(ctx) {
       const dataBase = await db.collection("users").doc(ctx.state.profileId);
@@ -168,7 +191,6 @@ export default new Vuex.Store({
 
       dbResults.forEach((doc) => {
         if (!state.boards.some((b) => b.id == doc.id)) {
-          console.log(doc.data());
           const board = {
             id: doc.data().boardId,
             name: doc.data().boardName,
@@ -179,6 +201,60 @@ export default new Vuex.Store({
 
           state.boards.push(board);
         }
+      });
+    },
+    async createTaskList({ commit }, payload) {
+      const dataBase = db.collection("boards").doc(payload.boardId);
+      const board = await dataBase.get();
+
+      const list = {
+        id: dataBase.id,
+        ...payload,
+      };
+
+      await dataBase.update({
+        lists: [...board.data().lists, list],
+      });
+
+      commit("createTaskList", list);
+    },
+    async createListItem({ commit }, payload) {
+      commit("createListItem", payload);
+
+      const dataBase = db.collection("boards").doc(payload.boardId);
+      const board = await dataBase.get();
+
+      const lists = board.data().lists;
+      const list = lists.find((l) => l.id == payload.listId);
+      const listId = board
+        .data()
+        .lists.findIndex((l) => l.id == payload.listId);
+
+      list.items.push({ name: payload.name });
+
+      lists[listId] = list;
+
+      await dataBase.update({
+        lists: [...lists],
+      });
+    },
+    async reorderListItems({ commit }, payload) {
+      commit("reorderListItems", payload);
+
+      const dataBase = db.collection("boards").doc(payload.boardId);
+      const board = await dataBase.get();
+      const lists = board.data().lists;
+      const list = lists.find((l) => l.id == payload.listId);
+      const listId = board
+        .data()
+        .lists.findIndex((l) => l.id == payload.listId);
+
+      list.items = [...payload.payload];
+
+      lists[listId] = list;
+
+      await dataBase.update({
+        lists: [...lists],
       });
     },
   },

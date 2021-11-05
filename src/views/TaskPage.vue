@@ -36,7 +36,7 @@ export default {
         return this.getBoard.lists.filter((l) => !l.archived) || [];
       },
       set(p) {
-        this.$store.commit("reorderList", {
+        this.$store.dispatch("reorderList", {
           boardId: this.$route.params.id,
           payload: p,
         });

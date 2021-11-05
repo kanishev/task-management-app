@@ -31,8 +31,6 @@
 
 <script>
 import DetailsPopup from "../Details/DetailsPopup.vue";
-import "firebase/compat/storage";
-import db from "../../firebase/firebaseInit";
 
 export default {
   created() {
@@ -61,24 +59,25 @@ export default {
     async saveTaskList() {
       const isValid = this.$refs.form.validate();
       if (isValid) {
-        const dataBase = db.collection("boards").doc(this.$route.params.id);
-        const board = await dataBase.get();
+        // const dataBase = db.collection("boards").doc(this.$route.params.id);
+        // const board = await dataBase.get();
 
-        const list = {
-          id: dataBase.id,
+        // const list = {
+        //   id: dataBase.id,
+        //   name: this.listForm.name,
+        //   archived: false,
+        //   items: [],
+        // };
+
+        // await dataBase.update({
+        //   lists: [...board.data().lists, list],
+        // });
+
+        this.$store.dispatch("createTaskList", {
+          boardId: this.activeBoard.id,
           name: this.listForm.name,
           archived: false,
           items: [],
-        };
-
-        await dataBase.update({
-          lists: [...board.data().lists, list],
-        });
-
-        this.$store.commit("createTaskList", {
-          boardId: this.activeBoard.id,
-          listId: this.listForm.id,
-          name: this.listForm.name,
         });
         this.$refs.popup.close();
       }

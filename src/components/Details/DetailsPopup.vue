@@ -1,9 +1,9 @@
 <template>
   <div>
-    <v-btn color="primary" class="ml-5" dark @click.stop="dialog = true">
+    <v-btn color="primary" class="ml-5" dark @click.stop="openModal">
       {{ title }}
     </v-btn>
-    <v-dialog v-model="dialog" max-width="490">
+    <v-dialog v-model="modal" max-width="490">
       <v-card>
         <v-card-title class="h2">{{ title }}</v-card-title>
         <slot></slot>
@@ -15,14 +15,31 @@
 <script>
 export default {
   props: ["title", "page"],
-  data() {
-    return {
-      dialog: false,
-    };
+  computed: {
+    modal: {
+      get() {
+        const modal = this.$store.state.modal;
+        if (!modal) {
+          return false;
+        }
+        console.log(modal);
+        this.$emit("updateModalData", modal);
+        return modal.status && modal.page == this.page;
+      },
+      set() {
+        this.$store.commit("closeModal");
+      },
+    },
   },
   methods: {
     close() {
-      this.dialog = false;
+      this.$store.commit("closeModal");
+    },
+    openModal() {
+      this.$store.commit("openModal", {
+        page: this.page,
+        type: "create",
+      });
     },
   },
 };

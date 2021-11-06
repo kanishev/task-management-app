@@ -34,20 +34,21 @@ export default {
           listId: this.list.id,
         });
       } else {
-        this.$store.commit("updateListItem", {
+        console.log(this.item);
+        this.$store.dispatch("updateListItem", {
           name: this.name,
           boardId: this.board.id,
           listId: this.list.id,
-          itemId: this.item.id,
+          itemId: this.item.itemId,
         });
       }
     },
     removeListItem() {
-      this.$store.commit("removeListItem", {
+      this.$store.dispatch("removeListItem", {
         name: this.name,
         boardId: this.board.id,
         listId: this.list.id,
-        itemId: this.item.id,
+        itemId: this.item.itemId,
       });
     },
   },

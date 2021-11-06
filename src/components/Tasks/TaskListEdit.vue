@@ -59,20 +59,6 @@ export default {
     async saveTaskList() {
       const isValid = this.$refs.form.validate();
       if (isValid) {
-        // const dataBase = db.collection("boards").doc(this.$route.params.id);
-        // const board = await dataBase.get();
-
-        // const list = {
-        //   id: dataBase.id,
-        //   name: this.listForm.name,
-        //   archived: false,
-        //   items: [],
-        // };
-
-        // await dataBase.update({
-        //   lists: [...board.data().lists, list],
-        // });
-
         this.$store.dispatch("createTaskList", {
           boardId: this.activeBoard.id,
           name: this.listForm.name,

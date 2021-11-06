@@ -72,7 +72,6 @@ export default {
         animation: "200",
         ghostClass: "ghost",
         group: "board-list-items",
-        // disabled: this.isEditing || !this.shouldAllowTaskItemsReorder,
       };
     },
   },

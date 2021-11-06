@@ -6,7 +6,7 @@
     ref="popup"
     @createBoard="saveBoard"
     @cancleBoard="cancleBoard"
-    @updateBoard="updateBoard"
+    @updateModalData="updateBoard"
   >
     <template v-slot>
       <v-form ref="form" v-model="valid">
@@ -30,7 +30,7 @@
           ></v-text-field>
 
           <v-btn color="primary darken-1" text @click="saveBoard">
-            Создать
+            {{ type == "create" ? "Создать" : "Обновить" }}
           </v-btn>
         </v-container>
       </v-form>
@@ -44,6 +44,7 @@ import DetailsPopup from "../Details/DetailsPopup.vue";
 export default {
   data() {
     return {
+      type: "create",
       valid: false,
       emptyRules: [(v) => !!v || "Поле не может быть пустым"],
       board: {
@@ -67,18 +68,28 @@ export default {
     async saveBoard() {
       let isValid = this.$refs.form.validate();
       if (isValid) {
-        this.$store.dispatch("saveBoard", {
-          id: this.board.id,
-          name: this.board.name,
-          description: this.board.description,
-          image: this.board.image,
-          profileId: this.profileId,
-        });
-
-        this.$refs.popup.close();
+        if (this.type == "create") {
+          this.$store.dispatch("saveBoard", {
+            id: this.board.id,
+            name: this.board.name,
+            description: this.board.description,
+            image: this.board.image,
+            profileId: this.profileId,
+          });
+        } else if (this.type == "update") {
+          this.$store.dispatch("updateBoard", {
+            id: this.board.id,
+            name: this.board.name,
+            description: this.board.description,
+            image: this.board.image,
+            profileId: this.profileId,
+          });
+        }
+        this.$store.commit("closeModal");
       }
     },
     updateBoard(updated) {
+      this.type = updated.type;
       if (updated.type == "create") {
         this.cancleBoard();
       } else if (updated.board) {

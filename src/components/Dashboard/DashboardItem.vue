@@ -50,10 +50,14 @@ export default {
       this.$store.commit("openModal", {
         page: "dashboard",
         board: this.board,
+        type: "update",
       });
     },
     archiveBoard() {
-      this.$store.commit("archiveBoard", { id: this.board.id });
+      this.$store.dispatch("archiveBoard", {
+        id: this.board.id,
+        archived: this.board.archived,
+      });
     },
   },
 };

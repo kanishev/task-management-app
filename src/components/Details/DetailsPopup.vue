@@ -22,7 +22,6 @@ export default {
         if (!modal) {
           return false;
         }
-        console.log(modal);
         this.$emit("updateModalData", modal);
         return modal.status && modal.page == this.page;
       },

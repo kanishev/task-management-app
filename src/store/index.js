@@ -255,6 +255,22 @@ export default new Vuex.Store({
 
       commit("createTaskList", list);
     },
+    async updateTaskList({ commit }, payload) {
+      const dataBase = db.collection("boards").doc(payload.boardId);
+      const board = await dataBase.get();
+      console.log(board);
+
+      const list = {
+        ...payload,
+        name: payload.name,
+      };
+
+      // await dataBase.update({
+      //   lists: [...board.data().lists, list],
+      // });
+
+      commit("createTaskList", list);
+    },
     async createListItem({ commit }, payload) {
       const id = generateId();
       commit("createListItem", { ...payload, id });

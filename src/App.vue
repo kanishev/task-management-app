@@ -22,6 +22,7 @@ export default {
       }
     });
 
+    console.log("1");
     this.$store.dispatch("getBoards");
   },
   data: () => ({

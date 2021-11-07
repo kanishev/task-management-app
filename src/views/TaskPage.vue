@@ -17,16 +17,25 @@ import Draggable from "vuedraggable";
 
 export default {
   mounted() {
-    this.$store.commit("setActiveBoard", this.getBoard);
     this.$store.commit("setActivePage", "taskPage");
   },
   beforeDestroy() {
+    this.$store.commit("setActiveBoard", this.getBoard);
     this.$store.commit("setActivePage", "default");
   },
   computed: {
+    activeBoard() {
+      const isActive = this.$store.state.activeBoard;
+      return isActive;
+    },
     getBoard() {
       const boards = this.$store.getters.getBoards;
-      return boards.find((b) => b.id == this.$route.params.id);
+      const board = boards.find((b) => b.id == this.$route.params.id);
+
+      if (board) {
+        this.$store.commit("setActiveBoard", board);
+      }
+      return board;
     },
     lists: {
       get() {

@@ -6,7 +6,7 @@
     ref="popup"
     @createBoard="saveBoard"
     @cancleBoard="cancleBoard"
-    @updateBoard="updateBoard"
+    @updateModalData="updateBoard"
   >
     <template>
       <v-form ref="form" v-model="valid">
@@ -59,13 +59,22 @@ export default {
     async saveTaskList() {
       const isValid = this.$refs.form.validate();
       if (isValid) {
-        this.$store.dispatch("createTaskList", {
-          boardId: this.activeBoard.id,
-          name: this.listForm.name,
-          archived: false,
-          items: [],
-        });
-        this.$refs.popup.close();
+        if (this.type == "create") {
+          this.$store.dispatch("createTaskList", {
+            boardId: this.activeBoard.id,
+            name: this.listForm.name,
+            archived: false,
+            items: [],
+          });
+        } else if (this.type == "update") {
+          this.$store.dispatch("updateTaskList", {
+            boardId: this.activeBoard.id,
+            name: this.listForm.name,
+            archived: false,
+            items: [],
+          });
+        }
+        this.$store.commit("closeModal");
       }
     },
     cancleBoard() {

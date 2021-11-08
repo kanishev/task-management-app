@@ -1,8 +1,17 @@
 <template>
   <div>
-    <v-btn color="primary" class="ml-5" dark @click.stop="openModal">
+    <v-btn
+      v-if="type !== 'image'"
+      color="primary"
+      class="ml-5"
+      dark
+      @click.stop="openModal"
+    >
       {{ title }}
     </v-btn>
+
+    <v-icon v-if="type == 'image'" @click.stop="openModal">mdi-image</v-icon>
+
     <v-dialog v-model="modal" max-width="490">
       <v-card>
         <v-card-title class="h2">{{ title }}</v-card-title>
@@ -14,7 +23,7 @@
 
 <script>
 export default {
-  props: ["title", "page"],
+  props: ["title", "page", "type"],
   computed: {
     modal: {
       get() {

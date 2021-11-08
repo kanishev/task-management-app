@@ -63,6 +63,7 @@ export default {
           this.$store.dispatch("createTaskList", {
             boardId: this.activeBoard.id,
             name: this.listForm.name,
+            listId: this.listForm.id,
             archived: false,
             items: [],
           });
@@ -71,6 +72,7 @@ export default {
             boardId: this.activeBoard.id,
             name: this.listForm.name,
             archived: false,
+            listId: this.listForm.id,
             items: [],
           });
         }
@@ -83,6 +85,7 @@ export default {
       this.listForm.name = "";
     },
     updateBoard(updated) {
+      console.log(updated);
       this.type = updated.type;
       if (this.type == "create") {
         this.cancleBoard();

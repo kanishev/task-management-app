@@ -72,7 +72,7 @@ export default {
       this.board.description = "";
     },
     rearchiveList(item) {
-      this.$store.commit("archiveList", {
+      this.$store.dispatch("archiveTaskList", {
         boardId: this.isBoardActive.id,
         listId: item.id,
       });

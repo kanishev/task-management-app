@@ -40,7 +40,6 @@ export default {
   },
   computed: {
     unarchivedBoards() {
-      console.log(this.$store.getters.unarchivedBoards);
       return this.$store.getters.unarchivedBoards;
     },
     archivedBoards() {

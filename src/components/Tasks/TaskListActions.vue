@@ -27,7 +27,7 @@ export default {
       this.$refs.dropdown.close();
     },
     archiveList() {
-      this.$store.commit("archiveList", {
+      this.$store.dispatch("archiveTaskList", {
         boardId: this.board.id,
         listId: this.list.id,
       });

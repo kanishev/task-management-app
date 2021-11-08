@@ -1,7 +1,12 @@
 <template>
   <v-app>
     <TheHeader />
-    <v-main>
+    <v-main
+      :style="{
+        'background-image':
+          activePage == 'taskPage' ? 'url(' + activeImage + ')' : null,
+      }"
+    >
       <router-view></router-view>
     </v-main>
   </v-app>
@@ -10,6 +15,16 @@
 <script>
 import TheHeader from "../components/TheHeader.vue";
 export default {
+  computed: {
+    activePage() {
+      return this.$store.getters.getActivePage;
+    },
+    activeImage() {
+      const board = this.$store.state.activeBoard;
+      console.log(board);
+      return board.image;
+    },
+  },
   components: { TheHeader },
 };
 </script>

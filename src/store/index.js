@@ -40,12 +40,14 @@ export default new Vuex.Store({
       state.modal.board = payload.board;
       state.modal.page = payload.page;
       state.modal.type = payload.type;
+      state.modal.list = payload.list;
     },
     closeModal(state) {
       state.modal.status = true;
       state.modal.board = null;
       state.modal.page = null;
       state.modal.type = null;
+      state.modal.list = null;
     },
 
     // BOARDS
@@ -64,6 +66,7 @@ export default new Vuex.Store({
           name: payload.name,
           description: payload.description,
           lists: [],
+          image: null,
           archived: false,
         };
         state.boards.push(board);
@@ -72,6 +75,11 @@ export default new Vuex.Store({
     archiveBoard(state, payload) {
       const board = state.boards.find((b) => b.id == payload.id);
       board.archived = payload.archived;
+    },
+    updateBoardImage(state, payload) {
+      const board = state.boards.find((b) => b.id == payload.id);
+      board.image = payload.image;
+      console.log(board);
     },
 
     // LISTS
@@ -83,6 +91,8 @@ export default new Vuex.Store({
 
       const list = board.lists.find((l) => l.id === payload.listId);
       const listIdx = board.lists.findIndex((l) => l.id == payload.listId);
+
+      console.log(payload);
 
       if (listIdx !== -1) {
         list.name = payload.name;
@@ -234,6 +244,7 @@ export default new Vuex.Store({
             description: doc.data().boardDescription,
             lists: doc.data().lists,
             archived: doc.data().archived,
+            image: doc.data().boardImage,
           };
 
           state.boards.push(board);
@@ -256,20 +267,36 @@ export default new Vuex.Store({
       commit("createTaskList", list);
     },
     async updateTaskList({ commit }, payload) {
+      commit("createTaskList", payload);
+
       const dataBase = db.collection("boards").doc(payload.boardId);
       const board = await dataBase.get();
-      console.log(board);
+      const lists = board.data().lists;
+      const list = lists.find((l) => l.id == payload.listId);
+      const listIndex = lists.findIndex((l) => l.id == payload.listId);
 
-      const list = {
-        ...payload,
-        name: payload.name,
-      };
+      list.name = payload.name;
+      lists[listIndex] = list;
 
-      // await dataBase.update({
-      //   lists: [...board.data().lists, list],
-      // });
+      await dataBase.update({
+        lists,
+      });
+    },
+    async archiveTaskList({ commit }, payload) {
+      commit("archiveList", payload);
 
-      commit("createTaskList", list);
+      const dataBase = db.collection("boards").doc(payload.boardId);
+      const board = await dataBase.get();
+      const lists = board.data().lists;
+      const list = lists.find((l) => l.id == payload.listId);
+      const listIndex = lists.findIndex((l) => l.id == payload.listId);
+
+      list.archived = !list.archived;
+      lists[listIndex] = list;
+
+      await dataBase.update({
+        lists,
+      });
     },
     async createListItem({ commit }, payload) {
       const id = generateId();

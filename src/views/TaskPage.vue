@@ -37,6 +37,7 @@ export default {
       }
       return board;
     },
+
     lists: {
       get() {
         if (!this.getBoard) {

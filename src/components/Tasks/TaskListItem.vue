@@ -4,7 +4,7 @@
       <v-textarea
         solo
         name="input-7-4"
-        :label="name ? name : 'Придумайте название'"
+        :label="name ? name : 'Придумайте задачу'"
         v-model="name"
       ></v-textarea>
       <v-btn class="mr-4" @click.prevent="addListItem">

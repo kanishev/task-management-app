@@ -18,9 +18,7 @@
             type="file"
             v-model="file"
             accept="image/png, image/jpeg, image/bmp"
-            placeholder="Pick an avatar"
             prepend-icon="mdi-camera"
-            label="Avatar"
             @change="selectedFile"
           ></v-file-input>
 

@@ -1,6 +1,11 @@
 <template>
   <v-container>
-    <draggable v-model="lists" v-bind="getDragOptions" class="d-flex ">
+    <draggable
+      v-model="lists"
+      v-bind="getDragOptions"
+      class="d-flex "
+      v-if="lists.length > 0"
+    >
       <TaskList
         v-for="(list, idx) in lists"
         :key="idx"
@@ -8,6 +13,7 @@
         :board="getBoard"
       />
     </draggable>
+    <p v-else class="text-h4 pa-4">Активных списков на данный момент нет</p>
   </v-container>
 </template>
 

@@ -1,13 +1,17 @@
 <template>
   <v-card width="300px" class="ma-0">
     <v-img
-      src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
+      :src="this.board.image"
       height="200px"
+      :style="{
+        background:
+          'linear-gradient(90deg, rgba(170,166,122,0.3) 0%, rgba(249,241,154,0.5) 93%)',
+      }"
       class="mb-5"
     ></v-img>
 
     <v-row class="justify-space-between align-center">
-      <v-card-title class="text-body-1">
+      <v-card-title class="text-body-1 px-6">
         {{ this.board.name }}
       </v-card-title>
 
@@ -18,7 +22,7 @@
       </v-btn>
     </v-row>
 
-    <v-card-subtitle>
+    <v-card-subtitle class="px-3">
       {{ this.board.description }}
     </v-card-subtitle>
 

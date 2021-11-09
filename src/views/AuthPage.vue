@@ -1,13 +1,13 @@
 <template>
   <v-container>
-    <v-card color="basil">
+    <v-card color="#4682b4">
       <v-card-title class="text-center justify-center py-6">
-        <h1 class="font-weight-bold text-h2 basil--text">
-          BASiL
+        <h1 class="font-weight-bold text-h2 white--text">
+          Vuello
         </h1>
       </v-card-title>
 
-      <v-tabs v-model="tab" background-color="transparent" color="basil" grow>
+      <v-tabs v-model="tab" background-color="transparent" color="#fff" grow>
         <v-tab v-for="item in items" :key="item">
           {{ item }}
         </v-tab>
@@ -15,7 +15,7 @@
 
       <v-tabs-items v-model="tab">
         <v-tab-item v-for="item in items" :key="item">
-          <v-card color="basil" flat>
+          <v-card color="#fff" flat>
             <component :is="item"></component>
           </v-card>
         </v-tab-item>

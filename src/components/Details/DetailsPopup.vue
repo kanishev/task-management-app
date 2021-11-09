@@ -2,8 +2,11 @@
   <div>
     <v-btn
       v-if="type !== 'image'"
-      color="primary"
+      color="#fff"
+      text
       class="ml-5"
+      outlined
+      rounded
       dark
       @click.stop="openModal"
     >

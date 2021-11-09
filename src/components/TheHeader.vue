@@ -1,14 +1,21 @@
 <template>
   <div>
-    <v-app-bar app height="" flat color="#4682b4">
+    <v-app-bar app height="55px" flat dense color="#4682b4">
       <v-row class="justify-space-around align-center">
-        <v-col cols="1" v-show="activePage !== 'default'">
+        <v-col
+          cols="1"
+          v-show="activePage !== 'default'"
+          color="#fff"
+          class="text-center"
+        >
           <UploadImage />
         </v-col>
 
         <v-col cols="2" v-show="activePage == 'default'">
           <v-autocomplete
             v-model="value"
+            color="#fff"
+            dense
             :items="boardsItems"
             @change="goRoute"
             hide-details
@@ -23,8 +30,8 @@
             'text-start': activePage !== 'default',
           }"
         >
-          <v-toolbar-title color>
-            Vue Trello
+          <v-toolbar-title color class="title white--text font-italic text-h5">
+            Vuello
           </v-toolbar-title>
         </v-col>
 

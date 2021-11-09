@@ -3,7 +3,9 @@
     <v-card-text>
       <v-form ref="resetForm" v-model="valid" lazy-validation>
         <v-row>
-          <h2 class="pa-3">Введите email для восстановления пароля</h2>
+          <h2 class="pa-3 title">
+            Введите email для восстановления пароля
+          </h2>
           <v-col cols="12">
             <v-text-field
               v-model="email"
@@ -14,10 +16,11 @@
           </v-col>
           <v-col class="d-flex" cols="12" sm="3" xsm="12" align-end>
             <v-btn
-              x-large
               block
+              text
+              outlined
               :disabled="!valid"
-              color="success"
+              color="#4682b4"
               @click="resetPassword"
             >
               Сбросить

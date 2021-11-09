@@ -18,7 +18,7 @@
               :rules="[rules.required, rules.min]"
               :type="show1 ? 'text' : 'password'"
               name="input-10-1"
-              label="Password"
+              label="Пароль"
               hint="At least 8 characters"
               counter
               @click:append="show1 = !show1"
@@ -30,8 +30,10 @@
             <v-btn
               x-large
               block
+              text
+              outlined
               :disabled="!valid"
-              color="success"
+              color="#4682b4"
               @click.prevent="login"
             >
               Login

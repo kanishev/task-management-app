@@ -21,8 +21,10 @@ export default {
     },
     activeImage() {
       const board = this.$store.state.activeBoard;
-      console.log(board);
-      return board.image;
+      if (board.image) {
+        return board.image;
+      }
+      return false;
     },
   },
   components: { TheHeader },

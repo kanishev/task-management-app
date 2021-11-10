@@ -4,6 +4,7 @@ import Dashboard from "../views/DashboardPage.vue";
 import TaskPage from "../views/TaskPage.vue";
 import AuthPage from "../views/AuthPage";
 import ProfilePage from "../views/ProfilePage.vue";
+import store from "../store/index";
 
 Vue.use(VueRouter);
 
@@ -19,7 +20,7 @@ const routes = [
   },
   {
     path: "/boards/:id",
-    name: "task-board",
+    name: "Task-board",
     component: TaskPage,
     meta: {
       title: "Task Page",
@@ -28,7 +29,7 @@ const routes = [
   },
   {
     path: "/auth",
-    name: "auth",
+    name: "Auth",
     component: AuthPage,
     meta: {
       title: "Auth Page",
@@ -37,7 +38,7 @@ const routes = [
   },
   {
     path: "/profile",
-    name: "profile",
+    name: "Profile",
     component: ProfilePage,
     meta: {
       title: "Profile Page",
@@ -53,8 +54,17 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  document.title = to.meta.title;
-  next();
+  console.log(store.state.user);
+  if (
+    (!store.state.user && to.name == "Dashboard") ||
+    (!store.state.user && to.name == "Profile") ||
+    (!store.state.user && to.name == "Task-board")
+  ) {
+    next({ name: "Auth" });
+  } else {
+    document.title = `${to.meta.title}  Page`;
+    next();
+  }
 });
 
 export default router;

@@ -90,7 +90,7 @@
         </v-list>
         <v-list-tile-action>
           <div class="pa-2">
-            <v-btn block>
+            <v-btn block @click="signOut">
               Выйти из системы
             </v-btn>
           </div>
@@ -105,6 +105,9 @@ import DashboardEdit from "../components/Dashboard/DashboardEdit.vue";
 import TaskListEdit from "../components/Tasks/TaskListEdit.vue";
 import TaskListRestore from "../components/Tasks/TaskListRestore.vue";
 import UploadImage from "../components/UploadImage.vue";
+
+import firebase from "firebase/compat/app";
+import "firebase/compat/auth";
 
 export default {
   data() {
@@ -161,6 +164,10 @@ export default {
         page: "uploadPage",
         type: "create",
       });
+    },
+    signOut() {
+      firebase.auth().signOut();
+      window.location.reload();
     },
   },
   components: { DashboardEdit, TaskListEdit, TaskListRestore, UploadImage },

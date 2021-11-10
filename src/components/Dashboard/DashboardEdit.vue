@@ -86,7 +86,6 @@ export default {
             profileId: this.profileId,
           });
         }
-        this.$store.commit("closeModal");
       }
     },
     updateBoard(updated) {

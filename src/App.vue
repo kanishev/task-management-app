@@ -1,6 +1,13 @@
 <template>
   <div class="app-wrapper">
-    <component :is="layout"> </component>
+    <v-container v-if="!activeUser">
+      <v-skeleton-loader
+        v-bind="attrs"
+        type="table-heading, list-item-two-line, image, table-tfoots"
+      ></v-skeleton-loader>
+    </v-container>
+
+    <component v-else :is="layout"> </component>
   </div>
 </template>
 
@@ -13,21 +20,29 @@ import "firebase/compat/auth";
 
 export default {
   name: "App",
+  data() {
+    return {
+      attrs: {
+        class: "mb-6",
+        boilerplate: true,
+        elevation: 2,
+      },
+    };
+  },
   created() {
     firebase.auth().onAuthStateChanged((user) => {
       this.$store.commit("updateUser", user);
 
       if (user) {
         this.$store.dispatch("getUser");
+        this.$store.dispatch("getBoards");
       }
     });
-
-    this.$store.dispatch("getBoards");
   },
-  data: () => ({
-    //
-  }),
   computed: {
+    activeUser() {
+      return this.$store.state.user;
+    },
     layout() {
       return (this.$route.meta.layout || "empty") + "-layout";
     },

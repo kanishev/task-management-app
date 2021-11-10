@@ -76,7 +76,6 @@ export default {
             items: [],
           });
         }
-        this.$store.commit("closeModal");
       }
     },
     cancleBoard() {
@@ -85,7 +84,6 @@ export default {
       this.listForm.name = "";
     },
     updateBoard(updated) {
-      console.log(updated);
       this.type = updated.type;
       if (this.type == "create") {
         this.cancleBoard();

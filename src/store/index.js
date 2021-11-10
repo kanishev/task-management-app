@@ -12,6 +12,7 @@ export default new Vuex.Store({
     boards: [],
     activeBoard: null,
     activePage: "default",
+    isLoading: false,
     modal: {
       status: false,
       page: null,
@@ -49,6 +50,9 @@ export default new Vuex.Store({
       state.modal.type = null;
       state.modal.list = null;
     },
+    setLoading(state, payload) {
+      state.isLoading = payload;
+    },
 
     // BOARDS
 
@@ -85,14 +89,11 @@ export default new Vuex.Store({
     // LISTS
 
     createTaskList(state, payload) {
-      console.log(payload);
       const board = state.boards.find((b) => b.id == payload.boardId);
       const boardId = state.boards.findIndex((b) => b.id == payload.boardId);
 
       const list = board.lists.find((l) => l.id === payload.listId);
       const listIdx = board.lists.findIndex((l) => l.id == payload.listId);
-
-      console.log(payload);
 
       if (listIdx !== -1) {
         list.name = payload.name;
@@ -162,227 +163,301 @@ export default new Vuex.Store({
       state.profileFirstName = p.data().firstName;
       state.profileLastName = p.data().lastName;
     },
+    changeProfileInfo(state, [key, data]) {
+      state[key] = data;
+    },
     setProfileInitials(state) {
       state.profileInitials =
-        state.profileFirstName
-          .match(/(\b\S)?/g)
-          .join("")
-          .toUpperCase() +
-        state.profileLastName
-          .match(/(\b\S)?/g)
-          .join("")
-          .toUpperCase();
+        state.profileFirstName.charAt(0).toUpperCase() +
+        state.profileLastName.charAt(0).toUpperCase();
     },
   },
   actions: {
-    async saveBoard({ commit }, payload) {
-      const dataBase = await db.collection("boards").doc();
+    async saveBoard({ commit, state }, payload) {
+      try {
+        state.isLoading = true;
+        const dataBase = await db.collection("boards").doc();
+        await dataBase.set({
+          profileId: state.profileId,
+          boardId: dataBase.id,
+          boardName: payload.name,
+          boardDescription: payload.description,
+          boardImage: payload.image,
+          lists: [],
+          archived: false,
+        });
 
-      await dataBase.set({
-        boardId: dataBase.id,
-        boardName: payload.name,
-        boardDescription: payload.description,
-        boardImage: payload.image,
-        lists: [],
-        archived: false,
-      });
-
-      commit("saveBoard", { boardId: dataBase.id, ...payload });
+        commit("saveBoard", { boardId: dataBase.id, ...payload });
+        commit("closeModal");
+      } catch (e) {
+        console.log(e);
+      } finally {
+        state.isLoading = false;
+      }
     },
-    async updateBoard({ commit }, payload) {
-      commit("saveBoard", { boardId: dataBase.id, ...payload });
+    async updateBoard({ commit, state }, payload) {
+      try {
+        state.isLoading = true;
+        const dataBase = await db.collection("boards").doc(payload.id);
+        commit("saveBoard", { boardId: dataBase.id, ...payload });
 
-      const dataBase = await db.collection("boards").doc(payload.id);
+        await dataBase.update({
+          boardName: payload.name,
+          boardDescription: payload.description,
+        });
 
-      await dataBase.update({
-        boardName: payload.name,
-        boardDescription: payload.description,
-      });
+        commit("closeModal");
+      } catch (e) {
+        console.log(e);
+      } finally {
+        state.isLoading = false;
+      }
     },
     async archiveBoard({ commit }, payload) {
-      let archived = !payload.archived;
-      commit("archiveBoard", { ...payload, archived });
+      try {
+        let archived = !payload.archived;
+        commit("archiveBoard", { ...payload, archived });
 
-      const dataBase = await db.collection("boards").doc(payload.id);
-      await dataBase.update({
-        archived: archived,
-      });
+        const dataBase = await db.collection("boards").doc(payload.id);
+        await dataBase.update({
+          archived: archived,
+        });
+      } catch (e) {
+        console.log(e);
+      }
     },
     async reorderList({ commit }, { boardId, payload }) {
-      commit("reorderList", { boardId, payload });
+      try {
+        commit("reorderList", { boardId, payload });
 
-      const dataBase = await db.collection("boards").doc(boardId);
-      await dataBase.update({
-        lists: payload,
-      });
+        const dataBase = await db.collection("boards").doc(boardId);
+        await dataBase.update({
+          lists: payload,
+        });
+      } catch (e) {
+        console.log(e);
+      }
     },
     async getUser({ commit }) {
-      const dataBase = await db
-        .collection("users")
-        .doc(firebase.auth().currentUser.uid);
-      const dbResults = await dataBase.get();
-      commit("setProfile", dbResults);
-      commit("setProfileInitials");
+      try {
+        const dataBase = await db
+          .collection("users")
+          .doc(firebase.auth().currentUser.uid);
+
+        const dbResults = await dataBase.get();
+        commit("setProfile", dbResults);
+        commit("setProfileInitials");
+      } catch (e) {
+        console.log(e);
+      }
     },
-    async updateUserProfile(ctx) {
-      const dataBase = await db.collection("users").doc(ctx.state.profileId);
-      await dataBase.update({
-        firstName: ctx.state.profileFirstName,
-        lastName: ctx.state.profileLastName,
-      });
-      ctx.commit("setProfileInitials");
+    async updateUserProfile({ state, commit }) {
+      try {
+        this.state.isLoading = true;
+        const dataBase = await db.collection("users").doc(state.profileId);
+        await dataBase.update({
+          firstName: state.profileFirstName,
+          lastName: state.profileLastName,
+        });
+        commit("setProfileInitials");
+      } catch (e) {
+        console.log(e);
+      } finally {
+        this.state.isLoading = false;
+      }
     },
     async getBoards({ state }) {
-      const dataBase = await db.collection("boards");
-      const dbResults = await dataBase.get();
+      try {
+        const dataBase = await db.collection("boards");
+        const dbResults = await dataBase.get();
 
-      dbResults.forEach((doc) => {
-        if (!state.boards.some((b) => b.id == doc.id)) {
-          const board = {
-            id: doc.data().boardId,
-            name: doc.data().boardName,
-            description: doc.data().boardDescription,
-            lists: doc.data().lists,
-            archived: doc.data().archived,
-            image: doc.data().boardImage,
-          };
+        dbResults.forEach((doc) => {
+          if (doc.data().profileId === state.profileId) {
+            if (!state.boards.some((b) => b.id == doc.id)) {
+              const board = {
+                id: doc.data().boardId,
+                name: doc.data().boardName,
+                description: doc.data().boardDescription,
+                lists: doc.data().lists,
+                archived: doc.data().archived,
+                image: doc.data().boardImage,
+              };
 
-          state.boards.push(board);
-        }
-      });
+              state.boards.push(board);
+            }
+          }
+        });
+      } catch (e) {
+        console.log(e);
+      }
     },
-    async createTaskList({ commit }, payload) {
-      const dataBase = db.collection("boards").doc(payload.boardId);
-      const board = await dataBase.get();
+    async createTaskList({ commit, state }, payload) {
+      try {
+        state.isLoading = true;
+        const dataBase = db.collection("boards").doc(payload.boardId);
+        const board = await dataBase.get();
 
-      const list = {
-        ...payload,
-        id: generateId(),
-      };
+        const list = {
+          ...payload,
+          id: generateId(),
+        };
 
-      await dataBase.update({
-        lists: [...board.data().lists, list],
-      });
+        await dataBase.update({
+          lists: [...board.data().lists, list],
+        });
 
-      commit("createTaskList", list);
+        commit("createTaskList", list);
+        commit("closeModal");
+      } catch (e) {
+        console.log(e);
+      } finally {
+        state.isLoading = false;
+      }
     },
-    async updateTaskList({ commit }, payload) {
-      commit("createTaskList", payload);
+    async updateTaskList({ commit, state }, payload) {
+      try {
+        state.isLoading = true;
+        commit("createTaskList", payload);
+        const dataBase = db.collection("boards").doc(payload.boardId);
+        const board = await dataBase.get();
+        const lists = board.data().lists;
+        const list = lists.find((l) => l.id == payload.listId);
+        const listIndex = lists.findIndex((l) => l.id == payload.listId);
 
-      const dataBase = db.collection("boards").doc(payload.boardId);
-      const board = await dataBase.get();
-      const lists = board.data().lists;
-      const list = lists.find((l) => l.id == payload.listId);
-      const listIndex = lists.findIndex((l) => l.id == payload.listId);
+        list.name = payload.name;
+        lists[listIndex] = list;
 
-      list.name = payload.name;
-      lists[listIndex] = list;
+        await dataBase.update({
+          lists,
+        });
 
-      await dataBase.update({
-        lists,
-      });
+        commit("closeModal");
+      } catch (e) {
+        console.log(e);
+      } finally {
+        state.isLoading = false;
+      }
     },
     async archiveTaskList({ commit }, payload) {
-      commit("archiveList", payload);
+      try {
+        commit("archiveList", payload);
 
-      const dataBase = db.collection("boards").doc(payload.boardId);
-      const board = await dataBase.get();
-      const lists = board.data().lists;
-      const list = lists.find((l) => l.id == payload.listId);
-      const listIndex = lists.findIndex((l) => l.id == payload.listId);
+        const dataBase = db.collection("boards").doc(payload.boardId);
+        const board = await dataBase.get();
+        const lists = board.data().lists;
+        const list = lists.find((l) => l.id == payload.listId);
+        const listIndex = lists.findIndex((l) => l.id == payload.listId);
 
-      list.archived = !list.archived;
-      lists[listIndex] = list;
+        list.archived = !list.archived;
+        lists[listIndex] = list;
 
-      await dataBase.update({
-        lists,
-      });
+        await dataBase.update({
+          lists,
+        });
+      } catch (e) {
+        console.log(e);
+      }
     },
     async createListItem({ commit }, payload) {
-      const id = generateId();
-      commit("createListItem", { ...payload, id });
+      try {
+        const id = generateId();
+        commit("createListItem", { ...payload, id });
 
-      const dataBase = db.collection("boards").doc(payload.boardId);
-      const board = await dataBase.get();
+        const dataBase = db.collection("boards").doc(payload.boardId);
+        const board = await dataBase.get();
 
-      const lists = board.data().lists;
-      const list = lists.find((l) => l.id == payload.listId);
-      const listId = board
-        .data()
-        .lists.findIndex((l) => l.id == payload.listId);
+        const lists = board.data().lists;
+        const list = lists.find((l) => l.id == payload.listId);
+        const listId = board
+          .data()
+          .lists.findIndex((l) => l.id == payload.listId);
 
-      list.items.push({ name: payload.name, itemId: id });
+        list.items.push({ name: payload.name, itemId: id });
 
-      lists[listId] = list;
+        lists[listId] = list;
 
-      await dataBase.update({
-        lists,
-      });
+        await dataBase.update({
+          lists,
+        });
+      } catch (e) {
+        console.log(e);
+      }
     },
     async updateListItem({ commit }, payload) {
-      commit("updateListItem", payload);
+      try {
+        commit("updateListItem", payload);
 
-      const dataBase = db.collection("boards").doc(payload.boardId);
-      const board = await dataBase.get();
-      const lists = board.data().lists;
-      const items = lists.find((l) => l.id == payload.listId).items;
-      const listId = lists.findIndex((l) => l.id == payload.listId);
+        const dataBase = db.collection("boards").doc(payload.boardId);
+        const board = await dataBase.get();
+        const lists = board.data().lists;
+        const items = lists.find((l) => l.id == payload.listId).items;
+        const listId = lists.findIndex((l) => l.id == payload.listId);
 
-      const item = items.find((i) => i.itemId == payload.itemId);
-      item.name = payload.name;
+        const item = items.find((i) => i.itemId == payload.itemId);
+        item.name = payload.name;
 
-      lists[listId].items = items;
+        lists[listId].items = items;
 
-      await dataBase.update({
-        lists: [...lists],
-      });
+        await dataBase.update({
+          lists: [...lists],
+        });
+      } catch (e) {
+        console.log(e);
+      }
     },
     async removeListItem({ commit }, payload) {
-      commit("removeListItem", payload);
+      try {
+        commit("removeListItem", payload);
 
-      const dataBase = db.collection("boards").doc(payload.boardId);
-      const board = await dataBase.get();
-      const lists = board.data().lists;
-      const items = lists
-        .find((l) => l.id == payload.listId)
-        .items.filter((i) => i.itemId !== payload.itemId);
-      const listId = lists.findIndex((l) => l.id == payload.listId);
+        const dataBase = db.collection("boards").doc(payload.boardId);
+        const board = await dataBase.get();
+        const lists = board.data().lists;
+        const items = lists
+          .find((l) => l.id == payload.listId)
+          .items.filter((i) => i.itemId !== payload.itemId);
+        const listId = lists.findIndex((l) => l.id == payload.listId);
 
-      lists[listId].items = items;
+        lists[listId].items = items;
 
-      await dataBase.update({
-        lists: [...lists],
-      });
+        await dataBase.update({
+          lists: [...lists],
+        });
+      } catch (e) {
+        console.log(e);
+      }
     },
     async reorderListItems({ commit, state }, payload) {
-      commit("reorderListItems", payload);
-      state.reorderLists.lists.push(payload);
+      try {
+        commit("reorderListItems", payload);
+        state.reorderLists.lists.push(payload);
 
-      const dataBase = db.collection("boards").doc(payload.boardId);
-      const board = await dataBase.get();
-      const lists = board.data().lists;
+        const dataBase = db.collection("boards").doc(payload.boardId);
+        const board = await dataBase.get();
+        const lists = board.data().lists;
 
-      if (state.reorderLists.count == 0) {
-        state.reorderLists.count++;
-      } else {
-        state.reorderLists.lists.forEach(async (list) => {
-          const listId = board
-            .data()
-            .lists.findIndex((l) => l.id == list.listId);
+        if (state.reorderLists.count == 0) {
+          state.reorderLists.count++;
+        } else {
+          state.reorderLists.lists.forEach(async (list) => {
+            const listId = board
+              .data()
+              .lists.findIndex((l) => l.id == list.listId);
 
-          lists[listId].items = list.payload;
+            lists[listId].items = list.payload;
 
-          await dataBase.update({
-            lists: [...lists],
+            await dataBase.update({
+              lists: [...lists],
+            });
+            state.reorderLists.count == 0;
           });
-          state.reorderLists.count == 0;
-        });
+        }
+      } catch (e) {
+        console.log(e);
       }
     },
   },
   getters: {
     getBoards(state) {
-      console.log(state.boards);
       return state.boards;
     },
     unarchivedBoards(state) {

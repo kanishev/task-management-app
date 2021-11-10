@@ -1,6 +1,7 @@
 <template>
   <v-app>
     <TheHeader />
+
     <v-main
       :style="{
         'background-image':
@@ -21,7 +22,7 @@ export default {
     },
     activeImage() {
       const board = this.$store.state.activeBoard;
-      if (board.image) {
+      if (board && board.image) {
         return board.image;
       }
       return false;

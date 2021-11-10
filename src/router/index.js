@@ -3,6 +3,7 @@ import VueRouter from "vue-router";
 import Dashboard from "../views/DashboardPage.vue";
 import TaskPage from "../views/TaskPage.vue";
 import AuthPage from "../views/AuthPage";
+import ProfilePage from "../views/ProfilePage.vue";
 
 Vue.use(VueRouter);
 
@@ -32,6 +33,15 @@ const routes = [
     meta: {
       title: "Auth Page",
       layout: "empty",
+    },
+  },
+  {
+    path: "/profile",
+    name: "profile",
+    component: ProfilePage,
+    meta: {
+      title: "Profile Page",
+      layout: "main",
     },
   },
 ];

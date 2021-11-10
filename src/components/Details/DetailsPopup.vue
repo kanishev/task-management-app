@@ -16,7 +16,7 @@
     <v-icon v-if="type == 'image'" @click.stop="openModal">mdi-image</v-icon>
 
     <v-dialog v-model="modal" max-width="490">
-      <v-card>
+      <v-card :loading="isLoading">
         <v-card-title class="h2">{{ title }}</v-card-title>
         <slot></slot>
       </v-card>
@@ -28,6 +28,9 @@
 export default {
   props: ["title", "page", "type"],
   computed: {
+    isLoading() {
+      return this.$store.state.isLoading;
+    },
     modal: {
       get() {
         const modal = this.$store.state.modal;

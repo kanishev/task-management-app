@@ -8,7 +8,9 @@
           color="#fff"
           class="text-center"
         >
-          <UploadImage />
+          <v-app-bar-nav-icon
+            @click.stop="drawer = !drawer"
+          ></v-app-bar-nav-icon>
         </v-col>
 
         <v-col cols="2" v-show="activePage == 'default'">
@@ -30,7 +32,11 @@
             'text-start': activePage !== 'default',
           }"
         >
-          <v-toolbar-title color class="title white--text font-italic text-h5">
+          <v-toolbar-title
+            color
+            class="title white--text font-italic text-h5"
+            @click="goHome"
+          >
             Vuello
           </v-toolbar-title>
         </v-col>
@@ -43,6 +49,53 @@
           </v-row>
         </v-col>
       </v-row>
+
+      <v-navigation-drawer
+        height="100vh"
+        v-model="drawer"
+        absolute
+        bottom
+        temporary
+      >
+        <v-list nav dense>
+          <v-list-item-group v-model="group">
+            <v-list-item class="px-2">
+              <v-avatar color="primary" class="mr-3">
+                <span class="white--text text-h6">{{ initials }}</span>
+              </v-avatar>
+
+              <v-list-content>
+                <v-list-item-title
+                  >{{ firstName }} {{ lastName }}</v-list-item-title
+                >
+                <v-list-item-subtitle>{{ email }}</v-list-item-subtitle>
+              </v-list-content>
+              <v-btn icon @click.stop="drawer = !drawer">
+                <v-icon>mdi-chevron-left</v-icon>
+              </v-btn>
+            </v-list-item>
+
+            <v-divider></v-divider>
+
+            <v-list-item class="align-center" @click="openModal">
+              <UploadImage class="mr-3" />
+              <v-list-item-title>Загрузить изображение</v-list-item-title>
+            </v-list-item>
+
+            <v-list-item @click="goProfile">
+              <v-icon class="mr-3">mdi-account</v-icon>
+              <v-list-item-title>Профиль</v-list-item-title>
+            </v-list-item>
+          </v-list-item-group>
+        </v-list>
+        <v-list-tile-action>
+          <div class="pa-2">
+            <v-btn block>
+              Выйти из системы
+            </v-btn>
+          </div>
+        </v-list-tile-action>
+      </v-navigation-drawer>
     </v-app-bar>
   </div>
 </template>
@@ -57,12 +110,25 @@ export default {
   data() {
     return {
       group: null,
+      drawer: false,
       items: ["foo", "bar", "fizz", "buzz"],
       values: ["foo", "bar"],
       value: null,
     };
   },
   computed: {
+    initials() {
+      return this.$store.state.profileInitials;
+    },
+    email() {
+      return this.$store.state.profileEmail;
+    },
+    firstName() {
+      return this.$store.state.profileFirstName;
+    },
+    lastName() {
+      return this.$store.state.profileLastName;
+    },
     activePage() {
       return this.$store.getters.getActivePage;
     },
@@ -80,10 +146,21 @@ export default {
       this.$router.push("/boards/" + boardId);
     },
     goHome() {
-      this.$router.push("/dashboard");
+      if (this.activePage !== "default") {
+        this.$router.push("/");
+      }
+    },
+    goProfile() {
+      this.$router.push("/profile");
     },
     uploadImage() {
       this.$store.commit("openModal");
+    },
+    openModal() {
+      this.$store.commit("openModal", {
+        page: "uploadPage",
+        type: "create",
+      });
     },
   },
   components: { DashboardEdit, TaskListEdit, TaskListRestore, UploadImage },

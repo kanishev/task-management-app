@@ -96,31 +96,38 @@ export default {
 
     saveImage() {
       if (this.imageSize) {
-        const file = this.file;
-        const dataBase = db.collection("boards").doc(this.$route.params.id);
-        const storageRef = firebase.storage().ref();
-        const docRef = storageRef.child(`documents/bardImages/${file.name}`);
-        docRef.put(this.file).on(
-          "state_changed",
-          (snapShot) => {
-            console.warn(snapShot);
-          },
-          (err) => {
-            console.warn(err);
-            this.isLoading = false;
-          },
-          async () => {
-            const downloadURL = await docRef.getDownloadURL();
-            await dataBase.update({
-              boardImage: downloadURL,
-            });
+        try {
+          this.$store.commit("setLoading", true);
+          const file = this.file;
+          const dataBase = db.collection("boards").doc(this.$route.params.id);
+          const storageRef = firebase.storage().ref();
+          const docRef = storageRef.child(`documents/bardImages/${file.name}`);
+          docRef.put(this.file).on(
+            "state_changed",
+            (snapShot) => {
+              console.warn(snapShot);
+            },
+            (err) => {
+              console.warn(err);
+              this.isLoading = false;
+            },
+            async () => {
+              const downloadURL = await docRef.getDownloadURL();
+              await dataBase.update({
+                boardImage: downloadURL,
+              });
 
-            this.$store.commit("updateBoardImage", {
-              id: this.$route.params.id,
-              image: downloadURL,
-            });
-          }
-        );
+              this.$store.commit("updateBoardImage", {
+                id: this.$route.params.id,
+                image: downloadURL,
+              });
+              this.$store.commit("closeModal");
+              this.$store.commit("setLoading", false);
+            }
+          );
+        } catch (e) {
+          console.log(e);
+        }
       }
     },
   },

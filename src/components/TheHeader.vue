@@ -1,6 +1,15 @@
 <template>
   <div>
-    <v-app-bar app height="55px" flat dense color="#4682b4">
+    <v-app-bar
+      app
+      height="55px"
+      flat
+      dense
+      :color="activeBoardImage ? 'transparent' : '#4682b4'"
+      :style="{
+        'backdrop-filter': activeBoardImage ? 'brightness(0.5)' : 'none',
+      }"
+    >
       <v-row class="justify-space-around align-center">
         <v-col
           cols="1"
@@ -9,6 +18,7 @@
           class="text-center"
         >
           <v-app-bar-nav-icon
+            color="#fff"
             @click.stop="drawer = !drawer"
           ></v-app-bar-nav-icon>
         </v-col>
@@ -19,7 +29,7 @@
             color="#fff"
             dense
             :items="boardsItems"
-            @change="goRoute"
+            @change="goBoard"
             hide-details
             label="перейти к доске ..."
           ></v-autocomplete>
@@ -60,16 +70,23 @@
         <v-list nav dense>
           <v-list-item-group v-model="group">
             <v-list-item class="px-2">
-              <v-avatar color="primary" class="mr-3">
+              <v-avatar
+                color="primary"
+                class="mr-3"
+                min-width="40px"
+                height="40px"
+                width="40px"
+              >
                 <span class="white--text text-h6">{{ initials }}</span>
               </v-avatar>
 
-              <v-list-content>
+              <v-col>
                 <v-list-item-title
                   >{{ firstName }} {{ lastName }}</v-list-item-title
                 >
                 <v-list-item-subtitle>{{ email }}</v-list-item-subtitle>
-              </v-list-content>
+              </v-col>
+
               <v-btn icon @click.stop="drawer = !drawer">
                 <v-icon>mdi-chevron-left</v-icon>
               </v-btn>
@@ -77,7 +94,7 @@
 
             <v-divider></v-divider>
 
-            <v-list-item class="align-center" @click="openModal">
+            <v-list-item class="align-center mt-2" @click="openModal">
               <UploadImage class="mr-3" />
               <v-list-item-title>Загрузить изображение</v-list-item-title>
             </v-list-item>
@@ -88,13 +105,14 @@
             </v-list-item>
           </v-list-item-group>
         </v-list>
-        <v-list-tile-action>
+
+        <template v-slot:append>
           <div class="pa-2">
             <v-btn block @click="signOut">
               Выйти из системы
             </v-btn>
           </div>
-        </v-list-tile-action>
+        </template>
       </v-navigation-drawer>
     </v-app-bar>
   </div>
@@ -120,6 +138,13 @@ export default {
     };
   },
   computed: {
+    activeBoardImage() {
+      const board = this.$store.state.activeBoard;
+      if (board && board.image) {
+        return true;
+      }
+      return false;
+    },
     initials() {
       return this.$store.state.profileInitials;
     },
@@ -133,7 +158,7 @@ export default {
       return this.$store.state.profileLastName;
     },
     activePage() {
-      return this.$store.getters.getActivePage;
+      return this.$store.state.activePage;
     },
     boards() {
       this.$store.getters.someGetter;
@@ -144,7 +169,7 @@ export default {
     },
   },
   methods: {
-    goRoute() {
+    goBoard() {
       const boardId = this.boards.find((b) => b.name == this.value).id;
       this.$router.push("/boards/" + boardId);
     },

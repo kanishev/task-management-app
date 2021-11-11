@@ -4,7 +4,6 @@ import Dashboard from "../views/DashboardPage.vue";
 import TaskPage from "../views/TaskPage.vue";
 import AuthPage from "../views/AuthPage";
 import ProfilePage from "../views/ProfilePage.vue";
-import store from "../store/index";
 
 Vue.use(VueRouter);
 
@@ -54,17 +53,8 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  console.log(store.state.user);
-  if (
-    (!store.state.user && to.name == "Dashboard") ||
-    (!store.state.user && to.name == "Profile") ||
-    (!store.state.user && to.name == "Task-board")
-  ) {
-    next({ name: "Auth" });
-  } else {
-    document.title = `${to.meta.title}  Page`;
-    next();
-  }
+  document.title = to.meta.title;
+  next();
 });
 
 export default router;

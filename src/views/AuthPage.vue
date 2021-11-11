@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-card color="#4682b4">
+    <v-card color="#4682b4" width="600px" class="ma-auto">
       <v-card-title class="text-center justify-center py-6">
         <h1 class="font-weight-bold text-h2 white--text">
           Vuello
@@ -35,8 +35,6 @@ export default {
       page: "Login",
       tab: null,
       items: ["Login", "Register", "Reset"],
-      text:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
     };
   },
   methods: {
@@ -54,7 +52,6 @@ export default {
 </script>
 
 <style>
-/* Helper classes */
 .basil {
   background-color: #fffbe6 !important;
 }

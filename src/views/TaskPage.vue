@@ -35,7 +35,7 @@ export default {
       return isActive;
     },
     getBoard() {
-      const boards = this.$store.getters.getBoards;
+      const boards = this.$store.state.boards;
       const board = boards.find((b) => b.id == this.$route.params.id);
 
       if (board) {

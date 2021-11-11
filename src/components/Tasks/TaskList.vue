@@ -1,6 +1,6 @@
 <template>
   <v-card style="min-width: 290px; height: max-content" class="mr-4">
-    <v-toolbar color="#4682b4" dark>
+    <v-toolbar :color="this.board.image ? 'grey' : '#4682b4'" dark>
       <v-toolbar-title>{{ list.name }}</v-toolbar-title>
       <v-spacer></v-spacer>
       <TaskListActions :list="list" :board="board" />

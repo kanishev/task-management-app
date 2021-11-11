@@ -32,7 +32,7 @@
       </v-list>
 
       <v-btn x-small class="ma-3" @click="closeModal">
-        ок
+        Ок
       </v-btn>
     </template>
   </details-popup>

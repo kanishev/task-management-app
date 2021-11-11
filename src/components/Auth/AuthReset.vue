@@ -6,6 +6,8 @@
           <h2 class="pa-3 title">
             Введите email для восстановления пароля
           </h2>
+
+          <h3 class="pa-3 ">{{ message }}</h3>
           <v-col cols="12">
             <v-text-field
               v-model="email"
@@ -41,6 +43,7 @@ export default {
     return {
       valid: false,
       show1: false,
+      message: "",
       email: "",
       emailRules: [
         (v) => !!v || "Required",
@@ -57,9 +60,7 @@ export default {
           .auth()
           .sendPasswordResetEmail(this.email)
           .then(() => {
-            // this.$emit("toggleLoader", false);
-            // this.$emit("toggleModal", "Проверьте свою почту");
-            console.log("Check your mail");
+            this.message = "Проверьте почту";
           })
           .catch((e) => {
             console.log(e);

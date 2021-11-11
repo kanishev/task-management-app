@@ -14,14 +14,12 @@
           <v-col cols="12">
             <v-text-field
               v-model="password"
-              :append-icon="show1 ? 'eye' : 'eye-off'"
               :rules="[rules.required, rules.min]"
-              :type="show1 ? 'text' : 'password'"
-              name="input-10-1"
+              :type="show ? 'text' : 'password'"
               label="Пароль"
-              hint="At least 8 characters"
+              hint="At least 6 characters"
               counter
-              @click:append="show1 = !show1"
+              @click:append="show = !show"
             ></v-text-field>
           </v-col>
           <v-col class="d-flex" cols="12" sm="6" xsm="12"> </v-col>
@@ -53,7 +51,7 @@ export default {
   data() {
     return {
       valid: false,
-      show1: false,
+      show: false,
       password: "",
       email: "",
       emailRules: [
@@ -62,7 +60,7 @@ export default {
       ],
       rules: {
         required: (value) => !!value || "Required.",
-        min: (v) => (v && v.length >= 8) || "Min 8 characters",
+        min: (v) => (v && v.length >= 6) || "Min 6 characters",
       },
     };
   },

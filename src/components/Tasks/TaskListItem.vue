@@ -34,7 +34,6 @@ export default {
           listId: this.list.id,
         });
       } else {
-        console.log(this.item);
         this.$store.dispatch("updateListItem", {
           name: this.name,
           boardId: this.board.id,

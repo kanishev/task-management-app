@@ -33,27 +33,27 @@
           <v-col cols="12">
             <v-text-field
               v-model="password"
-              :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+              :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
               :rules="[rules.required, rules.min]"
-              :type="show1 ? 'text' : 'password'"
+              :type="show ? 'text' : 'password'"
               name="input-10-1"
               label="Пароль"
-              hint="At least 8 characters"
+              hint="At least 6 characters"
               counter
-              @click:append="show1 = !show1"
+              @click:append="show = !show"
             ></v-text-field>
           </v-col>
           <v-col cols="12">
             <v-text-field
               block
               v-model="verify"
-              :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+              :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
               :rules="[rules.required, passwordMatch]"
-              :type="show1 ? 'text' : 'password'"
+              :type="show ? 'text' : 'password'"
               name="input-10-1"
               label="Пароль еще раз"
               counter
-              @click:append="show1 = !show1"
+              @click:append="show = !show"
             ></v-text-field>
           </v-col>
           <v-spacer></v-spacer>
@@ -88,7 +88,7 @@ export default {
       email: "",
       password: "",
       verify: "",
-      show1: false,
+      show: false,
       emailRules: [
         (v) => !!v || "Required",
         (v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
@@ -96,7 +96,7 @@ export default {
 
       rules: {
         required: (value) => !!value || "Required.",
-        min: (v) => (v && v.length >= 8) || "Min 8 characters",
+        min: (v) => (v && v.length >= 6) || "Min 6 characters",
       },
     };
   },
@@ -130,12 +130,6 @@ export default {
         }
       }
     },
-    // reset() {
-    //   this.$refs.form.reset();
-    // },
-    // resetValidation() {
-    //   this.$refs.form.resetValidation();
-    // },
   },
 };
 </script>

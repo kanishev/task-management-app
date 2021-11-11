@@ -52,7 +52,7 @@ export default {
         (value) =>
           !value ||
           value.size < 2000000 ||
-          "Avatar size should be less than 2 MB!",
+          "Изображение должно быть меньше 2 MB!",
       ],
     };
   },

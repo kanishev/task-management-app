@@ -1,6 +1,6 @@
 <template>
   <div class="app-wrapper">
-    <v-container v-if="!activeUser">
+    <v-container v-if="!activeUser && this.$route.name !== 'Auth'">
       <v-skeleton-loader
         v-bind="attrs"
         type="table-heading, list-item-two-line, image, table-tfoots"
@@ -36,6 +36,8 @@ export default {
       if (user) {
         this.$store.dispatch("getUser");
         this.$store.dispatch("getBoards");
+      } else if (!user) {
+        this.$router.push({ name: "Auth" }).catch(() => {});
       }
     });
   },

@@ -77,7 +77,6 @@ export default {
             profileId: this.profileId,
           });
         } else if (this.type == "update") {
-          console.log("1");
           this.$store.dispatch("updateBoard", {
             id: this.board.id,
             name: this.board.name,

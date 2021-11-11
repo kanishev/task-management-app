@@ -1,11 +1,11 @@
 <template>
   <v-app>
     <TheHeader />
-
     <v-main
       :style="{
         'background-image':
           activePage == 'taskPage' ? 'url(' + activeImage + ')' : null,
+        'background-size': 'cover',
       }"
     >
       <router-view></router-view>
@@ -18,7 +18,7 @@ import TheHeader from "../components/TheHeader.vue";
 export default {
   computed: {
     activePage() {
-      return this.$store.getters.getActivePage;
+      return this.$store.state.activePage;
     },
     activeImage() {
       const board = this.$store.state.activeBoard;

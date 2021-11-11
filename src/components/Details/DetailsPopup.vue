@@ -46,9 +46,6 @@ export default {
     },
   },
   methods: {
-    close() {
-      this.$store.commit("closeModal");
-    },
     openModal() {
       this.$store.commit("openModal", {
         page: this.page,

@@ -13,7 +13,6 @@
           xl="3"
         >
           <dashboard-item :board="board"></dashboard-item>
-          <v-divider></v-divider>
         </v-col>
       </v-row>
     </v-col>

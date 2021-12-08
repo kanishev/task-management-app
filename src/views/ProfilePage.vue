@@ -54,6 +54,9 @@
 
 <script>
 export default {
+  mounted() {
+    this.$store.commit("setActivePage", "profilePage");
+  },
   computed: {
     initials() {
       return this.$store.state.profileInitials;

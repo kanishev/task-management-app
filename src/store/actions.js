@@ -4,7 +4,7 @@ import "firebase/compat/auth";
 import db from "../firebase/firebaseInit";
 
 export default {
-  async saveBoard({ commit, state }, payload) {
+  async createBoard({ commit, state }, payload) {
     try {
       state.isLoading = true;
       const dataBase = await db.collection("boards").doc();
@@ -26,7 +26,7 @@ export default {
       state.isLoading = false;
     }
   },
-  async updateBoard({ commit, state }, payload) {
+  async updateBoardData({ commit, state }, payload) {
     try {
       state.isLoading = true;
       const dataBase = await db.collection("boards").doc(payload.id);
@@ -44,7 +44,7 @@ export default {
       state.isLoading = false;
     }
   },
-  async archiveBoard({ commit }, payload) {
+  async archiveBoardData({ commit }, payload) {
     try {
       let archived = !payload.archived;
       commit("archiveBoard", { ...payload, archived });

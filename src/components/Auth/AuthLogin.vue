@@ -70,6 +70,7 @@ export default {
 
       if (isValid) {
         try {
+          this.$store.commit("setLoading", true);
           this.formValidMessage = "";
           const firebaseAuth = await firebase.auth();
           await firebaseAuth.signInWithEmailAndPassword(
@@ -77,8 +78,11 @@ export default {
             this.password
           );
           this.$router.push("/");
-        } catch (err) {
-          console.log(err);
+        } catch (e) {
+          console.log(e);
+          this.$store.commit("setMessage", e.code);
+        } finally {
+          this.$store.commit("setLoading", false);
         }
       }
     },

@@ -111,6 +111,7 @@ export default {
 
       if (isValid) {
         try {
+          this.$store.commit("setLoading", true);
           const firebaseAuth = await firebase.auth();
           const createUser = await firebaseAuth.createUserWithEmailAndPassword(
             this.email,
@@ -127,6 +128,9 @@ export default {
           return;
         } catch (e) {
           console.log(e);
+          this.$store.commit("setMessage", e.code);
+        } finally {
+          this.$store.commit("setLoading", false);
         }
       }
     },

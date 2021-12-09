@@ -23,4 +23,5 @@ export default {
     count: 0,
     lists: [],
   },
+  message: null,
 };

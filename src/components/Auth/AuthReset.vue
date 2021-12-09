@@ -56,6 +56,7 @@ export default {
       const isValid = this.$refs.resetForm.validate();
 
       if (isValid) {
+        this.$store.commit("setLoading", true);
         firebase
           .auth()
           .sendPasswordResetEmail(this.email)
@@ -64,6 +65,10 @@ export default {
           })
           .catch((e) => {
             console.log(e);
+            this.$store.commit("setMessage", e.code);
+          })
+          .finally(() => {
+            this.$store.commit("setLoading", false);
           });
       }
     },

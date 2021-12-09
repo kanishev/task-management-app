@@ -1,6 +1,14 @@
 <template>
   <v-container>
-    <v-card color="#4682b4" width="600px" class="ma-auto">
+    <v-card color="#4682b4" width="600px" class="ma-auto" :loading="isLoading">
+      <template slot="progress">
+        <v-progress-linear
+          color="#ffffff"
+          height="4"
+          indeterminate
+        ></v-progress-linear>
+      </template>
+
       <v-card-title class="text-center justify-center py-6">
         <h1 class="font-weight-bold text-h2 white--text">
           Vuello
@@ -14,6 +22,10 @@
       </v-tabs>
 
       <v-tabs-items v-model="tab">
+        <v-alert prominent type="error" v-if="message">
+          {{ message }}
+        </v-alert>
+
         <v-tab-item v-for="item in items" :key="item">
           <v-card color="#fff" flat>
             <component :is="item"></component>
@@ -45,6 +57,12 @@ export default {
   computed: {
     authPage() {
       return this.page;
+    },
+    isLoading() {
+      return this.$store.state.isLoading;
+    },
+    message() {
+      return this.$store.state.message;
     },
   },
   components: { Login, Register, Reset },

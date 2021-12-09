@@ -5,7 +5,7 @@
       height="55px"
       flat
       dense
-      :color="activeBoardImage ? 'transparent' : '#4682b4'"
+      :color="activeBoardImage ? 'transparent' : '#5CABF3'"
       :style="{
         'backdrop-filter': activeBoardImage ? 'brightness(0.5)' : 'none',
       }"

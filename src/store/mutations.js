@@ -18,6 +18,13 @@ export default {
   setLoading(state, payload) {
     state.isLoading = payload;
   },
+  setMessage(state, payload) {
+    state.message = payload;
+
+    setTimeout(() => {
+      state.message = null;
+    }, 3000);
+  },
 
   // BOARDS
 

@@ -34,7 +34,7 @@
     </v-col>
 
     <v-card v-if="boards.length == 0">
-      <div class="d-flex flex-no-wrap justify-space-between">
+      <div class="d-flex flex-wrap justify-space-between">
         <div>
           <v-card-title class="text-h5">Hello</v-card-title>
 
@@ -49,8 +49,13 @@
           >
         </div>
 
-        <v-img class="ma-3" max-width="600px" tile>
-          <v-img src="../assets/main.png"></v-img>
+        <v-img
+          src="../assets/main.png"
+          class="ma-3"
+          width="auto"
+          height="auto"
+          tile
+        >
         </v-img>
       </div>
     </v-card>

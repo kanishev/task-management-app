@@ -2,12 +2,11 @@
   <div>
     <v-btn
       v-if="type !== 'image'"
-      color="#fff"
+      :color="this.color ? this.color : '#ffffff'"
       text
-      class="ml-5"
       outlined
       rounded
-      dark
+      :dark="this.color ? false : true"
       @click.stop="openModal"
     >
       {{ title }}
@@ -26,7 +25,7 @@
 
 <script>
 export default {
-  props: ["title", "page", "type"],
+  props: ["title", "page", "type", "color"],
   computed: {
     isLoading() {
       return this.$store.state.isLoading;

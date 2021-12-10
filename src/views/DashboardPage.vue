@@ -33,37 +33,31 @@
       </v-row>
     </v-col>
 
-    <v-card v-if="boards.length == 0">
-      <div class="d-flex flex-wrap justify-space-between">
-        <div>
-          <v-card-title class="text-h5">Hello</v-card-title>
+    <v-card
+      outlined
+      id="preview"
+      class="mx-auto my-10 d-flex justify-space-between"
+      style="border:none"
+    >
+      <div>
+        <v-card-title class="justify-center text-h4 mb-5">
+          Похоже, активных досок пока что нет
+        </v-card-title>
 
-          <v-card-subtitle
-            >Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ipsa,
-            placeat neque. Quis nostrum fugit molestiae odio magni ad non
-            architecto aspernatur sint quibusdam, perferendis, maxime quos
-            commodi, ea exercitationem qui consectetur voluptatem dolorem ipsam
-            doloribus aperiam ut adipisci voluptate? Consequuntur ipsam
-            inventore pariatur beatae qui sequi obcaecati quae officia
-            maiores.</v-card-subtitle
-          >
-        </div>
+        <v-card-subtitle class="text-subtitle-1">
+          Создайте свою первую доску прямо сейчас
+        </v-card-subtitle>
 
-        <v-img
-          src="../assets/main.png"
-          class="ma-3"
-          width="auto"
-          height="auto"
-          tile
-        >
-        </v-img>
+        <DashboardEdit class="pl-4" color="black" />
       </div>
+      <v-img src="../assets/main.png" max-width="700px" height="auto"></v-img>
     </v-card>
   </v-container>
 </template>
 
 <script>
 import DashboardItem from "../components/Dashboard/DashboardItem.vue";
+import DashboardEdit from "../components/Dashboard/DashboardEdit.vue";
 
 export default {
   created() {
@@ -80,8 +74,14 @@ export default {
       return this.$store.getters.archivedBoards;
     },
   },
-  components: { DashboardItem },
+  components: { DashboardItem, DashboardEdit },
 };
 </script>
 
-<style></style>
+<style scoped>
+@media (max-width: 1000px) {
+  #preview {
+    flex-wrap: wrap !important;
+  }
+}
+</style>

@@ -4,6 +4,7 @@
     page="dashboard"
     v-show="!this.activeBoard"
     ref="popup"
+    :color="this.color"
     @createBoard="saveBoard"
     @cancleBoard="cancleBoard"
     @updateModalData="updateBoard"
@@ -42,6 +43,7 @@
 import DetailsPopup from "../Details/DetailsPopup.vue";
 
 export default {
+  props: ["color"],
   data() {
     return {
       type: "create",

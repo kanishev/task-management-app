@@ -16,7 +16,7 @@
               v-model="password"
               :rules="[rules.required, rules.min]"
               :type="show ? 'text' : 'password'"
-              label="Пароль"
+              label="Password"
               hint="At least 6 characters"
               counter
               @click:append="show = !show"

@@ -7,7 +7,7 @@
             <v-text-field
               v-model="firstName"
               :rules="[rules.required]"
-              label="Имя"
+              label="First Name"
               maxlength="20"
               required
             ></v-text-field>
@@ -16,7 +16,7 @@
             <v-text-field
               v-model="lastName"
               :rules="[rules.required]"
-              label="Фамилия"
+              label="Last Name"
               maxlength="20"
               required
             ></v-text-field>
@@ -37,7 +37,7 @@
               :rules="[rules.required, rules.min]"
               :type="show ? 'text' : 'password'"
               name="input-10-1"
-              label="Пароль"
+              label="Password"
               hint="At least 6 characters"
               counter
               @click:append="show = !show"
@@ -51,7 +51,7 @@
               :rules="[rules.required, passwordMatch]"
               :type="show ? 'text' : 'password'"
               name="input-10-1"
-              label="Пароль еще раз"
+              label="Confirm password"
               counter
               @click:append="show = !show"
             ></v-text-field>

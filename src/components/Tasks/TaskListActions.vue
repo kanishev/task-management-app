@@ -3,9 +3,9 @@
     <template v-slot:handle>...</template>
     <template v-slot:content>
       <label class="content-item" @click.prevent="showListEditPopup"
-        >Изменить</label
+        >Edit</label
       >
-      <label class="content-item" @click.prevent="archiveList">В архив</label>
+      <label class="content-item" @click.prevent="archiveList">Archive</label>
     </template>
   </details-dropdown>
 </template>

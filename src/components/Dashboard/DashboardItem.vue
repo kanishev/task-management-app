@@ -5,7 +5,7 @@
       height="200px"
       :style="{
         background:
-          'linear-gradient(90deg, rgba(170,166,122,0.3) 0%, rgba(249,241,154,0.5) 93%)',
+          'linear-gradient(90deg, rgba(173,214,255,1) 0%, rgba(123,192,255,0.8046568969384629) 100%)',
       }"
       class="mb-5"
     ></v-img>

@@ -97,8 +97,10 @@ export default {
       this.state.isLoading = false;
     }
   },
-  async getBoards({ state }) {
+  async getBoards({ state, commit }) {
     try {
+      commit("setLoading", true);
+
       const dataBase = await db.collection("boards");
       const dbResults = await dataBase.get();
 
@@ -120,6 +122,8 @@ export default {
       });
     } catch (e) {
       console.log(e);
+    } finally {
+      commit("setLoading", false);
     }
   },
   async createTaskList({ commit, state }, payload) {

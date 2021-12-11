@@ -1,10 +1,10 @@
 <template>
   <v-container>
     <draggable
+      v-if="lists.length > 0"
       v-model="lists"
       v-bind="getDragOptions"
       class="d-flex "
-      v-if="lists.length > 0"
     >
       <TaskList
         v-for="(list, idx) in lists"
@@ -13,12 +13,29 @@
         :board="getBoard"
       />
     </draggable>
-    <p v-else class="text-h4 pa-4">Активных списков на данный момент нет</p>
+
+    <v-card
+      v-if="lists.length == 0 && !this.isLoading"
+      outlined
+      id="preview"
+      class="mx-auto my-10 d-flex justify-space-between"
+      style="border:none"
+    >
+      <div>
+        <v-card-title class="text-h3 mb-5">
+          Create your first Task List
+        </v-card-title>
+
+        <TasklistEdit class="pl-4" color="black" />
+      </div>
+      <v-img src="../assets/list.svg" max-width="700px" height="auto"></v-img>
+    </v-card>
   </v-container>
 </template>
 
 <script>
 import TaskList from "../components/Tasks/TaskList.vue";
+import TasklistEdit from "../components/Tasks/TaskListEdit.vue";
 import Draggable from "vuedraggable";
 
 export default {
@@ -43,7 +60,9 @@ export default {
       }
       return board;
     },
-
+    isLoading() {
+      return this.$store.state.isLoading;
+    },
     lists: {
       get() {
         if (!this.getBoard) {
@@ -66,7 +85,7 @@ export default {
       };
     },
   },
-  components: { TaskList, Draggable },
+  components: { TaskList, Draggable, TasklistEdit },
 };
 </script>
 

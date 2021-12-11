@@ -1,6 +1,6 @@
 <template>
   <v-card style="min-width: 290px; height: max-content" class="mr-4">
-    <v-toolbar :color="this.board.image ? 'grey' : '#4682b4'" dark>
+    <v-toolbar :color="this.board.image ? '##cbcbcb' : '#5cabf3'" dark>
       <v-toolbar-title>{{ list.name }}</v-toolbar-title>
       <v-spacer></v-spacer>
       <TaskListActions :list="list" :board="board" />
@@ -32,7 +32,7 @@
       <v-list-group>
         <template v-slot:activator>
           <v-list-item-content>
-            <v-list-item-title v-text="'Добавить задачу'"></v-list-item-title>
+            <v-list-item-title v-text="'Add new Task'"></v-list-item-title>
           </v-list-item-content>
         </template>
 

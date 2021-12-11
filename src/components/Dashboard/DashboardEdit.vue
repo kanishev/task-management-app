@@ -1,6 +1,6 @@
 <template>
   <details-popup
-    title="+ Новая доска"
+    title="+ New Board"
     page="dashboard"
     v-show="!this.activeBoard"
     ref="popup"
@@ -15,7 +15,7 @@
           <v-text-field
             class="px-3"
             v-model="board.name"
-            label="Введите имя доски"
+            label="Board name"
             :rules="emptyRules"
             @keyup.enter="saveBoard"
             required
@@ -25,13 +25,13 @@
             class="px-3"
             v-model="board.description"
             :rules="emptyRules"
-            label="Введите краткое описание доски"
+            label="Board description"
             @keyup.enter="saveBoard"
             required
           ></v-text-field>
 
           <v-btn color="primary darken-1" text @click="saveBoard">
-            {{ type == "create" ? "Создать" : "Обновить" }}
+            {{ type == "create" ? "Create" : "Update" }}
           </v-btn>
         </v-container>
       </v-form>

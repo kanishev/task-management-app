@@ -1,6 +1,6 @@
 <template>
   <details-popup
-    title="Загрузить изображение"
+    title="Set image"
     type="image"
     page="uploadPage"
     v-show="!this.activeBoard"
@@ -10,7 +10,7 @@
       <v-form ref="form" v-model="valid">
         <v-container>
           <div v-if="!imageSize" class="pa-2">
-            Размер изображения не может быть меньше, чем 1600x800
+            Image size can't be less than 1600x800px
           </div>
 
           <v-file-input
@@ -23,7 +23,7 @@
           ></v-file-input>
 
           <v-btn color="primary darken-1" text @click.stop="saveImage">
-            загрузить
+            Set image
           </v-btn>
         </v-container>
       </v-form>
@@ -50,9 +50,7 @@ export default {
       imageLoaded: false,
       rules: [
         (value) =>
-          !value ||
-          value.size < 2000000 ||
-          "Изображение должно быть меньше 2 MB!",
+          !value || value.size < 2000000 || "Image can't be less than 2 MB!",
       ],
     };
   },

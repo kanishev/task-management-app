@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-col mx="2" v-if="unarchivedBoards.length !== 0">
-      <h1 class="mb-5">Активные доски:</h1>
+      <h1 class="mb-5">Active boards:</h1>
 
       <v-row>
         <v-col
@@ -17,8 +17,8 @@
       </v-row>
     </v-col>
 
-    <v-col mx="2" v-if="archivedBoards.length !== 0">
-      <h2 class="mb-5">Доски в архиве:</h2>
+    <v-col mx="2" v-if="this.archivedBoards.length !== 0">
+      <h2 class="mb-5">Boards in archive:</h2>
       <v-row>
         <v-col
           v-for="board in archivedBoards"
@@ -34,19 +34,26 @@
     </v-col>
 
     <v-card
+      v-if="this.boards.length == 0 && this.isLoading == false"
       outlined
       id="preview"
       class="mx-auto my-10 d-flex justify-space-between"
       style="border:none"
     >
       <div>
-        <v-card-title class="justify-center text-h4 mb-5">
-          Похоже, активных досок пока что нет
+        <v-card-title class="text-h3 mb-5">
+          Welcome to <i>Vuello!</i>
         </v-card-title>
 
-        <v-card-subtitle class="text-subtitle-1">
-          Создайте свою первую доску прямо сейчас
+        <v-card-subtitle class="text-h6">
+          Create your first board right now
         </v-card-subtitle>
+
+        <v-card-text class="text-subtitle-1">
+          Vuello is a collaboration tool that organizes your projects into
+          boards. In one glance, Vuello tells you what's being worked on, who's
+          working on what, and where something is in a process
+        </v-card-text>
 
         <DashboardEdit class="pl-4" color="black" />
       </div>
@@ -66,6 +73,9 @@ export default {
   computed: {
     boards() {
       return this.$store.state.boards;
+    },
+    isLoading() {
+      return this.$store.state.isLoading;
     },
     unarchivedBoards() {
       return this.$store.getters.unarchivedBoards;

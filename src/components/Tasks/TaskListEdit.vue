@@ -2,7 +2,8 @@
   <details-popup
     v-show="this.activeBoard"
     page="taskPage"
-    title="Новый список"
+    title="New List"
+    :color="this.color"
     ref="popup"
     @createBoard="saveBoard"
     @cancleBoard="cancleBoard"
@@ -14,14 +15,14 @@
           <v-text-field
             class="px-3"
             v-model="listForm.name"
-            label="Введите название списка"
+            label="List name"
             :rules="emptyRules"
             @keydown.enter.prevent="saveTaskList"
             required
           ></v-text-field>
 
           <v-btn color="primary darken-1" text @click.prevent="saveTaskList">
-            {{ type == "create" ? "Создать" : "Обновить" }}
+            {{ type == "create" ? "Create" : "Update" }}
           </v-btn>
         </v-container>
       </v-form>
@@ -33,6 +34,7 @@
 import DetailsPopup from "../Details/DetailsPopup.vue";
 
 export default {
+  props: ["color"],
   created() {
     this.$store.commit("setActiveBoard", this.activeBoard);
   },

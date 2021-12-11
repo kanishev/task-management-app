@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-card width="500px" :loading="loading" class="mx-auto text-center">
-      <v-card-text class="text-h4 text-center">Настройки профиля</v-card-text>
+      <v-card-text class="text-h4 text-center">Profile settings</v-card-text>
 
       <v-col class="ma-0 pa-0">
         <v-avatar color="primary">
@@ -17,7 +17,7 @@
 
       <v-col class="ma-0 pa-0">
         <v-text-field
-          label="Имя"
+          label="First Name"
           filled
           hide-details
           v-model="firstName"
@@ -26,7 +26,7 @@
 
       <v-col class="ma-0 pa-0">
         <v-text-field
-          label="Фаимлия"
+          label="Second Name"
           filled
           hide-details
           v-model="lastName"
@@ -45,7 +45,7 @@
 
       <v-col class="pa-4">
         <v-btn @click="updateProfile" class="d-block ma-auto"
-          >Сохранить изменения</v-btn
+          >Save changes</v-btn
         >
       </v-col>
     </v-card>
@@ -56,6 +56,10 @@
 export default {
   mounted() {
     this.$store.commit("setActivePage", "profilePage");
+  },
+  beforeDestroy() {
+    this.$store.commit("setActiveBoard", this.getBoard);
+    this.$store.commit("setActivePage", "default");
   },
   computed: {
     initials() {

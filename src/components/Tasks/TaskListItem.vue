@@ -4,11 +4,11 @@
       <v-textarea
         solo
         name="input-7-4"
-        :label="name ? name : 'Придумайте задачу'"
+        :label="name ? name : 'Task you want add'"
         v-model="name"
       ></v-textarea>
       <v-btn class="mr-4" @click.prevent="addListItem">
-        {{ type == "edit" ? "Обновить" : "Добавить" }}
+        {{ type == "edit" ? "Update" : "Add" }}
       </v-btn>
       <v-btn @click.prevent="removeListItem" v-if="type !== 'create'">
         Удалить

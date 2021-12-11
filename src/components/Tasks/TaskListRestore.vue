@@ -2,7 +2,7 @@
   <details-popup
     v-show="this.isBoardActive"
     page="restorePage"
-    title="Списки в архиве"
+    title="Lists in archive"
     ref="popup"
     @createBoard="saveBoard"
     @cancleBoard="cancleBoard"
@@ -17,7 +17,7 @@
 
             <v-list-item-action>
               <v-btn x-small @click="rearchiveList(item)">
-                Вернуть в список активных
+                Return to active list
               </v-btn>
             </v-list-item-action>
           </v-list-item>

@@ -31,7 +31,7 @@
             :items="boardsItems"
             @change="goBoard"
             hide-details
-            label="перейти к доске ..."
+            label="go to the board..."
           ></v-autocomplete>
         </v-col>
 
@@ -44,7 +44,7 @@
         >
           <v-toolbar-title
             color
-            class="title white--text font-italic text-h5"
+            class="title white--text font-italic text-h5 px-2"
             @click="goHome"
           >
             Vuello
@@ -96,12 +96,12 @@
 
             <v-list-item class="align-center mt-2" @click="openModal">
               <UploadImage class="mr-3" />
-              <v-list-item-title>Загрузить изображение</v-list-item-title>
+              <v-list-item-title>Load Image</v-list-item-title>
             </v-list-item>
 
             <v-list-item @click="goProfile">
               <v-icon class="mr-3">mdi-account</v-icon>
-              <v-list-item-title>Профиль</v-list-item-title>
+              <v-list-item-title>Profile</v-list-item-title>
             </v-list-item>
           </v-list-item-group>
         </v-list>
@@ -109,7 +109,7 @@
         <template v-slot:append>
           <div class="pa-2">
             <v-btn block @click="signOut">
-              Выйти из системы
+              Log Out
             </v-btn>
           </div>
         </template>
@@ -199,4 +199,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.title:hover {
+  cursor: pointer;
+}
+</style>

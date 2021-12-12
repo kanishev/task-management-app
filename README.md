@@ -1,7 +1,8 @@
 # ✔️ Task Management App 📑
 
+![Главная страница](public/assets/preview/cover.gif "cover-1")
 ![Главная страница](public/assets/preview/preview-1.jpg "preview-1")
-![Страница со списками](public/assets/preview/cover.gif "preview-2")
+![Страница со списками](public/assets/preview/cover-2.gif "cover-2")
 
 ## Project Information
 
@@ -19,7 +20,7 @@ This app provide you:
 
 ### API
 
-🌍 Drag and drop API from [covid19api.com](https://www.npmjs.com/package/vuedraggable)
+🌍 Drag and drop API from [vuedraggable](https://www.npmjs.com/package/vuedraggable)
 
 ## Demo
 

@@ -4,7 +4,7 @@
       <v-form ref="resetForm" v-model="valid" lazy-validation>
         <v-row>
           <h2 class="pa-3 title">
-            Введите email для восстановления пароля
+            Please, type your email to reset your password
           </h2>
 
           <h3 class="pa-3 ">{{ message }}</h3>
@@ -25,7 +25,7 @@
               color="#4682b4"
               @click="resetPassword"
             >
-              Сбросить
+              Reset
             </v-btn>
           </v-col>
         </v-row>

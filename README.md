@@ -5,7 +5,7 @@
 
 ## Project Information
 
-Vuello is a collaboration tool that organizes your projects into boards. In one glance, Vuello tells you what's being worked on, who's working on what, and where something is in a process. Imagine a white board, filled with lists of sticky notes, with each note as a task for you and your team. ... That's Vuello!\
+Vuello is a collaboration tool that organizes your projects into boards. In one glance, Vuello tells you what's being worked on, who's working on what, and where something is in a process. Imagine a white board, filled with lists of sticky notes, with each note as a task for you and your team. ... That's Vuello!
 
 This app provide you:
 
@@ -36,26 +36,6 @@ This app provide you:
 | Vutify     | A Material Design Framework for Vue.js                                                                         | https://vuetifyjs.com/en     |
 | Firebase   | Firebase is Google’s mobile application development platform that helps you build, improve, and grow your app. | https://firebase.google.com  |
 | Babel      | Javascript Compiler/Transpiler                                                                                 | https://babeljs.io           |
-
-## Project setup
-
-```
-npm install
-heroku create
-heroku git:clone -a morning-everglades-75841
-```
-
-### Compiles and hot-reloads for development
-
-```
-npm run start
-```
-
-### Compiles and minifies for production
-
-```
-git push heroku main
-```
 
 ## Project setup
 

@@ -28,19 +28,19 @@
 
     <v-card-actions v-if="!board.archived">
       <router-link :to="'boards/' + board.id" class="link">
-        <v-btn color="primary lighten-2" text>Перейти </v-btn></router-link
+        <v-btn color="primary lighten-2" text>Open </v-btn></router-link
       >
 
       <v-spacer></v-spacer>
 
       <v-btn color="primary lighten-2" text @click="archiveBoard">
-        В архив
+        Archive
       </v-btn>
     </v-card-actions>
 
     <v-card-actions v-else>
       <v-btn color="primary lighten-2" text @click="archiveBoard">
-        Восстановить
+        Recover
       </v-btn>
     </v-card-actions>
   </v-card>

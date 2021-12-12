@@ -1,7 +1,7 @@
 # ✔️ Task Management App 📑
 
 ![Главная страница](public/assets/preview/cover.gif "cover-1")
-![Главная страница](public/assets/preview/preview-1.jpg "preview-1")
+![Главная страница](public/assets/preview/cover-3.gif "cover-3")
 ![Страница со списками](public/assets/preview/cover-2.gif "cover-2")
 
 ## Project Information

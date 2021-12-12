@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container class="flex-column">
     <v-col mx="2" v-if="unarchivedBoards.length !== 0">
       <h1 class="mb-5">Active boards:</h1>
 

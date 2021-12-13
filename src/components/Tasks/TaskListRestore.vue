@@ -26,7 +26,7 @@
         <v-divider></v-divider>
         <v-list-item v-if="activedLists.length == 0">
           <v-list-item-content>
-            <v-list-item-title> Списков в архиве нет</v-list-item-title>
+            <v-list-item-title> No lists in archive</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>

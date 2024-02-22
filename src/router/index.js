@@ -2,7 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Dashboard from "../views/DashboardPage.vue";
 import TaskPage from "../views/TaskPage.vue";
-import AuthPage from "../views/AuthPage";
+import AuthPage from "../views/AuthPage.vue";
 import ProfilePage from "../views/ProfilePage.vue";
 
 Vue.use(VueRouter);
@@ -48,7 +48,7 @@ const routes = [
 
 const router = new VueRouter({
   mode: "history",
-  base: process.env.BASE_URL,
+  base: import.meta.env.BASE_URL,
   routes,
 });
 

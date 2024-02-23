@@ -28,7 +28,7 @@
 
         <TasklistEdit class="pl-4" color="black" />
       </div>
-      <v-img src="../assets/list.svg" max-width="700px" height="auto"></v-img>
+      <v-img :src="listImage" max-width="700px" height="auto"></v-img>
     </v-card>
   </v-container>
 </template>
@@ -37,10 +37,16 @@
 import TaskList from "../components/Tasks/TaskList.vue";
 import TasklistEdit from "../components/Tasks/TaskListEdit.vue";
 import Draggable from "vuedraggable";
+import ListImage from "../assets/list.svg";
 
 export default {
   mounted() {
     this.$store.commit("setActivePage", "taskPage");
+  },
+  data() {
+    return {
+      listImage: ListImage
+    }
   },
   beforeDestroy() {
     this.$store.commit("setActiveBoard", this.getBoard);

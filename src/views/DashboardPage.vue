@@ -57,7 +57,7 @@
 
         <DashboardEdit class="pl-4" color="black" />
       </div>
-      <v-img src="../assets/main.png" max-width="700px" height="auto"></v-img>
+      <v-img :src="mainImage" max-width="700px" height="auto"></v-img>
     </v-card>
   </v-container>
 </template>
@@ -65,10 +65,16 @@
 <script>
 import DashboardItem from "../components/Dashboard/DashboardItem.vue";
 import DashboardEdit from "../components/Dashboard/DashboardEdit.vue";
+import mainImage from '../assets/main.png';
 
 export default {
   created() {
     this.$store.commit("setActiveBoard", null);
+  },
+  data() {
+    return {
+      mainImage
+    }
   },
   computed: {
     boards() {

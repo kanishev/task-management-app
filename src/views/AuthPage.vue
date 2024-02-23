@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-card color="#4682b4" width="600px" class="ma-auto" :loading="isLoading">
-      <template slot="progress">
+      <template v-slot:progress>
         <v-progress-linear
           color="#ffffff"
           height="4"

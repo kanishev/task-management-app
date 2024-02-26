@@ -1,15 +1,17 @@
 import { createApp } from 'vue';
+import { createStore } from './store';
 import vuetify from "./plugins/vuetify";
-import store from "./store/index";
 import router from "./router/index";
 import App from "./App.vue";
+
+const store = createStore();
 
 const app = createApp({
   vuetify,
   router,
-  store,
   ...App
 });
 
+app.use(store);
 app.config.productionTip = false;
 app.mount('#app');

@@ -1,11 +1,8 @@
-import Vue from "vue";
-import VueRouter from "vue-router";
+import { createRouter as _createRouter, createWebHistory } from 'vue-router'
 import Dashboard from "../views/DashboardPage.vue";
 import TaskPage from "../views/TaskPage.vue";
 import AuthPage from "../views/AuthPage.vue";
 import ProfilePage from "../views/ProfilePage.vue";
-
-Vue.use(VueRouter);
 
 const routes = [
   {
@@ -46,15 +43,11 @@ const routes = [
   },
 ];
 
-const router = new VueRouter({
-  mode: "history",
-  base: import.meta.env.BASE_URL,
-  routes,
-});
+export function createRouter(){
+  return _createRouter({
+    history: createWebHistory(),
+    base: import.meta.env.BASE_URL,
+    routes
+  })
+}
 
-router.beforeEach((to, from, next) => {
-  document.title = to.meta.title;
-  next();
-});
-
-export default router;

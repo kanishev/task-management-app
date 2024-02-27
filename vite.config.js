@@ -1,25 +1,7 @@
-import { defineConfig } from 'vite';
-import { VuetifyResolver } from 'unplugin-vue-components/resolvers';
-import Components from 'unplugin-vue-components/vite';
+import { defineConfig } from 'vite'
+import createVuePlugin from '@vitejs/plugin-vue'
 
-import vue from '@vitejs/plugin-vue2';
-
-
-const path = require("path");
-
+// https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [
-    vue(),
-    Components({
-      resolvers: [
-        // Vuetify
-        VuetifyResolver()
-      ]
-    })
-  ],
-  resolve: {
-    alias: {
-      "@": path.resolve(__dirname, "./src"),
-    },
-  },
+  plugins: [createVuePlugin()]
 })

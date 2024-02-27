@@ -57,7 +57,7 @@ export default {
   mounted() {
     this.$store.commit("setActivePage", "profilePage");
   },
-  beforeDestroy() {
+  beforeUnmount() {
     this.$store.commit("setActiveBoard", this.getBoard);
     this.$store.commit("setActivePage", "default");
   },

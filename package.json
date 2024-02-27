@@ -8,7 +8,6 @@
     "lint": "vite lint"
   },
   "dependencies": {
-    "@vue/compat": "^3.1.0",
     "firebase": "^9.2.0",
     "vue": "^3.1.0",
     "vue-router": "^4.3.0",

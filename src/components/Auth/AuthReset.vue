@@ -13,6 +13,7 @@
               v-model="email"
               :rules="emailRules"
               label="E-mail"
+              autocomplete="email"
               required
             ></v-text-field>
           </v-col>

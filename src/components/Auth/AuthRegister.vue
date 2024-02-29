@@ -8,6 +8,7 @@
               v-model="firstName"
               :rules="[rules.required]"
               label="First Name"
+              autocomplete="first-name"
               maxlength="20"
               required
             ></v-text-field>
@@ -17,6 +18,7 @@
               v-model="lastName"
               :rules="[rules.required]"
               label="Last Name"
+              autocomplete="last-name"
               maxlength="20"
               required
             ></v-text-field>
@@ -26,19 +28,19 @@
               v-model="email"
               :rules="emailRules"
               label="E-mail"
+              autocomplete="email"
               required
             ></v-text-field>
           </v-col>
-
           <v-col cols="12">
             <v-text-field
               v-model="password"
               :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
               :rules="[rules.required, rules.min]"
               :type="show ? 'text' : 'password'"
-              name="input-10-1"
               label="Password"
               hint="At least 6 characters"
+              autocomplete="new-password"
               counter
               @click:append="show = !show"
             ></v-text-field>
@@ -50,8 +52,8 @@
               :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
               :rules="[rules.required, passwordMatch]"
               :type="show ? 'text' : 'password'"
-              name="input-10-1"
               label="Confirm password"
+              autocomplete="new-password"
               counter
               @click:append="show = !show"
             ></v-text-field>

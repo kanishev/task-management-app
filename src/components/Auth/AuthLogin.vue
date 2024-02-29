@@ -8,6 +8,7 @@
               v-model="email"
               :rules="emailRules"
               label="E-mail"
+              autocomplete="email"
               required
             ></v-text-field>
           </v-col>
@@ -17,6 +18,7 @@
               :rules="[rules.required, rules.min]"
               :type="show ? 'text' : 'password'"
               label="Password"
+              autocomplete="password"
               hint="At least 6 characters"
               counter
               @click:append="show = !show"

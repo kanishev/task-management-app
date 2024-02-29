@@ -3,7 +3,7 @@
     <v-container v-if="!activeUser && this.$route.name !== 'Auth'">
       <v-skeleton-loader
         v-bind="attrs"
-        type="table-heading, list-item-two-line, image, table-tfoots"
+        type="table"
       ></v-skeleton-loader>
     </v-container>
 

@@ -1,6 +1,7 @@
 <template>
   <v-app>
-    <TheHeader />
+    <TheHeader @toggleDrawer="toggleDrawer"/>
+    <TheDrawer @toggleDrawer="toggleDrawer" :drawer="drawer" />
     <v-main
       :style="{
         'background-image':
@@ -15,7 +16,14 @@
 
 <script>
 import TheHeader from "../components/TheHeader.vue";
+import TheDrawer from "../components/TheDrawer.vue";
+
 export default {
+  data() {
+    return {
+      drawer: false
+    }
+  },
   computed: {
     activePage() {
       return this.$store.state.activePage;
@@ -28,7 +36,12 @@ export default {
       return false;
     },
   },
-  components: { TheHeader },
+  methods: {
+    toggleDrawer(){
+      this.drawer = !this.drawer;
+    }
+  },
+  components: { TheHeader, TheDrawer },
 };
 </script>
 

@@ -2,7 +2,6 @@
   <div>
     <v-app-bar
       app
-      height="55px"
       flat
       dense
       :color="activeBoardImage ? 'transparent' : '#5CABF3'"
@@ -19,7 +18,7 @@
         >
           <v-app-bar-nav-icon
             color="#fff"
-            @click.stop="drawer = !drawer"
+            @click.stop="toggleDrawer"
           ></v-app-bar-nav-icon>
         </v-col>
 
@@ -59,61 +58,6 @@
           </v-row>
         </v-col>
       </v-row>
-
-      <v-navigation-drawer
-        height="100vh"
-        v-model="drawer"
-        absolute
-        bottom
-        temporary
-      >
-        <v-list nav dense>
-          <v-list-item-group v-model="group">
-            <v-list-item class="px-2">
-              <v-avatar
-                color="primary"
-                class="mr-3"
-                min-width="40px"
-                height="40px"
-                width="40px"
-              >
-                <span class="white--text text-h6">{{ initials }}</span>
-              </v-avatar>
-
-              <v-col>
-                <v-list-item-title
-                  >{{ firstName }} {{ lastName }}</v-list-item-title
-                >
-                <v-list-item-subtitle>{{ email }}</v-list-item-subtitle>
-              </v-col>
-
-              <v-btn icon @click.stop="drawer = !drawer">
-                <v-icon>mdi-chevron-left</v-icon>
-              </v-btn>
-            </v-list-item>
-
-            <v-divider></v-divider>
-
-            <v-list-item class="align-center mt-2" @click="openModal">
-              <UploadImage class="mr-3" />
-              <v-list-item-title>Load Image</v-list-item-title>
-            </v-list-item>
-
-            <v-list-item @click="goProfile">
-              <v-icon class="mr-3">mdi-account</v-icon>
-              <v-list-item-title>Profile</v-list-item-title>
-            </v-list-item>
-          </v-list-item-group>
-        </v-list>
-
-        <template v-slot:append>
-          <div class="pa-2">
-            <v-btn block @click="signOut">
-              Log Out
-            </v-btn>
-          </div>
-        </template>
-      </v-navigation-drawer>
     </v-app-bar>
   </div>
 </template>
@@ -122,16 +66,12 @@
 import DashboardEdit from "../components/Dashboard/DashboardEdit.vue";
 import TaskListEdit from "../components/Tasks/TaskListEdit.vue";
 import TaskListRestore from "../components/Tasks/TaskListRestore.vue";
-import UploadImage from "../components/UploadImage.vue";
 
-import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 
 export default {
   data() {
     return {
-      group: null,
-      drawer: false,
       items: ["foo", "bar", "fizz", "buzz"],
       values: ["foo", "bar"],
       value: null,
@@ -144,18 +84,6 @@ export default {
         return true;
       }
       return false;
-    },
-    initials() {
-      return this.$store.state.profileInitials;
-    },
-    email() {
-      return this.$store.state.profileEmail;
-    },
-    firstName() {
-      return this.$store.state.profileFirstName;
-    },
-    lastName() {
-      return this.$store.state.profileLastName;
     },
     activePage() {
       return this.$store.state.activePage;
@@ -178,24 +106,11 @@ export default {
         this.$router.push("/");
       }
     },
-    goProfile() {
-      this.$router.push("/profile");
-    },
-    uploadImage() {
-      this.$store.commit("openModal");
-    },
-    openModal() {
-      this.$store.commit("openModal", {
-        page: "uploadPage",
-        type: "create",
-      });
-    },
-    signOut() {
-      firebase.auth().signOut();
-      window.location.reload();
-    },
+    toggleDrawer() {
+      this.$emit('toggleDrawer');
+    }
   },
-  components: { DashboardEdit, TaskListEdit, TaskListRestore, UploadImage },
+  components: { DashboardEdit, TaskListEdit, TaskListRestore },
 };
 </script>
 

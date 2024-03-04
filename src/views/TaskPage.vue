@@ -4,7 +4,7 @@
       v-if="lists.length > 0"
       v-model="lists"
       v-bind="getDragOptions"
-      class="d-flex "
+      class="d-flex"
     >
       <TaskList
         v-for="(list, idx) in lists"

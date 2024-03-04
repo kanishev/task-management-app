@@ -10,8 +10,8 @@
       </v-col>
       <v-card-text class="admin-badge text-р3">
         {{ this.$store.state.profileFirstName }}
-        {{ this.$store.state.profileLastName }}</v-card-text
-      >
+        {{ this.$store.state.profileLastName }}
+      </v-card-text>
 
       <v-divider></v-divider>
 

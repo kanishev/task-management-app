@@ -10,8 +10,8 @@
       class="mb-5"
     ></v-img>
 
-    <v-row class="justify-space-between align-center">
-      <v-card-title class="text-body-1 px-6">
+    <v-card-actions class="justify-space-between align-center">
+      <v-card-title class="text-body-1">
         {{ this.board.name }}
       </v-card-title>
 
@@ -20,16 +20,16 @@
           mdi-border-color
         </v-icon>
       </v-btn>
-    </v-row>
+    </v-card-actions>
 
-    <v-card-subtitle class="px-3">
+    <v-card-subtitle class="px-6">
       {{ this.board.description }}
     </v-card-subtitle>
 
     <v-card-actions v-if="!board.archived">
       <router-link :to="'boards/' + board.id" class="link">
-        <v-btn color="primary lighten-2" text>Open </v-btn></router-link
-      >
+        <v-btn color="primary lighten-2" text>Open </v-btn>
+      </router-link>
 
       <v-spacer></v-spacer>
 

@@ -10,37 +10,29 @@
       <draggable v-model="items" v-bind="dragOptions">
         <v-list-group v-for="item in items" :key="item.id">
           <template v-slot:activator>
-            <v-list-item-content>
-              <v-list-item-title v-text="item.name"></v-list-item-title>
-            </v-list-item-content>
+            <v-list-item-title v-text="item.name"></v-list-item-title>
           </template>
 
           <v-list-item class="mx-2 px-2">
-            <v-list-item-content>
-              <TaskListItem
-                :item="item"
-                :list="list"
-                :board="board"
-                type="edit"
-              />
-              <v-divider></v-divider>
-            </v-list-item-content>
+            <TaskListItem
+              :item="item"
+              :list="list"
+              :board="board"
+              type="edit"
+            />
+            <v-divider></v-divider>
           </v-list-item>
         </v-list-group>
       </draggable>
 
       <v-list-group>
         <template v-slot:activator>
-          <v-list-item-content>
-            <v-list-item-title v-text="'Add new Task'"></v-list-item-title>
-          </v-list-item-content>
+          <v-list-item-title v-text="'Add new Task'"></v-list-item-title>
         </template>
 
         <v-list-item class="mx-2 px-2">
-          <v-list-item-content>
-            <TaskListItem :board="board" :list="list" type="create" />
-            <v-divider></v-divider>
-          </v-list-item-content>
+          <TaskListItem :board="board" :list="list" type="create" />
+          <v-divider></v-divider>
         </v-list-item>
       </v-list-group>
     </v-list>

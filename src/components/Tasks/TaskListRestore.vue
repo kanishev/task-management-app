@@ -9,25 +9,20 @@
   >
     <template v-slot>
       <v-list dense>
-        <v-list-item-group v-model="selectedItem" color="primary">
+        <v-list-group v-model="selectedItem" color="primary">
           <v-list-item v-for="(item, i) in activedLists" :key="i">
-            <v-list-item-content>
-              <v-list-item-title v-text="item.name"></v-list-item-title>
-            </v-list-item-content>
-
+            <v-list-item-title v-text="item.name"></v-list-item-title>
             <v-list-item-action>
               <v-btn x-small @click="rearchiveList(item)">
                 Return to active list
               </v-btn>
             </v-list-item-action>
           </v-list-item>
-        </v-list-item-group>
+        </v-list-group>
 
         <v-divider></v-divider>
         <v-list-item v-if="activedLists.length == 0">
-          <v-list-item-content>
-            <v-list-item-title> No lists in archive</v-list-item-title>
-          </v-list-item-content>
+          <v-list-item-title> No lists in archive</v-list-item-title>
         </v-list-item>
       </v-list>
 

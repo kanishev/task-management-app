@@ -1,17 +1,17 @@
 <template>
   <v-container>
     <draggable
-      v-if="lists.length > 0"
       v-model="lists"
-      v-bind="getDragOptions"
+      v-bind="dragOptions"
       class="d-flex"
+      item-key="itemId"
     >
-      <TaskList
-        v-for="(list, idx) in lists"
-        :key="idx"
-        :list="list"
-        :board="getBoard"
-      />
+      <template #item="{element}">
+        <TaskList
+          :list="element"
+          :board="getBoard"
+        />
+      </template>
     </draggable>
 
     <v-card
@@ -36,8 +36,8 @@
 <script>
 import TaskList from "../components/Tasks/TaskList.vue";
 import TasklistEdit from "../components/Tasks/TaskListEdit.vue";
-import Draggable from "vuedraggable";
 import ListImage from "../assets/list.svg";
+import draggable from "vuedraggable";
 
 export default {
   mounted() {
@@ -83,7 +83,7 @@ export default {
         });
       },
     },
-    getDragOptions() {
+    dragOptions() {
       return {
         animation: "200",
         ghostClass: "ghost",
@@ -91,7 +91,7 @@ export default {
       };
     },
   },
-  components: { TaskList, Draggable, TasklistEdit },
+  components: { TaskList, TasklistEdit, draggable },
 };
 </script>
 

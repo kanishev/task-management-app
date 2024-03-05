@@ -1,37 +1,49 @@
 <template>
   <v-card style="min-width: 290px; height: max-content" class="mr-4">
-    <v-toolbar :color="this.board.image ? '##cbcbcb' : '#5cabf3'" dark>
+    <v-toolbar :color="this.board.image ? '#cbcbcb' : '#5cabf3'" dark>
       <v-toolbar-title>{{ list.name }}</v-toolbar-title>
       <v-spacer></v-spacer>
       <TaskListActions :list="list" :board="board" />
     </v-toolbar>
 
     <v-list>
-      <draggable v-model="items" v-bind="dragOptions">
-        <v-list-group v-for="item in items" :key="item.id">
-          <template v-slot:activator>
-            <v-list-item-title v-text="item.name"></v-list-item-title>
-          </template>
+      <draggable v-model="items" v-bind="dragOptions"  item-key="item">
+        <template #item="{element}">
+          <v-list-group>
+             <template v-slot:activator="{ props }">
+              <v-list-item
+                v-bind="props"
+                :title="element.name"
+              ></v-list-item>
+            </template>
 
-          <v-list-item class="mx-2 px-2">
-            <TaskListItem
-              :item="item"
-              :list="list"
-              :board="board"
-              type="edit"
-            />
-            <v-divider></v-divider>
-          </v-list-item>
-        </v-list-group>
+            <v-list-item class="mx-2 px-2">
+              <TaskListItem
+                :item="element"
+                :list="list"
+                :board="board"
+                type="edit"
+              />
+              <v-divider></v-divider>
+            </v-list-item>
+          </v-list-group>
+        </template>
       </draggable>
 
-      <v-list-group>
-        <template v-slot:activator>
-          <v-list-item-title v-text="'Add new Task'"></v-list-item-title>
+      <v-list-group value="Task">
+        <template v-slot:activator="{ props }">
+          <v-list-item
+            v-bind="props"
+            title="Add new Task"
+          ></v-list-item>
         </template>
 
         <v-list-item class="mx-2 px-2">
-          <TaskListItem :board="board" :list="list" type="create" />
+          <TaskListItem
+            :board="board"
+            :list="list"
+            type="create"
+          />
           <v-divider></v-divider>
         </v-list-item>
       </v-list-group>

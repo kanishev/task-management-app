@@ -9,7 +9,7 @@
     @cancleBoard="cancleBoard"
     @updateModalData="updateBoard"
   >
-    <template>
+    <template v-slot>
       <v-form ref="form" v-model="valid">
         <v-container>
           <v-text-field

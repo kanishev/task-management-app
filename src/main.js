@@ -1,5 +1,6 @@
 import { createApp } from 'vue';
 import { createStore } from './store';
+import { createPinia } from 'pinia';
 import { createRouter } from './router';
 import App from "./App.vue";
 
@@ -14,10 +15,12 @@ const vuetify = createVuetify({
   directives,
 });
 
+const pinia = createPinia();
 const store = createStore();
 const router = createRouter();
 
 createApp(App)
+  .use(pinia)
   .use(vuetify)
   .use(store)
   .use(router)

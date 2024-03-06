@@ -18,6 +18,9 @@ import MainLayout from "./layouts/MainLayout.vue";
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 
+import { useUserStore } from "./stores/user";
+import { mapStores } from 'pinia';
+
 export default {
   name: "App",
   data() {
@@ -31,10 +34,13 @@ export default {
   },
   created() {
     firebase.auth().onAuthStateChanged((user) => {
-      this.$store.commit("updateUser", user);
+      // this.$store.commit("updateUser", user);
+      console.log('user', user)
+      this.userStore.updateUser(user);
 
       if (user) {
-        this.$store.dispatch("getUser");
+        // this.$store.dispatch("getUser");
+        this.userStore.getUser();
         this.$store.dispatch("getBoards");
       } else if (!user) {
         this.$router.push({ name: "Auth" }).catch(() => {});
@@ -42,8 +48,9 @@ export default {
     });
   },
   computed: {
+    ...mapStores(useUserStore),
     activeUser() {
-      return this.$store.state.user;
+      return this.userStore.user;
     },
     layout() {
       return (this.$route.meta.layout || "empty") + "-layout";

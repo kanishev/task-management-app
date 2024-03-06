@@ -41,6 +41,8 @@
 
 <script>
 import DetailsPopup from "../Details/DetailsPopup.vue";
+import { useUserStore } from "../../stores/user";
+import { mapStores } from 'pinia';
 
 export default {
   props: ["color"],
@@ -58,12 +60,13 @@ export default {
     };
   },
   computed: {
+    ...mapStores(useUserStore),
     activeBoard() {
       const isActive = this.$store.state.activeBoard;
       return isActive;
     },
     profileId() {
-      return this.$store.state.profileId;
+      return this.userStore.profileId;
     },
   },
   methods: {

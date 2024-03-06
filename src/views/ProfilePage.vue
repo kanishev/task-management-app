@@ -9,8 +9,7 @@
         </v-avatar>
       </v-col>
       <v-card-text class="admin-badge text-р3">
-        {{ this.$store.state.profileFirstName }}
-        {{ this.$store.state.profileLastName }}
+        {{ firstName }} {{ lastName }}
       </v-card-text>
 
       <v-divider></v-divider>
@@ -53,6 +52,9 @@
 </template>
 
 <script>
+import { useUserStore } from "../stores/user";
+import { mapStores } from 'pinia';
+
 export default {
   mounted() {
     this.$store.commit("setActivePage", "profilePage");
@@ -62,27 +64,28 @@ export default {
     this.$store.commit("setActivePage", "default");
   },
   computed: {
+    ...mapStores(useUserStore),
     initials() {
-      return this.$store.state.profileInitials;
+      return this.userStore.profileInitials;
     },
     firstName: {
       get() {
-        return this.$store.state.profileFirstName;
+        return this.userStore.profileFirstName;
       },
       set(p) {
-        this.$store.commit("changeProfileInfo", ["profileFirstName", p]);
+        this.userStore.changeProfileInfo("profileFirstName", p);
       },
     },
     lastName: {
       get() {
-        return this.$store.state.profileLastName;
+        return this.userStore.profileLastName;
       },
       set(p) {
-        this.$store.commit("changeProfileInfo", ["profileLastName", p]);
+        this.userStore.changeProfileInfo("profileLastName", p);
       },
     },
     email() {
-      return this.$store.state.profileEmail;
+      return this.userStore.profileEmail;
     },
     loading() {
       return this.$store.state.isLoading;
@@ -90,7 +93,7 @@ export default {
   },
   methods: {
     updateProfile() {
-      this.$store.dispatch("updateUserProfile");
+      this.userStore.updateUserProfile();
     },
   },
 };

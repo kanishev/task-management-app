@@ -50,7 +50,7 @@ export default {
       imageLoaded: false,
       rules: [
         (value) =>
-          !value || value.size < 2000000 || "Image can't be less than 2 MB!",
+          !value || !value.length || value[0].size < 2000000 || 'Avatar size should be less than 2 MB!'
       ],
     };
   },
@@ -69,7 +69,7 @@ export default {
     selectedFile() {
       this.imageLoaded = false;
 
-      let file = this.file;
+      let file = this.file[0];
       if (!file || file.type.indexOf("image/") !== 0) return;
 
       this.image.size = file.size;
@@ -96,12 +96,13 @@ export default {
       if (this.imageSize) {
         try {
           this.$store.commit("setLoading", true);
-          const file = this.file;
+
+          const file = this.file[0];
           const dataBase = db.collection("boards").doc(this.$route.params.id);
           const storageRef = firebase.storage().ref();
           const docRef = storageRef.child(`documents/bardImages/${file.name}`);
-          docRef.put(this.file).on(
-            "state_changed",
+
+          docRef.put(file).on("state_changed",
             (snapShot) => {
               console.warn(snapShot);
             },

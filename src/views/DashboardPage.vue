@@ -34,7 +34,7 @@
     </v-col>
 
     <v-card
-      v-if="this.boards.length == 0 && this.isLoading == false"
+      v-if="!this.boards.length && !loading"
       outlined
       id="preview"
       class="mx-auto my-10 d-flex justify-space-between"
@@ -73,19 +73,19 @@ import { mapStores } from 'pinia';
 export default {
   created() {
     this.boardsStore.setActiveBoard(null);
+    this.loading = true;
+    this.boardsStore.getBoards().then(() => this.loading = false);
   },
   data() {
     return {
-      mainImage
+      mainImage,
+      loading: false
     }
   },
   computed: {
     ...mapStores(useBoardsStore),
     boards() {
       return this.boardsStore.boards;
-    },
-    isLoading() {
-      return this.$store.state.isLoading;
     },
     unarchivedBoards() {
       return this.boardsStore.unarchivedBoards;

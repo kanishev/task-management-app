@@ -4,6 +4,7 @@
     page="dashboard"
     v-show="!this.activeBoard"
     ref="popup"
+    :loading="loading"
     :color="this.color"
     @createBoard="saveBoard"
     @cancleBoard="cancleBoard"
@@ -58,6 +59,7 @@ export default {
         description: "",
         image: null,
       },
+      loading: false
     };
   },
   computed: {
@@ -74,21 +76,25 @@ export default {
       let isValid = this.$refs.form.validate();
       if (isValid) {
         if (this.type == "create") {
-          this.boardsStore.saveBoard({
-            id: this.board.id,
-            name: this.board.name,
-            description: this.board.description,
-            image: this.board.image,
-            profileId: this.profileId,
-          });
-        } else if (this.type == "update") {
-          this.boardsStore.updateBoard({
+          this.loading = true;
+          await this.boardsStore.saveBoard({
             id: this.board.id,
             name: this.board.name,
             description: this.board.description,
             image: this.board.image,
             profileId: this.profileId,
           })
+          this.loading = false;
+        } else if (this.type == "update") {
+          this.loading = true;
+          await this.boardsStore.updateBoard({
+            id: this.board.id,
+            name: this.board.name,
+            description: this.board.description,
+            image: this.board.image,
+            profileId: this.profileId,
+          })
+          this.loading = false;
         }
       }
     },

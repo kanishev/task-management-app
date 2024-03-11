@@ -4,6 +4,7 @@
     page="taskPage"
     title="New List"
     :color="this.color"
+    :loading="loading"
     ref="popup"
     @createBoard="saveBoard"
     @cancleBoard="cancleBoard"
@@ -50,6 +51,7 @@ export default {
         name: "",
       },
       type: "create",
+      loading: false
     };
   },
   computed: {
@@ -66,21 +68,25 @@ export default {
       const isValid = this.$refs.form.validate();
       if (isValid) {
         if (this.type == "create") {
-          this.tasksStore.createTaskList({
+          this.loading = true;
+          await this.tasksStore.createTaskList({
             boardId: this.activeBoard.id,
             name: this.listForm.name,
             listId: this.listForm.id,
             archived: false,
             items: [],
           })
+          this.loading = false;
         } else if (this.type == "update") {
-          this.tasksStore.updateTaskList({
+          this.loading = true;
+          await this.tasksStore.updateTaskList({
             boardId: this.activeBoard.id,
             name: this.listForm.name,
             archived: false,
             listId: this.listForm.id,
             items: [],
           })
+          this.loading = false;
         }
       }
     },

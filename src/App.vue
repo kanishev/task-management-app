@@ -39,8 +39,7 @@ export default {
 
       if (user) {
         this.userStore.getUser();
-        this.boardsStore.getBoards();
-      } else if (!user) {
+      } else {
         this.$router.push({ name: "Auth" }).catch(() => {});
       }
     });

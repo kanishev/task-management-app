@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-card width="500px" :loading="loading" class="mx-auto text-center">
+    <v-card width="500px" class="mx-auto text-center">
       <v-card-text class="text-h4 text-center">Profile settings</v-card-text>
 
       <v-col class="ma-0 pa-0">
@@ -60,7 +60,6 @@ export default {
     this.$store.commit("setActivePage", "profilePage");
   },
   beforeUnmount() {
-    this.$store.commit("setActiveBoard", this.getBoard);
     this.$store.commit("setActivePage", "default");
   },
   computed: {
@@ -86,10 +85,7 @@ export default {
     },
     email() {
       return this.userStore.profileEmail;
-    },
-    loading() {
-      return this.$store.state.isLoading;
-    },
+    }
   },
   methods: {
     updateProfile() {

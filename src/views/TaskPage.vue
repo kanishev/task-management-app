@@ -15,7 +15,7 @@
     </draggable>
 
     <v-card
-      v-if="lists.length == 0 && !this.isLoading"
+      v-if="!this.lists.length && !loading"
       outlined
       id="preview"
       class="mx-auto my-10 d-flex justify-space-between"
@@ -44,12 +44,17 @@ import { useTasksStore } from "../stores/tasks";
 import { mapStores } from "pinia";
 
 export default {
+  created(){
+    this.loading = true;
+    this.boardsStore.getBoards().then(() => this.loading = false);
+  },
   mounted() {
     this.$store.commit("setActivePage", "taskPage");
   },
   data() {
     return {
-      listImage: ListImage
+      listImage: ListImage,
+      loading: false
     }
   },
   beforeUnmount() {
@@ -64,14 +69,10 @@ export default {
     currentBoard() {
       const boards = this.boardsStore.boards;
       const board = boards.find((b) => b.id == this.$route.params.id);
-
       if (board) {
         this.boardsStore.setActiveBoard(board)
       }
       return board;
-    },
-    isLoading() {
-      return this.$store.state.isLoading;
     },
     lists: {
       get() {

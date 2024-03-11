@@ -40,6 +40,7 @@ import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 
 export default {
+  props: ['loading'],
   data() {
     return {
       valid: false,
@@ -57,7 +58,7 @@ export default {
       const isValid = this.$refs.resetForm.validate();
 
       if (isValid) {
-        this.$store.commit("setLoading", true);
+        this.$emit('update:loading', true);
         firebase
           .auth()
           .sendPasswordResetEmail(this.email)
@@ -69,7 +70,7 @@ export default {
             this.$store.commit("setMessage", e.code);
           })
           .finally(() => {
-            this.$store.commit("setLoading", false);
+            this.$emit('update:loading', false);
           });
       }
     },

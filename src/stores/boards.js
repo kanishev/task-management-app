@@ -16,7 +16,6 @@ export const useBoardsStore = defineStore('boards', {
   actions: {
     async getBoards() {
       try {
-        // commit("setLoading", true);
         const user = useUserStore();
         const dataBase = await db.collection("boards");
         const dbResults = await dataBase.get();
@@ -39,13 +38,10 @@ export const useBoardsStore = defineStore('boards', {
         });
       } catch (e) {
         console.log(e);
-      } finally {
-        // commit("setLoading", false);
       }
     },
     async saveBoard(payload) {
       try {
-        // state.isLoading = true;
         const user = useUserStore();
         const dataBase = await db.collection("boards").doc();
         await dataBase.set({
@@ -59,16 +55,12 @@ export const useBoardsStore = defineStore('boards', {
         });
 
         this.saveBoardSync({ boardId: dataBase.id, ...payload })
-        // commit("closeModal");
       } catch (e) {
         console.log(e);
-      } finally {
-        // state.isLoading = false;
       }
     },
     async updateBoard(payload) {
       try {
-        // state.isLoading = true;
         const dataBase = await db.collection("boards").doc(payload.id);
         this.saveBoardSync({ boardId: dataBase.id, ...payload })
 
@@ -80,8 +72,6 @@ export const useBoardsStore = defineStore('boards', {
         // commit("closeModal");
       } catch (e) {
         console.log(e);
-      } finally {
-        // state.isLoading = false;
       }
     },
     async archiveBoard(payload) {

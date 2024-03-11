@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-card color="#4682b4" width="600px" class="ma-auto" :loading="isLoading">
+    <v-card color="#4682b4" width="600px" class="ma-auto" :loading="loading">
       <template v-slot:progress>
         <v-progress-linear
           color="#ffffff"
@@ -32,7 +32,7 @@
 
         <v-window-item v-for="item in items" :key="item" :value="item">
           <v-card color="#fff" flat>
-            <component :is="item"></component>
+            <component :is="item" v-model:loading="loading"></component>
           </v-card>
         </v-window-item>
       </v-window>
@@ -50,12 +50,10 @@ export default {
     return {
       tab: null,
       items: ["Login", "Register", "Reset"],
+      loading: false
     };
   },
   computed: {
-    isLoading() {
-      return this.$store.state.isLoading;
-    },
     message() {
       return this.$store.state.message;
     },

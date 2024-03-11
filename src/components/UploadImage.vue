@@ -1,10 +1,11 @@
 <template>
   <details-popup
+    ref="popup"
     title="Set image"
     type="image"
     page="uploadPage"
     v-show="!this.activeBoard"
-    ref="popup"
+    :loading="loading"
   >
     <template v-slot>
       <v-form ref="form" v-model="valid">
@@ -38,7 +39,7 @@ import "firebase/compat/storage";
 import db from "../firebase/firebaseInit";
 
 import { useBoardsStore } from "../stores/boards";
-import { mapState, mapStores } from 'pinia';
+import { mapStores } from 'pinia';
 
 export default {
   data() {
@@ -55,6 +56,7 @@ export default {
         (value) =>
           !value || !value.length || value[0].size < 2000000 || 'Avatar size should be less than 2 MB!'
       ],
+      loading: true
     };
   },
   computed: {
@@ -99,7 +101,7 @@ export default {
     saveImage() {
       if (this.imageSize) {
         try {
-          this.$store.commit("setLoading", true);
+          this.loading = true;
 
           const file = this.file[0];
           const dataBase = db.collection("boards").doc(this.$route.params.id);
@@ -112,7 +114,6 @@ export default {
             },
             (err) => {
               console.warn(err);
-              this.isLoading = false;
             },
             async () => {
               const downloadURL = await docRef.getDownloadURL();
@@ -126,7 +127,7 @@ export default {
               })
 
               this.$store.commit("closeModal");
-              this.$store.commit("setLoading", false);
+              this.loading = false;
             }
           );
         } catch (e) {

@@ -82,6 +82,7 @@ import "firebase/compat/auth";
 import db from "../../firebase/firebaseInit";
 
 export default {
+  props: ['loading'],
   data() {
     return {
       valid: true,
@@ -113,7 +114,7 @@ export default {
 
       if (isValid) {
         try {
-          this.$store.commit("setLoading", true);
+          this.$emit('update:loading', true);
           const firebaseAuth = await firebase.auth();
           const createUser = await firebaseAuth.createUserWithEmailAndPassword(
             this.email,
@@ -132,7 +133,7 @@ export default {
           console.log(e);
           this.$store.commit("setMessage", e.code);
         } finally {
-          this.$store.commit("setLoading", false);
+          this.$emit("update:loading", false);
         }
       }
     },

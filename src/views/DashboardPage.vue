@@ -67,9 +67,12 @@ import DashboardItem from "../components/Dashboard/DashboardItem.vue";
 import DashboardEdit from "../components/Dashboard/DashboardEdit.vue";
 import mainImage from '../assets/main.png';
 
+import { useBoardsStore } from "../stores/boards";
+import { mapStores } from 'pinia';
+
 export default {
   created() {
-    this.$store.commit("setActiveBoard", null);
+    this.boardsStore.setActiveBoard(null);
   },
   data() {
     return {
@@ -77,17 +80,18 @@ export default {
     }
   },
   computed: {
+    ...mapStores(useBoardsStore),
     boards() {
-      return this.$store.state.boards;
+      return this.boardsStore.boards;
     },
     isLoading() {
       return this.$store.state.isLoading;
     },
     unarchivedBoards() {
-      return this.$store.getters.unarchivedBoards;
+      return this.boardsStore.unarchivedBoards;
     },
     archivedBoards() {
-      return this.$store.getters.archivedBoards;
+      return this.boardsStore.archivedBoards;
     },
   },
   components: { DashboardItem, DashboardEdit },

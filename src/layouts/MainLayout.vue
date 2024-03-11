@@ -18,6 +18,9 @@
 import TheHeader from "../components/TheHeader.vue";
 import TheDrawer from "../components/TheDrawer.vue";
 
+import { useBoardsStore } from "../stores/boards";
+import { mapStores } from "pinia";
+
 export default {
   data() {
     return {
@@ -25,11 +28,12 @@ export default {
     }
   },
   computed: {
+    ...mapStores(useBoardsStore),
     activePage() {
       return this.$store.state.activePage;
     },
     activeImage() {
-      const board = this.$store.state.activeBoard;
+      const board = this.boardsStore.activeBoard;
       if (board && board.image) {
         return board.image;
       }

@@ -53,9 +53,6 @@ export default {
     };
   },
   computed: {
-    authPage() {
-      return this.page;
-    },
     isLoading() {
       return this.$store.state.isLoading;
     },

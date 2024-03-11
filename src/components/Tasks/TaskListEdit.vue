@@ -32,11 +32,13 @@
 
 <script>
 import DetailsPopup from "../Details/DetailsPopup.vue";
+import { useBoardsStore } from "../../stores/boards";
+import { mapStores } from 'pinia';
 
 export default {
   props: ["color"],
   created() {
-    this.$store.commit("setActiveBoard", this.activeBoard);
+    this.boardsStore.setActiveBoard(this.activeBoard);
   },
   data() {
     return {
@@ -50,8 +52,9 @@ export default {
     };
   },
   computed: {
+    ...mapStores(useBoardsStore),
     activeBoard() {
-      return this.$store.state.activeBoard;
+      return this.boardsStore.activeBoard;
     },
   },
   methods: {

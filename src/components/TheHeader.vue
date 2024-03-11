@@ -67,6 +67,9 @@ import DashboardEdit from "../components/Dashboard/DashboardEdit.vue";
 import TaskListEdit from "../components/Tasks/TaskListEdit.vue";
 import TaskListRestore from "../components/Tasks/TaskListRestore.vue";
 
+import { useBoardsStore } from "../stores/boards";
+import { mapStores } from 'pinia';
+
 import "firebase/compat/auth";
 
 export default {
@@ -78,8 +81,9 @@ export default {
     };
   },
   computed: {
+    ...mapStores(useBoardsStore),
     activeBoardImage() {
-      const board = this.$store.state.activeBoard;
+      const board = this.boardsStore.activeBoard;
       if (board && board.image) {
         return true;
       }
@@ -89,8 +93,7 @@ export default {
       return this.$store.state.activePage;
     },
     boards() {
-      this.$store.getters.someGetter;
-      return this.$store.state.boards;
+      return this.boardsStore.boards;
     },
     boardsItems() {
       return this.boards.reduce((acc, b) => [...acc, b.name], []);

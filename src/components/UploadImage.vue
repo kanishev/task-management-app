@@ -37,6 +37,9 @@ import firebase from "firebase/compat/app";
 import "firebase/compat/storage";
 import db from "../firebase/firebaseInit";
 
+import { useBoardsStore } from "../stores/boards";
+import { mapState, mapStores } from 'pinia';
+
 export default {
   data() {
     return {
@@ -55,8 +58,9 @@ export default {
     };
   },
   computed: {
+    ...mapStores(useBoardsStore),
     activeBoard() {
-      const isActive = this.$store.state.activeUpload;
+      const isActive = this.boardsStore.activeBoard;
       return isActive;
     },
     imageSize() {

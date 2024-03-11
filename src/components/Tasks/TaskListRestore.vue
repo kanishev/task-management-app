@@ -35,6 +35,8 @@
 
 <script>
 import DetailsPopup from "../Details/DetailsPopup.vue";
+import { useBoardsStore } from "../../stores/boards";
+import { mapStores } from 'pinia';
 
 export default {
   data() {
@@ -49,8 +51,9 @@ export default {
     };
   },
   computed: {
+    ...mapStores(useBoardsStore),
     isBoardActive() {
-      return this.$store.state.activeBoard;
+      return this.boardsStore.activeBoard;
     },
     activedLists() {
       return this.$store.getters.getArchivedLists;

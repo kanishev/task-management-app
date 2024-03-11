@@ -19,6 +19,7 @@ import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 
 import { useUserStore } from "./stores/user";
+import { useBoardsStore } from "./stores/boards";
 import { mapStores } from 'pinia';
 
 export default {
@@ -34,21 +35,18 @@ export default {
   },
   created() {
     firebase.auth().onAuthStateChanged((user) => {
-      // this.$store.commit("updateUser", user);
-      console.log('user', user)
       this.userStore.updateUser(user);
 
       if (user) {
-        // this.$store.dispatch("getUser");
         this.userStore.getUser();
-        this.$store.dispatch("getBoards");
+        this.boardsStore.getBoards();
       } else if (!user) {
         this.$router.push({ name: "Auth" }).catch(() => {});
       }
     });
   },
   computed: {
-    ...mapStores(useUserStore),
+    ...mapStores(useUserStore, useBoardsStore),
     activeUser() {
       return this.userStore.user;
     },

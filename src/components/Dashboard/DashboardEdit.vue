@@ -42,6 +42,7 @@
 <script>
 import DetailsPopup from "../Details/DetailsPopup.vue";
 import { useUserStore } from "../../stores/user";
+import { useBoardsStore } from "../../stores/boards";
 import { mapStores } from 'pinia';
 
 export default {
@@ -60,10 +61,9 @@ export default {
     };
   },
   computed: {
-    ...mapStores(useUserStore),
+    ...mapStores(useUserStore, useBoardsStore),
     activeBoard() {
-      const isActive = this.$store.state.activeBoard;
-      return isActive;
+      return this.boardsStore.activeBoard;
     },
     profileId() {
       return this.userStore.profileId;
@@ -74,7 +74,7 @@ export default {
       let isValid = this.$refs.form.validate();
       if (isValid) {
         if (this.type == "create") {
-          this.$store.dispatch("saveBoard", {
+          this.boardsStore.saveBoard({
             id: this.board.id,
             name: this.board.name,
             description: this.board.description,
@@ -82,13 +82,13 @@ export default {
             profileId: this.profileId,
           });
         } else if (this.type == "update") {
-          this.$store.dispatch("updateBoard", {
+          this.boardsStore.updateBoard({
             id: this.board.id,
             name: this.board.name,
             description: this.board.description,
             image: this.board.image,
             profileId: this.profileId,
-          });
+          })
         }
       }
     },

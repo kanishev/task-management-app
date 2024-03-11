@@ -47,6 +47,9 @@
 </template>
 
 <script>
+import { useBoardsStore } from "../../stores/boards";
+import { mapStores } from 'pinia';
+
 export default {
   props: ["board"],
   methods: {
@@ -58,12 +61,15 @@ export default {
       });
     },
     archiveBoard() {
-      this.$store.dispatch("archiveBoard", {
+      this.boardsStore.archiveBoard({
         id: this.board.id,
         archived: this.board.archived,
-      });
+      })
     },
   },
+  computed: {
+    ...mapStores(useBoardsStore)
+  }
 };
 </script>
 

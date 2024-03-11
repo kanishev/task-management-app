@@ -9,7 +9,7 @@
       <template #item="{element}">
         <TaskList
           :list="element"
-          :board="getBoard"
+          :board="currentBoard"
         />
       </template>
     </draggable>
@@ -39,6 +39,9 @@ import TasklistEdit from "../components/Tasks/TaskListEdit.vue";
 import ListImage from "../assets/list.svg";
 import draggable from "vuedraggable";
 
+import { useBoardsStore } from "../stores/boards";
+import { mapStores } from "pinia";
+
 export default {
   mounted() {
     this.$store.commit("setActivePage", "taskPage");
@@ -49,20 +52,20 @@ export default {
     }
   },
   beforeUnmount() {
-    this.$store.commit("setActiveBoard", this.getBoard);
+    this.boardsStore.setActiveBoard(this.currentBoard)
     this.$store.commit("setActivePage", "default");
   },
   computed: {
+    ...mapStores(useBoardsStore),
     activeBoard() {
-      const isActive = this.$store.state.activeBoard;
-      return isActive;
+      return this.boardsStore.activeBoard;
     },
-    getBoard() {
-      const boards = this.$store.state.boards;
+    currentBoard() {
+      const boards = this.boardsStore.boards;
       const board = boards.find((b) => b.id == this.$route.params.id);
 
       if (board) {
-        this.$store.commit("setActiveBoard", board);
+        this.boardsStore.setActiveBoard(board)
       }
       return board;
     },
@@ -71,10 +74,10 @@ export default {
     },
     lists: {
       get() {
-        if (!this.getBoard) {
+        if (!this.currentBoard) {
           return [];
         }
-        return this.getBoard.lists.filter((l) => !l.archived) || [];
+        return this.currentBoard.lists.filter((l) => !l.archived) || [];
       },
       set(p) {
         this.$store.dispatch("reorderList", {

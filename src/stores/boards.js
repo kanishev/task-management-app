@@ -8,6 +8,10 @@ export const useBoardsStore = defineStore('boards', {
   state: () => ({
     boards: [],
     activeBoard: null,
+    reorderLists: {
+      count: 0,
+      lists: [],
+    },
   }),
   actions: {
     async getBoards() {
@@ -123,7 +127,7 @@ export const useBoardsStore = defineStore('boards', {
     },
     setActiveBoard(payload) {
       this.activeBoard = payload;
-    },
+    }
   },
   getters: {
     unarchivedBoards() {

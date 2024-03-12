@@ -10,7 +10,7 @@
     <template v-slot>
       <v-list dense>
         <v-list-group v-model="selectedItem" color="primary">
-          <v-list-item v-for="(item, i) in activedLists" :key="i">
+          <v-list-item v-for="(item, i) in archivedLists" :key="i">
             <v-list-item-title v-text="item.name"></v-list-item-title>
             <v-list-item-action>
               <v-btn x-small @click="rearchiveList(item)">
@@ -21,7 +21,7 @@
         </v-list-group>
 
         <v-divider></v-divider>
-        <v-list-item v-if="activedLists.length == 0">
+        <v-list-item v-if="archivedLists.length == 0">
           <v-list-item-title> No lists in archive</v-list-item-title>
         </v-list-item>
       </v-list>
@@ -36,6 +36,7 @@
 <script>
 import DetailsPopup from "../Details/DetailsPopup.vue";
 import { useBoardsStore } from "../../stores/boards";
+import { useTasksStore } from "../../stores/tasks";
 import { mapStores } from 'pinia';
 
 export default {
@@ -51,12 +52,12 @@ export default {
     };
   },
   computed: {
-    ...mapStores(useBoardsStore),
+    ...mapStores(useBoardsStore, useTasksStore),
     isBoardActive() {
       return this.boardsStore.activeBoard;
     },
-    activedLists() {
-      return this.$store.getters.getArchivedLists;
+    archivedLists() {
+      return this.tasksStore.archivedLists;
     },
   },
   methods: {
@@ -70,10 +71,10 @@ export default {
       this.board.description = "";
     },
     rearchiveList(item) {
-      this.$store.dispatch("archiveTaskList", {
+      this.tasksStore.archiveTaskList({
         boardId: this.isBoardActive.id,
         listId: item.id,
-      });
+      })
     },
     closeModal() {
       this.$store.commit("closeModal");

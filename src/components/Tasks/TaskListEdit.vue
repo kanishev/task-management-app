@@ -33,6 +33,7 @@
 <script>
 import DetailsPopup from "../Details/DetailsPopup.vue";
 import { useBoardsStore } from "../../stores/boards";
+import { useTasksStore } from "../../stores/tasks";
 import { mapStores } from 'pinia';
 
 export default {
@@ -52,7 +53,7 @@ export default {
     };
   },
   computed: {
-    ...mapStores(useBoardsStore),
+    ...mapStores(useBoardsStore, useTasksStore),
     activeBoard() {
       return this.boardsStore.activeBoard;
     },
@@ -65,21 +66,21 @@ export default {
       const isValid = this.$refs.form.validate();
       if (isValid) {
         if (this.type == "create") {
-          this.$store.dispatch("createTaskList", {
+          this.tasksStore.createTaskList({
             boardId: this.activeBoard.id,
             name: this.listForm.name,
             listId: this.listForm.id,
             archived: false,
             items: [],
-          });
+          })
         } else if (this.type == "update") {
-          this.$store.dispatch("updateTaskList", {
+          this.tasksStore.updateTaskList({
             boardId: this.activeBoard.id,
             name: this.listForm.name,
             archived: false,
             listId: this.listForm.id,
             items: [],
-          });
+          })
         }
       }
     },

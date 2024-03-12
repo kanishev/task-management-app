@@ -40,6 +40,7 @@ import ListImage from "../assets/list.svg";
 import draggable from "vuedraggable";
 
 import { useBoardsStore } from "../stores/boards";
+import { useTasksStore } from "../stores/tasks";
 import { mapStores } from "pinia";
 
 export default {
@@ -56,7 +57,7 @@ export default {
     this.$store.commit("setActivePage", "default");
   },
   computed: {
-    ...mapStores(useBoardsStore),
+    ...mapStores(useBoardsStore, useTasksStore),
     activeBoard() {
       return this.boardsStore.activeBoard;
     },
@@ -79,11 +80,11 @@ export default {
         }
         return this.currentBoard.lists.filter((l) => !l.archived) || [];
       },
-      set(p) {
-        this.$store.dispatch("reorderList", {
+      set(payload) {
+        this.tasksStore.reorderList({
           boardId: this.$route.params.id,
-          payload: p,
-        });
+          payload,
+        })
       },
     },
     dragOptions() {

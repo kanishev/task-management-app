@@ -120,10 +120,11 @@ export default {
                 boardImage: downloadURL,
               });
 
-              this.$store.commit("updateBoardImage", {
+              this.boardsStore.updateBoardImage({
                 id: this.$route.params.id,
                 image: downloadURL,
-              });
+              })
+
               this.$store.commit("closeModal");
               this.$store.commit("setLoading", false);
             }

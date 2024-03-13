@@ -56,12 +56,6 @@ import { useUserStore } from "../stores/user";
 import { mapStores } from 'pinia';
 
 export default {
-  mounted() {
-    this.$store.commit("setActivePage", "profilePage");
-  },
-  beforeUnmount() {
-    this.$store.commit("setActivePage", "default");
-  },
   computed: {
     ...mapStores(useUserStore),
     initials() {

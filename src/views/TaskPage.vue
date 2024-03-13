@@ -48,9 +48,6 @@ export default {
     this.loading = true;
     this.boardsStore.getBoards().then(() => this.loading = false);
   },
-  mounted() {
-    this.$store.commit("setActivePage", "taskPage");
-  },
   data() {
     return {
       listImage: ListImage,
@@ -59,7 +56,6 @@ export default {
   },
   beforeUnmount() {
     this.boardsStore.setActiveBoard(this.currentBoard)
-    this.$store.commit("setActivePage", "default");
   },
   computed: {
     ...mapStores(useBoardsStore, useTasksStore),

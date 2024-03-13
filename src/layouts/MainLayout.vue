@@ -5,7 +5,7 @@
     <v-main
       :style="{
         'background-image':
-          activePage == 'taskPage' ? 'url(' + activeImage + ')' : null,
+          activePage == 'Task Page' ? 'url(' + activeImage + ')' : null,
         'background-size': 'cover',
       }"
     >
@@ -30,7 +30,7 @@ export default {
   computed: {
     ...mapStores(useBoardsStore),
     activePage() {
-      return this.$store.state.activePage;
+      return this.$route.meta.title;
     },
     activeImage() {
       const board = this.boardsStore.activeBoard;

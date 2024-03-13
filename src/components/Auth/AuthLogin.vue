@@ -50,7 +50,7 @@ import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 
 export default {
-  props: ['loading'],
+  props: ['loading', 'message'],
   data() {
     return {
       valid: false,
@@ -83,7 +83,7 @@ export default {
           this.$router.push("/");
         } catch (e) {
           console.log(e);
-          this.$store.commit("setMessage", e.code);
+          this.$emit('update:message', e.code);
         } finally {
           this.$emit('update:loading', false);
         }

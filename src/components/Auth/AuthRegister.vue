@@ -82,7 +82,7 @@ import "firebase/compat/auth";
 import db from "../../firebase/firebaseInit";
 
 export default {
-  props: ['loading'],
+  props: ['loading', 'message'],
   data() {
     return {
       valid: true,
@@ -131,7 +131,7 @@ export default {
           return;
         } catch (e) {
           console.log(e);
-          this.$store.commit("setMessage", e.code);
+          this.$emit('update:message', e.code);
         } finally {
           this.$emit("update:loading", false);
         }

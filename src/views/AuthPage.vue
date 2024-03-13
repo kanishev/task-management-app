@@ -32,7 +32,11 @@
 
         <v-window-item v-for="item in items" :key="item" :value="item">
           <v-card color="#fff" flat>
-            <component :is="item" v-model:loading="loading"></component>
+            <component
+              :is="item"
+              v-model:loading="loading"
+              v-model:message="message"
+            ></component>
           </v-card>
         </v-window-item>
       </v-window>
@@ -50,13 +54,9 @@ export default {
     return {
       tab: null,
       items: ["Login", "Register", "Reset"],
-      loading: false
+      loading: false,
+      message: ''
     };
-  },
-  computed: {
-    message() {
-      return this.$store.state.message;
-    },
   },
   components: { Login, Register, Reset },
 };

@@ -27,11 +27,10 @@
 
       <v-divider></v-divider>
 
-      <v-list-item @click="openModal">
+      <v-list-item>
         <template v-slot:prepend>
           <UploadImage class="mr-3" />
         </template>
-        <v-list-item-title>Load Image</v-list-item-title>
       </v-list-item>
 
       <v-list-item @click="goProfile">
@@ -97,12 +96,6 @@ export default {
     },
     toggleDrawer(){
       this.$emit('toggleDrawer')
-    },
-    openModal() {
-      this.$store.commit("openModal", {
-        page: "uploadPage",
-        type: "create",
-      });
     },
   }
 }

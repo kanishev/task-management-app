@@ -52,7 +52,7 @@
 
         <v-col :cols="dashboardPage ? '5' : '6'" class="my-auto">
           <v-row class="justify-end">
-            <DashboardEdit />
+            <DashboardEdit type="create" />
             <TaskListRestore />
             <TaskListEdit />
           </v-row>

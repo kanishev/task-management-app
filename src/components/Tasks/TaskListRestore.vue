@@ -1,9 +1,9 @@
 <template>
   <details-popup
+    ref="popup"
     v-show="this.isBoardActive"
     page="restorePage"
     title="Lists in archive"
-    ref="popup"
     @createBoard="saveBoard"
     @cancleBoard="cancleBoard"
   >
@@ -26,7 +26,7 @@
         </v-list-item>
       </v-list>
 
-      <v-btn x-small class="ma-3" @click="closeModal">
+      <v-btn x-small class="ma-3">
         Ок
       </v-btn>
     </template>
@@ -75,9 +75,6 @@ export default {
         boardId: this.isBoardActive.id,
         listId: item.id,
       })
-    },
-    closeModal() {
-      this.$store.commit("closeModal");
     },
   },
   components: {

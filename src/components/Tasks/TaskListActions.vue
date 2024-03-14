@@ -22,12 +22,6 @@ export default {
   },
   methods: {
     showListEditPopup() {
-      this.$store.commit("openModal", {
-        list: this.list,
-        board: this.board,
-        page: "taskPage",
-        type: "update",
-      });
       this.$refs.dropdown.close();
     },
     archiveList() {

@@ -4,7 +4,7 @@
     title="Set image"
     type="image"
     page="uploadPage"
-    v-show="!this.activeBoard"
+    color="dark"
     :loading="loading"
   >
     <template v-slot>
@@ -126,7 +126,6 @@ export default {
                 image: downloadURL,
               })
 
-              this.$store.commit("closeModal");
               this.loading = false;
             }
           );

@@ -1,9 +1,9 @@
 <template>
   <details-popup
-    title="+ New Board"
-    page="dashboard"
-    v-show="!this.activeBoard"
     ref="popup"
+    v-show="!this.activeBoard"
+    page="dashboard"
+    :title="title"
     :loading="loading"
     :color="this.color"
     @createBoard="saveBoard"
@@ -47,10 +47,9 @@ import { useBoardsStore } from "../../stores/boards";
 import { mapStores } from 'pinia';
 
 export default {
-  props: ["color"],
+  props: ["color", "type"],
   data() {
     return {
-      type: "create",
       valid: false,
       emptyRules: [(v) => !!v || "Поле не может быть пустым"],
       board: {
@@ -70,6 +69,9 @@ export default {
     profileId() {
       return this.userStore.profileId;
     },
+    title() {
+      return this.type == 'create' ? 'Create Board' : 'Update Board'
+    }
   },
   methods: {
     async saveBoard() {

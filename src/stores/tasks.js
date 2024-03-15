@@ -29,7 +29,6 @@ export const useTasksStore = defineStore('tasks', {
         });
 
         this.createTaskListSync(list)
-        // commit("closeModal");
       } catch (e) {
         console.log(e);
       }
@@ -51,7 +50,6 @@ export const useTasksStore = defineStore('tasks', {
           lists,
         });
 
-        // commit("closeModal");
       } catch (e) {
         console.log(e);
       }

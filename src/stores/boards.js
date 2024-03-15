@@ -69,7 +69,6 @@ export const useBoardsStore = defineStore('boards', {
           boardDescription: payload.description,
         });
 
-        // commit("closeModal");
       } catch (e) {
         console.log(e);
       }

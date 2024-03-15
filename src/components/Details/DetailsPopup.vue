@@ -1,21 +1,18 @@
 <template>
   <div>
+    <v-icon v-if="type == 'image'" @click.stop="openModal">mdi-image</v-icon>
+
     <v-btn
-      v-if="type !== 'image'"
       :color="this.color ? this.color : '#ffffff'"
-      text
-      outlined
-      rounded
+      variant="text"
       :dark="this.color ? false : true"
       @click.stop="openModal"
     >
       {{ title }}
     </v-btn>
 
-    <v-icon v-if="type == 'image'" @click.stop="openModal">mdi-image</v-icon>
-
-    <v-dialog v-model="modal" max-width="490">
-      <v-card :loading="isLoading">
+    <v-dialog v-model="modal.status" max-width="490">
+      <v-card :loading="loading">
         <v-card-title class="h2">{{ title }}</v-card-title>
         <slot></slot>
       </v-card>
@@ -25,32 +22,39 @@
 
 <script>
 export default {
-  props: ["title", "page", "type", "color"],
+  props: ["title", "page", "type", "color", 'loading'],
+  data() {
+    return {
+      modal: {
+        status: false,
+        page: null,
+        type: null,
+        board: null,
+        lists: null,
+      }
+    }
+  },
   computed: {
-    isLoading() {
-      return this.$store.state.isLoading;
-    },
-    modal: {
-      get() {
-        const modal = this.$store.state.modal;
-        if (!modal) {
-          return false;
-        }
-        this.$emit("updateModalData", modal);
-        return modal.status && modal.page == this.page;
-      },
-      set() {
-        this.$store.commit("closeModal");
-      },
-    },
   },
   methods: {
     openModal() {
-      this.$store.commit("openModal", {
+      this.modal = {
+        status: true,
         page: this.page,
-        type: "create",
-      });
+        type: this.type,
+        board: this.board,
+        lists: this.lists
+      }
     },
+    closeModal() {
+      this.modal = {
+        status: false,
+        page: null,
+        type: null,
+        board: null,
+        lists: null
+      }
+    }
   },
 };
 </script>

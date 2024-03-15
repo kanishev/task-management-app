@@ -50,6 +50,7 @@ import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 
 export default {
+  props: ['loading', 'message'],
   data() {
     return {
       valid: false,
@@ -72,7 +73,7 @@ export default {
 
       if (isValid) {
         try {
-          this.$store.commit("setLoading", true);
+          this.$emit('update:loading', true);
           this.formValidMessage = "";
           const firebaseAuth = await firebase.auth();
           await firebaseAuth.signInWithEmailAndPassword(
@@ -82,9 +83,9 @@ export default {
           this.$router.push("/");
         } catch (e) {
           console.log(e);
-          this.$store.commit("setMessage", e.code);
+          this.$emit('update:message', e.code);
         } finally {
-          this.$store.commit("setLoading", false);
+          this.$emit('update:loading', false);
         }
       }
     },

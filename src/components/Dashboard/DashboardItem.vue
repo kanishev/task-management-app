@@ -15,11 +15,7 @@
         {{ this.board.name }}
       </v-card-title>
 
-      <v-btn plain @click="editBoard()">
-        <v-icon dark>
-          mdi-border-color
-        </v-icon>
-      </v-btn>
+      <DashboardEdit type="update" color="dark" />
     </v-card-actions>
 
     <v-card-subtitle class="px-6">
@@ -47,23 +43,24 @@
 </template>
 
 <script>
+import { useBoardsStore } from "../../stores/boards";
+import { mapStores } from 'pinia';
+import DashboardEdit from "./DashboardEdit.vue";
+
 export default {
   props: ["board"],
+  components: { DashboardEdit },
   methods: {
-    editBoard() {
-      this.$store.commit("openModal", {
-        page: "dashboard",
-        board: this.board,
-        type: "update",
-      });
-    },
     archiveBoard() {
-      this.$store.dispatch("archiveBoard", {
+      this.boardsStore.archiveBoard({
         id: this.board.id,
         archived: this.board.archived,
-      });
+      })
     },
   },
+  computed: {
+    ...mapStores(useBoardsStore)
+  }
 };
 </script>
 

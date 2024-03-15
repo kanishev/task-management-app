@@ -18,6 +18,10 @@
 </template>
 
 <script>
+import { useBoardsStore } from "../../stores/boards";
+import { useTasksStore } from "../../stores/tasks";
+import { mapStores } from 'pinia';
+
 export default {
   props: ["type", "item", "board", "list"],
   data() {
@@ -25,30 +29,33 @@ export default {
       name: this.item ? this.item.name : "",
     };
   },
+  computed: {
+    ...mapStores(useBoardsStore, useTasksStore)
+  },
   methods: {
     addListItem() {
       if (this.type == "create") {
-        this.$store.dispatch("createListItem", {
+        this.tasksStore.createListItem({
           name: this.name,
           boardId: this.board.id,
           listId: this.list.id,
-        });
+        })
       } else {
-        this.$store.dispatch("updateListItem", {
+        this.tasksStore.updateListItem({
           name: this.name,
           boardId: this.board.id,
           listId: this.list.id,
-          itemId: this.item.itemId,
-        });
+          itemId: this.item.itemId
+        })
       }
     },
     removeListItem() {
-      this.$store.dispatch("removeListItem", {
+      this.tasksStore.removeListItem({
         name: this.name,
         boardId: this.board.id,
         listId: this.list.id,
         itemId: this.item.itemId,
-      });
+      })
     },
   },
 };

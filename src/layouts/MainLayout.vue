@@ -5,7 +5,7 @@
     <v-main
       :style="{
         'background-image':
-          activePage == 'taskPage' ? 'url(' + activeImage + ')' : null,
+          activePage == 'Task Page' ? 'url(' + activeImage + ')' : null,
         'background-size': 'cover',
       }"
     >
@@ -18,6 +18,9 @@
 import TheHeader from "../components/TheHeader.vue";
 import TheDrawer from "../components/TheDrawer.vue";
 
+import { useBoardsStore } from "../stores/boards";
+import { mapStores } from "pinia";
+
 export default {
   data() {
     return {
@@ -25,11 +28,12 @@ export default {
     }
   },
   computed: {
+    ...mapStores(useBoardsStore),
     activePage() {
-      return this.$store.state.activePage;
+      return this.$route.meta.title;
     },
     activeImage() {
-      const board = this.$store.state.activeBoard;
+      const board = this.boardsStore.activeBoard;
       if (board && board.image) {
         return board.image;
       }

@@ -9,13 +9,13 @@
       <template #item="{element}">
         <TaskList
           :list="element"
-          :board="getBoard"
+          :board="currentBoard"
         />
       </template>
     </draggable>
 
     <v-card
-      v-if="lists.length == 0 && !this.isLoading"
+      v-if="!this.lists.length && !loading"
       outlined
       id="preview"
       class="mx-auto my-10 d-flex justify-space-between"
@@ -39,48 +39,49 @@ import TasklistEdit from "../components/Tasks/TaskListEdit.vue";
 import ListImage from "../assets/list.svg";
 import draggable from "vuedraggable";
 
+import { useBoardsStore } from "../stores/boards";
+import { useTasksStore } from "../stores/tasks";
+import { mapStores } from "pinia";
+
 export default {
-  mounted() {
-    this.$store.commit("setActivePage", "taskPage");
+  created(){
+    this.loading = true;
+    this.boardsStore.getBoards().then(() => this.loading = false);
   },
   data() {
     return {
-      listImage: ListImage
+      listImage: ListImage,
+      loading: false
     }
   },
   beforeUnmount() {
-    this.$store.commit("setActiveBoard", this.getBoard);
-    this.$store.commit("setActivePage", "default");
+    this.boardsStore.setActiveBoard(this.currentBoard)
   },
   computed: {
+    ...mapStores(useBoardsStore, useTasksStore),
     activeBoard() {
-      const isActive = this.$store.state.activeBoard;
-      return isActive;
+      return this.boardsStore.activeBoard;
     },
-    getBoard() {
-      const boards = this.$store.state.boards;
+    currentBoard() {
+      const boards = this.boardsStore.boards;
       const board = boards.find((b) => b.id == this.$route.params.id);
-
       if (board) {
-        this.$store.commit("setActiveBoard", board);
+        this.boardsStore.setActiveBoard(board)
       }
       return board;
     },
-    isLoading() {
-      return this.$store.state.isLoading;
-    },
     lists: {
       get() {
-        if (!this.getBoard) {
+        if (!this.currentBoard) {
           return [];
         }
-        return this.getBoard.lists.filter((l) => !l.archived) || [];
+        return this.currentBoard.lists.filter((l) => !l.archived) || [];
       },
-      set(p) {
-        this.$store.dispatch("reorderList", {
+      set(payload) {
+        this.tasksStore.reorderList({
           boardId: this.$route.params.id,
-          payload: p,
-        });
+          payload,
+        })
       },
     },
     dragOptions() {

@@ -1,9 +1,10 @@
 <template>
   <details-popup
-    title="+ New Board"
-    page="dashboard"
-    v-show="!this.activeBoard"
     ref="popup"
+    v-show="!this.activeBoard"
+    page="dashboard"
+    :title="title"
+    :loading="loading"
     :color="this.color"
     @createBoard="saveBoard"
     @cancleBoard="cancleBoard"
@@ -41,12 +42,14 @@
 
 <script>
 import DetailsPopup from "../Details/DetailsPopup.vue";
+import { useUserStore } from "../../stores/user";
+import { useBoardsStore } from "../../stores/boards";
+import { mapStores } from 'pinia';
 
 export default {
-  props: ["color"],
+  props: ["color", "type"],
   data() {
     return {
-      type: "create",
       valid: false,
       emptyRules: [(v) => !!v || "Поле не может быть пустым"],
       board: {
@@ -55,37 +58,45 @@ export default {
         description: "",
         image: null,
       },
+      loading: false
     };
   },
   computed: {
+    ...mapStores(useUserStore, useBoardsStore),
     activeBoard() {
-      const isActive = this.$store.state.activeBoard;
-      return isActive;
+      return this.boardsStore.activeBoard;
     },
     profileId() {
-      return this.$store.state.profileId;
+      return this.userStore.profileId;
     },
+    title() {
+      return this.type == 'create' ? 'Create Board' : 'Update Board'
+    }
   },
   methods: {
     async saveBoard() {
       let isValid = this.$refs.form.validate();
       if (isValid) {
         if (this.type == "create") {
-          this.$store.dispatch("saveBoard", {
+          this.loading = true;
+          await this.boardsStore.saveBoard({
             id: this.board.id,
             name: this.board.name,
             description: this.board.description,
             image: this.board.image,
             profileId: this.profileId,
-          });
+          })
+          this.loading = false;
         } else if (this.type == "update") {
-          this.$store.dispatch("updateBoard", {
+          this.loading = true;
+          await this.boardsStore.updateBoard({
             id: this.board.id,
             name: this.board.name,
             description: this.board.description,
             image: this.board.image,
             profileId: this.profileId,
-          });
+          })
+          this.loading = false;
         }
       }
     },

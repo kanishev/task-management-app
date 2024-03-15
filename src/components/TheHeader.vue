@@ -12,7 +12,7 @@
       <v-row class="justify-space-around align-center">
         <v-col
           cols="1"
-          v-show="activePage !== 'default'"
+          v-show="!dashboardPage"
           color="#fff"
           class="text-center"
         >
@@ -22,7 +22,7 @@
           ></v-app-bar-nav-icon>
         </v-col>
 
-        <v-col cols="2" v-show="activePage == 'default'">
+        <v-col cols="2" v-show="dashboardPage">
           <v-autocomplete
             v-model="value"
             color="#fff"
@@ -37,8 +37,8 @@
         <v-col
           cols="5"
           :class="{
-            'text-end': activePage == 'default',
-            'text-start': activePage !== 'default',
+            'text-end': dashboardPage,
+            'text-start': !dashboardPage,
           }"
         >
           <v-toolbar-title
@@ -50,9 +50,9 @@
           </v-toolbar-title>
         </v-col>
 
-        <v-col :cols="activePage == 'default' ? '5' : '6'" class="my-auto">
+        <v-col :cols="dashboardPage ? '5' : '6'" class="my-auto">
           <v-row class="justify-end">
-            <DashboardEdit />
+            <DashboardEdit type="create" />
             <TaskListRestore />
             <TaskListEdit />
           </v-row>
@@ -67,6 +67,9 @@ import DashboardEdit from "../components/Dashboard/DashboardEdit.vue";
 import TaskListEdit from "../components/Tasks/TaskListEdit.vue";
 import TaskListRestore from "../components/Tasks/TaskListRestore.vue";
 
+import { useBoardsStore } from "../stores/boards";
+import { mapStores } from 'pinia';
+
 import "firebase/compat/auth";
 
 export default {
@@ -78,19 +81,22 @@ export default {
     };
   },
   computed: {
+    ...mapStores(useBoardsStore),
     activeBoardImage() {
-      const board = this.$store.state.activeBoard;
+      const board = this.boardsStore.activeBoard;
       if (board && board.image) {
         return true;
       }
       return false;
     },
     activePage() {
-      return this.$store.state.activePage;
+      return this.$route.meta.title;
+    },
+    dashboardPage(){
+      return this.activePage == 'Dashboard Page'
     },
     boards() {
-      this.$store.getters.someGetter;
-      return this.$store.state.boards;
+      return this.boardsStore.boards;
     },
     boardsItems() {
       return this.boards.reduce((acc, b) => [...acc, b.name], []);
@@ -102,7 +108,7 @@ export default {
       this.$router.push("/boards/" + boardId);
     },
     goHome() {
-      if (this.activePage !== "default") {
+      if (!this.dashboardPage) {
         this.$router.push("/");
       }
     },

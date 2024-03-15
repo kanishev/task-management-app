@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-card width="500px" :loading="loading" class="mx-auto text-center">
+    <v-card width="500px" class="mx-auto text-center">
       <v-card-text class="text-h4 text-center">Profile settings</v-card-text>
 
       <v-col class="ma-0 pa-0">
@@ -9,8 +9,7 @@
         </v-avatar>
       </v-col>
       <v-card-text class="admin-badge text-р3">
-        {{ this.$store.state.profileFirstName }}
-        {{ this.$store.state.profileLastName }}
+        {{ firstName }} {{ lastName }}
       </v-card-text>
 
       <v-divider></v-divider>
@@ -53,44 +52,38 @@
 </template>
 
 <script>
+import { useUserStore } from "../stores/user";
+import { mapStores } from 'pinia';
+
 export default {
-  mounted() {
-    this.$store.commit("setActivePage", "profilePage");
-  },
-  beforeUnmount() {
-    this.$store.commit("setActiveBoard", this.getBoard);
-    this.$store.commit("setActivePage", "default");
-  },
   computed: {
+    ...mapStores(useUserStore),
     initials() {
-      return this.$store.state.profileInitials;
+      return this.userStore.profileInitials;
     },
     firstName: {
       get() {
-        return this.$store.state.profileFirstName;
+        return this.userStore.profileFirstName;
       },
       set(p) {
-        this.$store.commit("changeProfileInfo", ["profileFirstName", p]);
+        this.userStore.changeProfileInfo("profileFirstName", p);
       },
     },
     lastName: {
       get() {
-        return this.$store.state.profileLastName;
+        return this.userStore.profileLastName;
       },
       set(p) {
-        this.$store.commit("changeProfileInfo", ["profileLastName", p]);
+        this.userStore.changeProfileInfo("profileLastName", p);
       },
     },
     email() {
-      return this.$store.state.profileEmail;
-    },
-    loading() {
-      return this.$store.state.isLoading;
-    },
+      return this.userStore.profileEmail;
+    }
   },
   methods: {
     updateProfile() {
-      this.$store.dispatch("updateUserProfile");
+      this.userStore.updateUserProfile();
     },
   },
 };

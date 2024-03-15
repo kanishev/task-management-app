@@ -56,19 +56,24 @@ import TaskListItem from "./TaskListItem.vue";
 import TaskListActions from "./TaskListActions.vue";
 import Draggable from "vuedraggable";
 
+import { useBoardsStore } from "../../stores/boards";
+import { useTasksStore } from "../../stores/tasks";
+import { mapStores } from 'pinia';
+
 export default {
   props: ["list", "board"],
   computed: {
+    ...mapStores(useBoardsStore, useTasksStore),
     items: {
       get() {
         return this.list.items;
       },
       set(p) {
-        this.$store.dispatch("reorderListItems", {
+        this.tasksStore.reorderListItems({
           boardId: this.board.id,
           listId: this.list.id,
           payload: p,
-        });
+        })
       },
     },
     dragOptions() {

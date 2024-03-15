@@ -4,6 +4,7 @@
     page="taskPage"
     title="New List"
     :color="this.color"
+    :loading="loading"
     ref="popup"
     @createBoard="saveBoard"
     @cancleBoard="cancleBoard"
@@ -32,11 +33,14 @@
 
 <script>
 import DetailsPopup from "../Details/DetailsPopup.vue";
+import { useBoardsStore } from "../../stores/boards";
+import { useTasksStore } from "../../stores/tasks";
+import { mapStores } from 'pinia';
 
 export default {
   props: ["color"],
   created() {
-    this.$store.commit("setActiveBoard", this.activeBoard);
+    this.boardsStore.setActiveBoard(this.activeBoard);
   },
   data() {
     return {
@@ -47,11 +51,13 @@ export default {
         name: "",
       },
       type: "create",
+      loading: false
     };
   },
   computed: {
+    ...mapStores(useBoardsStore, useTasksStore),
     activeBoard() {
-      return this.$store.state.activeBoard;
+      return this.boardsStore.activeBoard;
     },
   },
   methods: {
@@ -62,21 +68,25 @@ export default {
       const isValid = this.$refs.form.validate();
       if (isValid) {
         if (this.type == "create") {
-          this.$store.dispatch("createTaskList", {
+          this.loading = true;
+          await this.tasksStore.createTaskList({
             boardId: this.activeBoard.id,
             name: this.listForm.name,
             listId: this.listForm.id,
             archived: false,
             items: [],
-          });
+          })
+          this.loading = false;
         } else if (this.type == "update") {
-          this.$store.dispatch("updateTaskList", {
+          this.loading = true;
+          await this.tasksStore.updateTaskList({
             boardId: this.activeBoard.id,
             name: this.listForm.name,
             archived: false,
             listId: this.listForm.id,
             items: [],
-          });
+          })
+          this.loading = false;
         }
       }
     },

@@ -1,16 +1,16 @@
 <template>
   <details-popup
+    ref="popup"
     v-show="this.isBoardActive"
     page="restorePage"
     title="Lists in archive"
-    ref="popup"
     @createBoard="saveBoard"
     @cancleBoard="cancleBoard"
   >
     <template v-slot>
       <v-list dense>
         <v-list-group v-model="selectedItem" color="primary">
-          <v-list-item v-for="(item, i) in activedLists" :key="i">
+          <v-list-item v-for="(item, i) in archivedLists" :key="i">
             <v-list-item-title v-text="item.name"></v-list-item-title>
             <v-list-item-action>
               <v-btn x-small @click="rearchiveList(item)">
@@ -21,12 +21,12 @@
         </v-list-group>
 
         <v-divider></v-divider>
-        <v-list-item v-if="activedLists.length == 0">
+        <v-list-item v-if="archivedLists.length == 0">
           <v-list-item-title> No lists in archive</v-list-item-title>
         </v-list-item>
       </v-list>
 
-      <v-btn x-small class="ma-3" @click="closeModal">
+      <v-btn x-small class="ma-3">
         Ок
       </v-btn>
     </template>
@@ -35,6 +35,9 @@
 
 <script>
 import DetailsPopup from "../Details/DetailsPopup.vue";
+import { useBoardsStore } from "../../stores/boards";
+import { useTasksStore } from "../../stores/tasks";
+import { mapStores } from 'pinia';
 
 export default {
   data() {
@@ -49,11 +52,12 @@ export default {
     };
   },
   computed: {
+    ...mapStores(useBoardsStore, useTasksStore),
     isBoardActive() {
-      return this.$store.state.activeBoard;
+      return this.boardsStore.activeBoard;
     },
-    activedLists() {
-      return this.$store.getters.getArchivedLists;
+    archivedLists() {
+      return this.tasksStore.archivedLists;
     },
   },
   methods: {
@@ -67,13 +71,10 @@ export default {
       this.board.description = "";
     },
     rearchiveList(item) {
-      this.$store.dispatch("archiveTaskList", {
+      this.tasksStore.archiveTaskList({
         boardId: this.isBoardActive.id,
         listId: item.id,
-      });
-    },
-    closeModal() {
-      this.$store.commit("closeModal");
+      })
     },
   },
   components: {

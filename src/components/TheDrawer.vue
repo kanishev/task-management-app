@@ -17,9 +17,9 @@
         </template>
 
         <v-col class="px-0">
-          <v-list-item-title
-            >{{ firstName }} {{ lastName }}</v-list-item-title
-          >
+          <v-list-item-title>
+            {{ firstName }} {{ lastName }}
+          </v-list-item-title>
           <v-list-item-subtitle>{{ email }}</v-list-item-subtitle>
         </v-col>
 
@@ -27,11 +27,10 @@
 
       <v-divider></v-divider>
 
-      <v-list-item @click="openModal">
+      <v-list-item>
         <template v-slot:prepend>
           <UploadImage class="mr-3" />
         </template>
-        <v-list-item-title>Load Image</v-list-item-title>
       </v-list-item>
 
       <v-list-item @click="goProfile">
@@ -58,6 +57,9 @@
 import firebase from "firebase/compat/app";
 import UploadImage from "./UploadImage.vue";
 
+import { useUserStore } from "../stores/user";
+import { mapStores } from 'pinia';
+
 export default {
   components: { UploadImage },
   props: {
@@ -67,17 +69,18 @@ export default {
     }
   },
   computed: {
+    ...mapStores(useUserStore),
     initials() {
-      return this.$store.state.profileInitials;
+      return this.userStore.profileInitials;
     },
     email() {
-      return this.$store.state.profileEmail;
+      return this.userStore.profileEmail;
     },
     firstName() {
-      return this.$store.state.profileFirstName;
+      return this.userStore.profileFirstName;
     },
     lastName() {
-      return this.$store.state.profileLastName;
+      return this.userStore.profileLastName;
     },
   },
   methods: {
@@ -93,12 +96,6 @@ export default {
     },
     toggleDrawer(){
       this.$emit('toggleDrawer')
-    },
-    openModal() {
-      this.$store.commit("openModal", {
-        page: "uploadPage",
-        type: "create",
-      });
     },
   }
 }

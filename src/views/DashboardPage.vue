@@ -34,7 +34,7 @@
     </v-col>
 
     <v-card
-      v-if="this.boards.length == 0 && this.isLoading == false"
+      v-if="!this.boards.length && !loading"
       outlined
       id="preview"
       class="mx-auto my-10 d-flex justify-space-between"
@@ -67,27 +67,31 @@ import DashboardItem from "../components/Dashboard/DashboardItem.vue";
 import DashboardEdit from "../components/Dashboard/DashboardEdit.vue";
 import mainImage from '../assets/main.png';
 
+import { useBoardsStore } from "../stores/boards";
+import { mapStores } from 'pinia';
+
 export default {
   created() {
-    this.$store.commit("setActiveBoard", null);
+    this.boardsStore.setActiveBoard(null);
+    this.loading = true;
+    this.boardsStore.getBoards().then(() => this.loading = false);
   },
   data() {
     return {
-      mainImage
+      mainImage,
+      loading: false
     }
   },
   computed: {
+    ...mapStores(useBoardsStore),
     boards() {
-      return this.$store.state.boards;
-    },
-    isLoading() {
-      return this.$store.state.isLoading;
+      return this.boardsStore.boards;
     },
     unarchivedBoards() {
-      return this.$store.getters.unarchivedBoards;
+      return this.boardsStore.unarchivedBoards;
     },
     archivedBoards() {
-      return this.$store.getters.archivedBoards;
+      return this.boardsStore.archivedBoards;
     },
   },
   components: { DashboardItem, DashboardEdit },

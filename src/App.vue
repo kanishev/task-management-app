@@ -18,6 +18,10 @@ import MainLayout from "./layouts/MainLayout.vue";
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 
+import { useUserStore } from "./stores/user";
+import { useBoardsStore } from "./stores/boards";
+import { mapStores } from 'pinia';
+
 export default {
   name: "App",
   data() {
@@ -31,19 +35,19 @@ export default {
   },
   created() {
     firebase.auth().onAuthStateChanged((user) => {
-      this.$store.commit("updateUser", user);
+      this.userStore.updateUser(user);
 
       if (user) {
-        this.$store.dispatch("getUser");
-        this.$store.dispatch("getBoards");
-      } else if (!user) {
+        this.userStore.getUser();
+      } else {
         this.$router.push({ name: "Auth" }).catch(() => {});
       }
     });
   },
   computed: {
+    ...mapStores(useUserStore, useBoardsStore),
     activeUser() {
-      return this.$store.state.user;
+      return this.userStore.user;
     },
     layout() {
       return (this.$route.meta.layout || "empty") + "-layout";

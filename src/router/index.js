@@ -1,6 +1,4 @@
 import { createRouter as _createRouter, createWebHistory } from 'vue-router'
-import Dashboard from "../views/DashboardPage.vue";
-import TaskPage from "../views/TaskPage.vue";
 import AuthPage from "../views/AuthPage.vue";
 import ProfilePage from "../views/ProfilePage.vue";
 
@@ -8,7 +6,7 @@ const routes = [
   {
     path: "/",
     name: "Dashboard",
-    component: Dashboard,
+    component: () => import('../views/DashboardPage.vue'),
     meta: {
       title: "Dashboard Page",
       layout: "main",
@@ -17,7 +15,7 @@ const routes = [
   {
     path: "/boards/:id",
     name: "Task-board",
-    component: TaskPage,
+    component: () => import('../views/TaskPage.vue'),
     meta: {
       title: "Task Page",
       layout: "main",
@@ -26,7 +24,7 @@ const routes = [
   {
     path: "/auth",
     name: "Auth",
-    component: AuthPage,
+    component: () => import('../views/AuthPage.vue'),
     meta: {
       title: "Auth Page",
       layout: "empty",
@@ -35,7 +33,7 @@ const routes = [
   {
     path: "/profile",
     name: "Profile",
-    component: ProfilePage,
+    component: () => import('../views/ProfilePage.vue'),
     meta: {
       title: "Profile Page",
       layout: "main",

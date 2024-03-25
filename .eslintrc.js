@@ -68,5 +68,15 @@ module.exports = {
     "vue/require-prop-types": "error",
     "vue/require-default-prop": "error",
     "vue/prop-name-casing": ["error", "camelCase"],
+
+    // Base Rules (Enabling Correct ESLint Parsing)
+
+    "vue/no-deprecated-v-bind-sync": "error",
+    "vue/no-mutating-props" : "error",
+    "vue/no-ref-as-operand": "warn",
+    "vue/no-side-effects-in-computed-properties": "error",
+    "vue/no-use-v-if-with-v-for": "error",
+    "vue/require-valid-default-prop": "error",
+
   }
 }

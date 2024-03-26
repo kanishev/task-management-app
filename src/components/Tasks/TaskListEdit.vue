@@ -1,28 +1,35 @@
 <template>
   <details-popup
-    v-show="this.activeBoard"
+    v-show="activeBoard"
     page="taskPage"
     title="New List"
-    :color="this.color"
+    :color="color"
     :loading="loading"
     ref="popup"
-    @createBoard="saveBoard"
-    @cancleBoard="cancleBoard"
-    @updateModalData="updateBoard"
+    @create-board="saveBoard"
+    @cancle-board="cancleBoard"
+    @update-modal-data="updateBoard"
   >
-    <template v-slot>
-      <v-form ref="form" v-model="valid">
+    <template #default>
+      <v-form
+        ref="form"
+        v-model="valid"
+      >
         <v-container>
           <v-text-field
-            class="px-3"
             v-model="listForm.name"
+            class="px-3"
             label="List name"
             :rules="emptyRules"
-            @keydown.enter.prevent="saveTaskList"
             required
-          ></v-text-field>
+            @keydown.enter.prevent="saveTaskList"
+          />
 
-          <v-btn color="primary darken-1" text @click.prevent="saveTaskList">
+          <v-btn
+            color="primary darken-1"
+            text
+            @click.prevent="saveTaskList"
+          >
             {{ type == "create" ? "Create" : "Update" }}
           </v-btn>
         </v-container>
@@ -39,9 +46,6 @@ import { mapStores } from 'pinia';
 
 export default {
   props: ["color"],
-  created() {
-    this.boardsStore.setActiveBoard(this.activeBoard);
-  },
   data() {
     return {
       valid: false,
@@ -53,6 +57,9 @@ export default {
       type: "create",
       loading: false
     };
+  },
+  created() {
+    this.boardsStore.setActiveBoard(this.activeBoard);
   },
   computed: {
     ...mapStores(useBoardsStore, useTasksStore),

@@ -1,13 +1,16 @@
 <template>
   <div class="app-wrapper">
-    <v-container v-if="!activeUser && this.$route.name !== 'Auth'">
+    <v-container v-if="!activeUser && $route.name !== 'Auth'">
       <v-skeleton-loader
         v-bind="attrs"
         type="table"
-      ></v-skeleton-loader>
+      />
     </v-container>
 
-    <component v-else :is="layout"> </component>
+    <component
+      :is="layout"
+      v-else
+    />
   </div>
 </template>
 

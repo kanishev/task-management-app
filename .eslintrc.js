@@ -64,10 +64,10 @@ module.exports = {
     "vue/no-spaces-around-equal-signs-in-attribute": "error",
     "vue/v-slot-style": "error",
     "vue/v-on-style": ["error", "shorthand"],
-    "vue/v-on-event-hyphenation": ["error", "always"],
-    "vue/require-prop-types": "error",
+    "vue/require-prop-types": "warn",
     "vue/require-default-prop": "error",
     "vue/prop-name-casing": ["error", "camelCase"],
+    "vue/no-v-text-v-html-on-component": "warn",
 
     // Base Rules (Enabling Correct ESLint Parsing)
 

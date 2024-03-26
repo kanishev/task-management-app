@@ -7,23 +7,33 @@
     color="dark"
     :loading="loading"
   >
-    <template v-slot>
-      <v-form ref="form" v-model="valid">
+    <template #default>
+      <v-form
+        ref="form"
+        v-model="valid"
+      >
         <v-container>
-          <div v-if="!imageSize" class="pa-2">
+          <div
+            v-if="!imageSize"
+            class="pa-2"
+          >
             Image size can't be less than 1600x800px
           </div>
 
           <v-file-input
+            v-model="file"
             :rules="rules"
             type="file"
-            v-model="file"
             accept="image/png, image/jpeg, image/bmp"
             prepend-icon="mdi-camera"
             @change="selectedFile"
-          ></v-file-input>
+          />
 
-          <v-btn color="primary darken-1" text @click.stop="saveImage">
+          <v-btn
+            color="primary darken-1"
+            text
+            @click.stop="saveImage"
+          >
             Set image
           </v-btn>
         </v-container>

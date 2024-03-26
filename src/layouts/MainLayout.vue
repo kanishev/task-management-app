@@ -1,7 +1,10 @@
 <template>
   <v-app>
-    <TheHeader @toggleDrawer="toggleDrawer"/>
-    <TheDrawer @toggleDrawer="toggleDrawer" :drawer="drawer" />
+    <TheHeader @toggle-drawer="toggleDrawer" />
+    <TheDrawer
+      :drawer="drawer"
+      @toggle-drawer="toggleDrawer"
+    />
     <v-main
       :style="{
         'background-image':
@@ -9,7 +12,7 @@
         'background-size': 'cover',
       }"
     >
-      <router-view></router-view>
+      <router-view />
     </v-main>
   </v-app>
 </template>

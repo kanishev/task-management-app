@@ -1,10 +1,13 @@
 <template>
-  <details class="detail-dropdown" ref="details">
+  <details
+    class="detail-dropdown"
+    ref="details"
+  >
     <summary>
-      <slot name="handle"></slot>
+      <slot name="handle" />
     </summary>
     <div class="dropdown-content">
-      <slot name="content"></slot>
+      <slot name="content" />
     </div>
   </details>
 </template>

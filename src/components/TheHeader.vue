@@ -11,27 +11,30 @@
     >
       <v-row class="justify-space-around align-center">
         <v-col
-          cols="1"
           v-show="!dashboardPage"
+          cols="1"
           color="#fff"
           class="text-center"
         >
           <v-app-bar-nav-icon
             color="#fff"
             @click.stop="toggleDrawer"
-          ></v-app-bar-nav-icon>
+          />
         </v-col>
 
-        <v-col cols="2" v-show="dashboardPage">
+        <v-col
+          v-show="dashboardPage"
+          cols="2"
+        >
           <v-autocomplete
             v-model="value"
             color="#fff"
             dense
             :items="boardsItems"
-            @change="goBoard"
             hide-details
             label="go to the board..."
-          ></v-autocomplete>
+            @change="goBoard"
+          />
         </v-col>
 
         <v-col
@@ -50,9 +53,12 @@
           </v-toolbar-title>
         </v-col>
 
-        <v-col :cols="dashboardPage ? '5' : '6'" class="my-auto">
+        <v-col
+          :cols="dashboardPage ? '5' : '6'"
+          class="my-auto"
+        >
           <v-row class="justify-end">
-            <DashboardEdit type="create" />
+            <DashboardEdit v-model:type="create" />
             <TaskListRestore />
             <TaskListEdit />
           </v-row>

@@ -1,9 +1,17 @@
 <template>
   <v-card class="px-4">
     <v-card-text>
-      <v-form ref="registerForm" v-model="valid" lazy-validation>
+      <v-form
+        ref="registerForm"
+        v-model="valid"
+        lazy-validation
+      >
         <v-row>
-          <v-col cols="12" sm="6" md="6">
+          <v-col
+            cols="12"
+            sm="6"
+            md="6"
+          >
             <v-text-field
               v-model="firstName"
               :rules="[rules.required]"
@@ -11,9 +19,13 @@
               autocomplete="first-name"
               maxlength="20"
               required
-            ></v-text-field>
+            />
           </v-col>
-          <v-col cols="12" sm="6" md="6">
+          <v-col
+            cols="12"
+            sm="6"
+            md="6"
+          >
             <v-text-field
               v-model="lastName"
               :rules="[rules.required]"
@@ -21,7 +33,7 @@
               autocomplete="last-name"
               maxlength="20"
               required
-            ></v-text-field>
+            />
           </v-col>
           <v-col cols="12">
             <v-text-field
@@ -30,7 +42,7 @@
               label="E-mail"
               autocomplete="email"
               required
-            ></v-text-field>
+            />
           </v-col>
           <v-col cols="12">
             <v-text-field
@@ -43,12 +55,12 @@
               autocomplete="new-password"
               counter
               @click:append="show = !show"
-            ></v-text-field>
+            />
           </v-col>
           <v-col cols="12">
             <v-text-field
-              block
               v-model="verify"
+              block
               :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
               :rules="[rules.required, passwordMatch]"
               :type="show ? 'text' : 'password'"
@@ -56,10 +68,15 @@
               autocomplete="new-password"
               counter
               @click:append="show = !show"
-            ></v-text-field>
+            />
           </v-col>
-          <v-spacer></v-spacer>
-          <v-col class="d-flex ml-auto" cols="12" sm="3" xsm="12">
+          <v-spacer />
+          <v-col
+            class="d-flex ml-auto"
+            cols="12"
+            sm="3"
+            xsm="12"
+          >
             <v-btn
               block
               text
@@ -67,8 +84,9 @@
               :disabled="!valid"
               color="#4682b4"
               @click.prevent="register"
-              >Register</v-btn
             >
+              Register
+            </v-btn>
           </v-col>
         </v-row>
       </v-form>

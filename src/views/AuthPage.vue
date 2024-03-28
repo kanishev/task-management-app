@@ -1,12 +1,17 @@
 <template>
   <v-container>
-    <v-card color="#4682b4" width="600px" class="ma-auto" :loading="loading">
-      <template v-slot:progress>
+    <v-card
+      color="#4682b4"
+      width="600px"
+      class="ma-auto"
+      :loading="loading"
+    >
+      <template #progress>
         <v-progress-linear
           color="#ffffff"
           height="4"
           indeterminate
-        ></v-progress-linear>
+        />
       </template>
 
       <v-card-title class="text-center justify-center py-6">
@@ -15,7 +20,12 @@
         </h1>
       </v-card-title>
 
-      <v-tabs v-model="tab" background-color="transparent" color="#fff" grow>
+      <v-tabs
+        v-model="tab"
+        background-color="transparent"
+        color="#fff"
+        grow
+      >
         <v-tab
           v-for="item in items"
           :key="item"
@@ -26,17 +36,28 @@
       </v-tabs>
 
       <v-window v-model="tab">
-        <v-alert prominent type="error" v-if="message">
+        <v-alert
+          v-if="message"
+          prominent
+          type="error"
+        >
           {{ message }}
         </v-alert>
 
-        <v-window-item v-for="item in items" :key="item" :value="item">
-          <v-card color="#fff" flat>
+        <v-window-item
+          v-for="item in items"
+          :key="item"
+          :value="item"
+        >
+          <v-card
+            color="#fff"
+            flat
+          >
             <component
               :is="item"
               v-model:loading="loading"
               v-model:message="message"
-            ></component>
+            />
           </v-card>
         </v-window-item>
       </v-window>
@@ -50,6 +71,7 @@ import Register from "../components/Auth/AuthRegister.vue";
 import Reset from "../components/Auth/AuthReset.vue";
 
 export default {
+  components: { Login, Register, Reset },
   data() {
     return {
       tab: null,
@@ -58,7 +80,6 @@ export default {
       message: ''
     };
   },
-  components: { Login, Register, Reset },
 };
 </script>
 

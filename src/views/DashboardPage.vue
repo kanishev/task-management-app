@@ -1,7 +1,12 @@
 <template>
   <v-container class="flex-column">
-    <v-col mx="2" v-if="unarchivedBoards.length !== 0">
-      <h1 class="mb-5">Active boards:</h1>
+    <v-col
+      v-if="unarchivedBoards.length !== 0"
+      mx="2"
+    >
+      <h1 class="mb-5">
+        Active boards:
+      </h1>
 
       <v-row>
         <v-col
@@ -12,13 +17,18 @@
           md="3"
           xl="3"
         >
-          <dashboard-item :board="board"></dashboard-item>
+          <dashboard-item :board="board" />
         </v-col>
       </v-row>
     </v-col>
 
-    <v-col mx="2" v-if="this.archivedBoards.length !== 0">
-      <h2 class="mb-5">Boards in archive:</h2>
+    <v-col
+      v-if="archivedBoards.length !== 0"
+      mx="2"
+    >
+      <h2 class="mb-5">
+        Boards in archive:
+      </h2>
       <v-row>
         <v-col
           v-for="board in archivedBoards"
@@ -28,15 +38,15 @@
           md="3"
           xl="3"
         >
-          <dashboard-item :board="board"></dashboard-item>
+          <dashboard-item :board="board" />
         </v-col>
       </v-row>
     </v-col>
 
     <v-card
-      v-if="!this.boards.length && !loading"
-      outlined
+      v-if="!boards.length && !loading"
       id="preview"
+      outlined
       class="mx-auto my-10 d-flex justify-space-between"
       style="border:none"
     >
@@ -55,9 +65,16 @@
           working on what, and where something is in a process
         </v-card-text>
 
-        <DashboardEdit class="pl-4" color="black" />
+        <DashboardEdit
+          class="pl-4"
+          color="black"
+        />
       </div>
-      <v-img :src="mainImage" max-width="700px" height="auto"></v-img>
+      <v-img
+        :src="mainImage"
+        max-width="700px"
+        height="auto"
+      />
     </v-card>
   </v-container>
 </template>
@@ -71,16 +88,16 @@ import { useBoardsStore } from "../stores/boards";
 import { mapStores } from 'pinia';
 
 export default {
-  created() {
-    this.boardsStore.setActiveBoard(null);
-    this.loading = true;
-    this.boardsStore.getBoards().then(() => this.loading = false);
-  },
   data() {
     return {
       mainImage,
       loading: false
     }
+  },
+  created() {
+    this.boardsStore.setActiveBoard(null);
+    this.loading = true;
+    this.boardsStore.getBoards().then(() => this.loading = false);
   },
   computed: {
     ...mapStores(useBoardsStore),

@@ -1,9 +1,17 @@
 <template>
   <details-dropdown ref="dropdown">
-    <template v-slot:handle>...</template>
-    <template v-slot:content>
-      <label class="content-item" @click.prevent="showListEditPopup">Edit</label>
-      <label class="content-item" @click.prevent="archiveList">Archive</label>
+    <template #handle>
+      ...
+    </template>
+    <template #content>
+      <label
+        class="content-item"
+        @click.prevent="showListEditPopup"
+      >Edit</label>
+      <label
+        class="content-item"
+        @click.prevent="archiveList"
+      >Archive</label>
     </template>
   </details-dropdown>
 </template>
@@ -15,8 +23,8 @@ import { useTasksStore } from "../../stores/tasks";
 import { mapStores } from 'pinia';
 
 export default {
-  props: ["list", "board"],
   components: { DetailsDropdown },
+  props: ["list", "board"],
   computed: {
     ...mapStores(useBoardsStore, useTasksStore)
   },

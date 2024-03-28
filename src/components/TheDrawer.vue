@@ -1,12 +1,12 @@
 <template>
   <v-navigation-drawer
     :model-value="drawer"
-    @update:modelValue="toggleDrawer"
     temporary
+    @update:model-value="toggleDrawer"
   >
     <v-list>
       <v-list-item>
-        <template v-slot:prepend>
+        <template #prepend>
           <v-avatar
             color="primary"
             height="40px"
@@ -22,30 +22,34 @@
           </v-list-item-title>
           <v-list-item-subtitle>{{ email }}</v-list-item-subtitle>
         </v-col>
-
       </v-list-item>
 
-      <v-divider></v-divider>
+      <v-divider />
 
       <v-list-item>
-        <template v-slot:prepend>
+        <template #prepend>
           <UploadImage class="mr-3" />
         </template>
       </v-list-item>
 
       <v-list-item @click="goProfile">
-        <template v-slot:prepend>
+        <template #prepend>
           <div>
-            <v-icon class="mr-3">mdi-account</v-icon>
+            <v-icon class="mr-3">
+              mdi-account
+            </v-icon>
           </div>
         </template>
         <v-list-item-title>Profile</v-list-item-title>
       </v-list-item>
     </v-list>
 
-    <template v-slot:append>
+    <template #append>
       <div class="pa-2">
-        <v-btn block @click="signOut">
+        <v-btn
+          block
+          @click="signOut"
+        >
           Log Out
         </v-btn>
       </div>

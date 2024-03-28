@@ -1,7 +1,12 @@
 <template>
   <v-container>
-    <v-card width="500px" class="mx-auto text-center">
-      <v-card-text class="text-h4 text-center">Profile settings</v-card-text>
+    <v-card
+      width="500px"
+      class="mx-auto text-center"
+    >
+      <v-card-text class="text-h4 text-center">
+        Profile settings
+      </v-card-text>
 
       <v-col class="ma-0 pa-0">
         <v-avatar color="primary">
@@ -12,40 +17,43 @@
         {{ firstName }} {{ lastName }}
       </v-card-text>
 
-      <v-divider></v-divider>
+      <v-divider />
 
       <v-col class="ma-0 pa-0">
         <v-text-field
+          v-model="firstName"
           label="First Name"
           filled
           hide-details
-          v-model="firstName"
-        ></v-text-field>
+        />
       </v-col>
 
       <v-col class="ma-0 pa-0">
         <v-text-field
+          v-model="lastName"
           label="Second Name"
           filled
           hide-details
-          v-model="lastName"
-        ></v-text-field>
+        />
       </v-col>
 
       <v-col class="ma-0 pa-0">
         <v-text-field
+          v-model="email"
           disabled
           label="Email"
           filled
           hide-details
-          v-model="email"
-        ></v-text-field>
+        />
       </v-col>
 
       <v-col class="pa-4">
-        <v-btn @click="updateProfile" class="d-block ma-auto"
-          >Save changes</v-btn
+        <v-btn
+          class="d-block ma-auto"
+          @click="updateProfile"
         >
+          Save changes
+        </v-btn>
       </v-col>
     </v-card>
   </v-container>

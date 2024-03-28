@@ -1,7 +1,11 @@
 <template>
   <v-card class="px-4">
     <v-card-text>
-      <v-form ref="loginForm" v-model="valid" lazy-validation>
+      <v-form
+        ref="loginForm"
+        v-model="valid"
+        lazy-validation
+      >
         <v-row>
           <v-col cols="12">
             <v-text-field
@@ -10,7 +14,7 @@
               label="E-mail"
               autocomplete="email"
               required
-            ></v-text-field>
+            />
           </v-col>
           <v-col cols="12">
             <v-text-field
@@ -22,11 +26,22 @@
               hint="At least 6 characters"
               counter
               @click:append="show = !show"
-            ></v-text-field>
+            />
           </v-col>
-          <v-col class="d-flex" cols="12" sm="6" xsm="12"> </v-col>
-          <v-spacer></v-spacer>
-          <v-col class="d-flex" cols="12" sm="3" xsm="12" align-end>
+          <v-col
+            class="d-flex"
+            cols="12"
+            sm="6"
+            xsm="12"
+          />
+          <v-spacer />
+          <v-col
+            class="d-flex"
+            cols="12"
+            sm="3"
+            xsm="12"
+            align-end
+          >
             <v-btn
               x-large
               block

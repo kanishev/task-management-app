@@ -1,16 +1,25 @@
 <template>
-  <v-card class="mx-0 px-0" flat>
+  <v-card
+    class="mx-0 px-0"
+    flat
+  >
     <form class="pa-2">
       <v-textarea
+        v-model="name"
         solo
         name="input-7-4"
         :label="name ? name : 'Task you want add'"
-        v-model="name"
-      ></v-textarea>
-      <v-btn class="mr-4" @click.prevent="addListItem">
+      />
+      <v-btn
+        class="mr-4"
+        @click.prevent="addListItem"
+      >
         {{ type == "edit" ? "Update" : "Add" }}
       </v-btn>
-      <v-btn @click.prevent="removeListItem" v-if="type !== 'create'">
+      <v-btn
+        v-if="type !== 'create'"
+        @click.prevent="removeListItem"
+      >
         Удалить
       </v-btn>
     </form>

@@ -1,37 +1,44 @@
 <template>
   <details-popup
     ref="popup"
-    v-show="!this.activeBoard"
+    v-show="!activeBoard"
     page="dashboard"
     :title="title"
     :loading="loading"
-    :color="this.color"
-    @createBoard="saveBoard"
-    @cancleBoard="cancleBoard"
-    @updateModalData="updateBoard"
+    :color="color"
+    @create-board="saveBoard"
+    @cancle-board="cancleBoard"
+    @update-modal-data="updateBoard"
   >
-    <template v-slot>
-      <v-form ref="form" v-model="valid">
+    <template #default>
+      <v-form
+        ref="form"
+        v-model="valid"
+      >
         <v-container>
           <v-text-field
-            class="px-3"
             v-model="board.name"
+            class="px-3"
             label="Board name"
             :rules="emptyRules"
-            @keyup.enter="saveBoard"
             required
-          ></v-text-field>
+            @keyup.enter="saveBoard"
+          />
 
           <v-text-field
-            class="px-3"
             v-model="board.description"
+            class="px-3"
             :rules="emptyRules"
             label="Board description"
-            @keyup.enter="saveBoard"
             required
-          ></v-text-field>
+            @keyup.enter="saveBoard"
+          />
 
-          <v-btn color="primary darken-1" text @click="saveBoard">
+          <v-btn
+            color="primary darken-1"
+            text
+            @click="saveBoard"
+          >
             {{ type == "create" ? "Create" : "Update" }}
           </v-btn>
         </v-container>
@@ -101,7 +108,8 @@ export default {
       }
     },
     updateBoard(updated) {
-      this.type = updated.type;
+      this.$emit('update:type', updated.type);
+
       if (updated.type == "create") {
         this.cancleBoard();
       } else if (updated.board) {

@@ -1,32 +1,44 @@
 <template>
   <details-popup
     ref="popup"
-    v-show="this.isBoardActive"
+    v-show="isBoardActive"
     page="restorePage"
     title="Lists in archive"
-    @createBoard="saveBoard"
-    @cancleBoard="cancleBoard"
+    @create-board="saveBoard"
+    @cancle-board="cancleBoard"
   >
-    <template v-slot>
+    <template #default>
       <v-list dense>
-        <v-list-group v-model="selectedItem" color="primary">
-          <v-list-item v-for="(item, i) in archivedLists" :key="i">
-            <v-list-item-title v-text="item.name"></v-list-item-title>
+        <v-list-group
+          v-model="selectedItem"
+          color="primary"
+        >
+          <v-list-item
+            v-for="(item, i) in archivedLists"
+            :key="i"
+          >
+            <v-list-item-title v-text="item.name" />
             <v-list-item-action>
-              <v-btn x-small @click="rearchiveList(item)">
+              <v-btn
+                x-small
+                @click="rearchiveList(item)"
+              >
                 Return to active list
               </v-btn>
             </v-list-item-action>
           </v-list-item>
         </v-list-group>
 
-        <v-divider></v-divider>
+        <v-divider />
         <v-list-item v-if="archivedLists.length == 0">
           <v-list-item-title> No lists in archive</v-list-item-title>
         </v-list-item>
       </v-list>
 
-      <v-btn x-small class="ma-3">
+      <v-btn
+        x-small
+        class="ma-3"
+      >
         Ок
       </v-btn>
     </template>

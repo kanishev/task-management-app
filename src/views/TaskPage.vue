@@ -15,9 +15,9 @@
     </draggable>
 
     <v-card
-      v-if="!this.lists.length && !loading"
-      outlined
+      v-if="!lists.length && !loading"
       id="preview"
+      outlined
       class="mx-auto my-10 d-flex justify-space-between"
       style="border:none"
     >
@@ -26,9 +26,16 @@
           Create your first Task List
         </v-card-title>
 
-        <TasklistEdit class="pl-4" color="black" />
+        <TasklistEdit
+          class="pl-4"
+          color="black"
+        />
       </div>
-      <v-img :src="listImage" max-width="700px" height="auto"></v-img>
+      <v-img
+        :src="listImage"
+        max-width="700px"
+        height="auto"
+      />
     </v-card>
   </v-container>
 </template>
@@ -44,15 +51,15 @@ import { useTasksStore } from "../stores/tasks";
 import { mapStores } from "pinia";
 
 export default {
-  created(){
-    this.loading = true;
-    this.boardsStore.getBoards().then(() => this.loading = false);
-  },
   data() {
     return {
       listImage: ListImage,
       loading: false
     }
+  },
+  created(){
+    this.loading = true;
+    this.boardsStore.getBoards().then(() => this.loading = false);
   },
   beforeUnmount() {
     this.boardsStore.setActiveBoard(this.currentBoard)
